@@ -16,7 +16,7 @@ from callflow.extract import ExtractionError, extract
 from callflow.render import REPORT_FILE, write_outputs
 from callflow.route import route
 from callflow.schema import MeetingExtraction
-from callflow.transcript import load_transcript
+from callflow.transcript import parse_transcript
 from callflow.verify import verify
 
 EXTRACTION_FILE = "extraction.json"
@@ -56,8 +56,8 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def run(args: argparse.Namespace) -> int:
-    transcript_text = args.transcript.read_text(encoding="utf-8")
-    transcript = load_transcript(args.transcript)
+    transcript_text = args.transcript.read_text(encoding="utf-8-sig")
+    transcript = parse_transcript(transcript_text, source=args.transcript.name)
     if not transcript.turns:
         raise ValueError(
             f"no speaker turns found in {args.transcript}; "
@@ -87,9 +87,11 @@ def run(args: argparse.Namespace) -> int:
             if exc.raw is not None:
                 write_json(args.out / RAW_RESPONSE_FILE, exc.raw)
             raise
-        print(f"Done in {time.monotonic() - started:.0f} s, cost ${raw.get('total_cost_usd', 0):.2f}")
         write_json(args.out / RAW_RESPONSE_FILE, raw)
         write_json(args.out / EXTRACTION_FILE, extraction.model_dump(mode="json"))
+        cost = raw.get("total_cost_usd")
+        cost_text = f"${cost:.2f}" if isinstance(cost, int | float) else "unknown"
+        print(f"Done in {time.monotonic() - started:.0f} s, cost {cost_text}")
 
     report = verify(extraction, transcript)
     unverified = report.unverified_ids()

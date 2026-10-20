@@ -29,7 +29,7 @@ def test_transcript_without_turns_is_rejected(tmp_path, capsys):
 def test_live_run_writes_raw_response_and_extraction(tmp_path, monkeypatch):
     def fake_extract(text, meeting_date, vendor, **kwargs):
         extraction = cli.load_extraction(FIXTURE)
-        return extraction, {"total_cost_usd": 0.0, "structured_output": {}}
+        return extraction, {"total_cost_usd": None, "structured_output": {}}
 
     monkeypatch.setattr(cli, "extract", fake_extract)
     transcript = tmp_path / "call.md"
