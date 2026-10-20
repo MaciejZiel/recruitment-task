@@ -13,6 +13,8 @@ from pydantic import ValidationError
 
 from callflow import llm
 from callflow.extract import ExtractionError, extract
+from callflow.render import REPORT_FILE, write_outputs
+from callflow.route import route
 from callflow.schema import MeetingExtraction
 from callflow.transcript import load_transcript
 from callflow.verify import verify
@@ -89,6 +91,8 @@ def run(args: argparse.Namespace) -> int:
     )
     for issue in report.issues:
         print(f"  [{issue.owner_id}] {issue.message}")
+    write_outputs(route(extraction), report, args.out, args.transcript.name)
+    print(f"Report: {args.out / REPORT_FILE}")
     return 0
 
 
