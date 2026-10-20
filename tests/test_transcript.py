@@ -134,3 +134,48 @@ def test_earliest_valid_date_in_line_wins():
 def test_date_mentioned_in_an_utterance_is_not_the_meeting_date():
     transcript = parse_transcript("Kasia: Proszę o raport do 15 listopada 2026.\nMarek: Dobrze.\n")
     assert transcript.call_date is None
+
+
+def test_colon_sentence_inside_plain_utterance_is_not_a_speaker():
+    text = (
+        "Agnieszka: Zgłosiłam to w piątek.\n"
+        "I mówię od razu: chcę, żeby to było naprawione.\n"
+        "Tu mam napisane: do końca miesiąca.\n"
+        "[00:12:05] Speaker 1: Rozumiem.\n"
+        "Kasia Malinowska: Ok.\n"
+    )
+    transcript = parse_transcript(text)
+    assert [(t.line, t.speaker) for t in transcript.turns] == [
+        (1, "Agnieszka"),
+        (4, "Speaker 1"),
+        (5, "Kasia Malinowska"),
+    ]
+    assert transcript.turns[0].text == (
+        "Zgłosiłam to w piątek. I mówię od razu: chcę, żeby to było naprawione."
+        " Tu mam napisane: do końca miesiąca."
+    )
+
+
+def test_header_labels_before_first_plain_turn_are_metadata():
+    transcript = parse_transcript("Temat: wdrożenie\nData: 2026-10-06\nKasia: Cześć.\nMarek: Hej.\n")
+    assert transcript.call_date == "2026-10-06"
+    assert transcript.header_lines == ["Temat: wdrożenie", "Data: 2026-10-06"]
+    assert [t.speaker for t in transcript.turns] == ["Kasia", "Marek"]
+
+
+def test_every_example_transcript_yields_only_real_speakers():
+    expected = {
+        "transkrypcja-spotkanie.md": ({"Kasia", "Marek"}, 108),
+        "druga-rozmowa.md": ({"Agnieszka", "Marek"}, 22),
+        "synthetic/fitstudio-rozmowa.md": ({"Agnieszka", "Marek"}, None),
+    }
+    for name, (speakers, count) in expected.items():
+        transcript = load_transcript(EXAMPLES / name)
+        assert {t.speaker for t in transcript.turns} == speakers, name
+        if count is not None:
+            assert len(transcript.turns) == count, name
+
+
+def test_plain_label_with_parenthetical_role():
+    transcript = parse_transcript("Marek (Rinvo): Cześć.\nMarek Rewoliński (Rinvo): Hej.\nKasia: Ok.\n")
+    assert [t.speaker for t in transcript.turns] == ["Marek (Rinvo)", "Marek Rewoliński (Rinvo)", "Kasia"]

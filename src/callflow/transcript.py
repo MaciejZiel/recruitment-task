@@ -31,7 +31,16 @@ DOTTED_DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 # "**Kasia:** text" and the variant "**Kasia**: text".
 TURN_RE = re.compile(r"^\*\*(?P<speaker>[^*]+?)(?::\*\*|\*\*:)\s*(?P<text>.+)$")
 # Fallback for transcripts without bold labels: "Kasia: ..." or "[00:01:02] Speaker 1: ...".
-PLAIN_TURN_RE = re.compile(r"^(?:\[[\d:.]+\]\s*)?(?P<speaker>[A-ZĄĆĘŁŃÓŚŹŻ][^:*\[\]]{0,39}):\s+(?P<text>.+)$")
+# A label is 1-4 capitalised words, so a sentence like "I mówię od razu: ..." inside an
+# utterance is a continuation, not a new speaker.
+_LABEL_WORD = r"[A-ZĄĆĘŁŃÓŚŹŻ0-9][^\s:*\[\]]*"
+PLAIN_TURN_RE = re.compile(
+    rf"^(?:\[[\d:.]+\]\s*)?"
+    rf"(?P<speaker>{_LABEL_WORD}(?:\s+{_LABEL_WORD}){{0,3}}(?:\s+\([^()\n:]{{1,40}}\))?)"
+    rf":\s+(?P<text>.+)$"
+)
+# "Data: 2026-10-06" above the first turn of a plain transcript is metadata, not a speaker.
+HEADER_LABELS = {"data", "temat", "spotkanie", "uczestnicy", "date", "subject"}
 STAGE_RE = re.compile(r"^\*(?P<text>\[.+)\*$")
 PARTICIPANT_RE = re.compile(r"^-\s+\*\*(?P<name>[^*]+)\*\*,\s*(?P<rest>.+)$")
 
@@ -131,7 +140,9 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
                 # A line that starts no new turn continues the previous utterance (wrapped text, paragraphs).
                 turns[-1].text += " " + line
                 continue
-            if match := PLAIN_TURN_RE.match(line):
+            if (match := PLAIN_TURN_RE.match(line)) and (
+                plain_turns or match["speaker"].strip().lower() not in HEADER_LABELS
+            ):
                 plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
                 continue
             if plain_turns:

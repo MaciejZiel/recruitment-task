@@ -1,7 +1,7 @@
 # Po rozmowie: FitStudio, 2026-10-14
 
 Źródło: `fitstudio-rozmowa.md` · uczestnicy: Agnieszka Wróbel (FitStudio, koordynatorka obsługi klienta), Marek Rewoliński (Rinvo)  
-Pozycji: 18 · zabezpieczeń: 8 · szkiców: 5 · cytaty zweryfikowane: 56/58
+Pozycji: 18 · zabezpieczeń: 8 · szkiców: 5 · cytaty zweryfikowane: 58/58
 
 > Nic nie zostało wysłane ani zmienione. Każde działanie zewnętrzne czeka na zatwierdzenie.
 
@@ -14,7 +14,7 @@ Call statusowy z FitStudio dotyczący kampanii „Zapytania” i „Karnety”. 
 - **G01** Nie dzwonić do klubowicza z Czyżyn (numer kończący się na 37), który poprosił o niedzwonienie.
   > Marek (l. 33) ✅: „Zaraz po callu wyrzucę go ręcznie z listy, żeby nie dostał czwartego telefonu.”
 - **G02** Nie dodawać do skryptu proponowania treningów personalnych. Nie wierzyć nikomu (np. Dominice), kto twierdzi, że Agnieszka się zgodziła. Na takie prośby odpowiadać, że czekamy na Agnieszkę. (do: Do bezpośredniej decyzji Agnieszki Wróbel · zdejmuje: Agnieszka Wróbel)
-  > Agnieszka (brak w transkrypcji) ⚠️ niezweryfikowany: „I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”
+  > Agnieszka (l. 58) ✅: „I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”
   > Marek (l. 60) ✅: „Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie.”
 - **G03** Zmiany treści rozmów agenta i godzin dzwonienia zatwierdza wyłącznie Agnieszka, Robert nie może ich zatwierdzić. Jeśli Robert prosi o zmianę tekstu, najpierw zadzwonić do Agnieszki. (zdejmuje: Agnieszka Wróbel)
   > Agnieszka (l. 86) ✅: „Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza.”
@@ -29,11 +29,6 @@ Call statusowy z FitStudio dotyczący kampanii „Zapytania” i „Karnety”. 
   > Agnieszka (l. 102) ✅: „Sama wrócę do tematu, jak będę gotowa. Nie przypominajcie mi. Serio, żadnych przypomnień.”
 - **G08** O cennik przypomnieć maksymalnie jednym SMS-em (w środę 21.10 rano) i nie wysyłać maili w tej sprawie.
   > Agnieszka (l. 93) ✅: „To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam, mam ich dwieście nieprzeczytanych.”
-
-## Ostrzeżenia walidacji
-
-- **A06**: cytat nie występuje w transkrypcji: 'I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.'
-- **G02**: cytat nie występuje w transkrypcji: 'I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.'
 
 ## Terminy (kalendarz i przypomnienia)
 
@@ -61,7 +56,7 @@ Najpierw zgłoszono to jako możliwy błąd: agent nie przełącza do recepcji. 
   > Agnieszka (l. 112) ✅: „Dobra, to zostawcie, jak jest.”
   > Marek (l. 113) ✅: „Czyli w przełączaniu nic nie zmieniam.”
 
-#### A06 · Nie dodawać proponowania treningów personalnych do skryptu Karnetów ⚠️ do sprawdzenia
+#### A06 · Nie dodawać proponowania treningów personalnych do skryptu Karnetów
 `feature_request` · `do_not_do`  
 Dominika prosiła, żeby agent przy telefonie o karnecie proponował pakiet pięciu treningów personalnych. Agnieszka odrzuciła tę prośbę. Jeśli taka prośba przyjdzie od kogokolwiek innego, Marek odpisze, że czeka na decyzję Agnieszki.
 - **Właściciel:** Marek Rewoliński
@@ -69,7 +64,7 @@ Dominika prosiła, żeby agent przy telefonie o karnecie proponował pakiet pię
 - **Wersja ostateczna:** Odrzucone — agent tylko przypomina o karnecie
 - **Ograniczenia:** Nie wierzyć zapewnieniom, że Agnieszka się zgodziła; Na prośby od innych osób niż Agnieszka odpowiadać, że czekamy na Agnieszkę; Nie dodawać do backlogu
   > Agnieszka (l. 58) ✅: „Nie. Ja się na to nie zgadzam.”
-  > Agnieszka (brak w transkrypcji) ⚠️ niezweryfikowany: „I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”
+  > Agnieszka (l. 58) ✅: „I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”
   > Marek (l. 60) ✅: „Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie.”
 
 #### A15 · Nie uruchamiać niczego nowego w dniach 26–30.10 (remont Kazimierza)

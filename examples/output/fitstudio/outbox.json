@@ -76,7 +76,7 @@
               "quote": "Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie."
             }
           ],
-          "needs_review": true
+          "needs_review": false
         },
         {
           "id": "A15",
@@ -820,14 +820,5 @@
       ]
     }
   ],
-  "issues": [
-    {
-      "id": "A06",
-      "message": "cytat nie występuje w transkrypcji: 'I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.'"
-    },
-    {
-      "id": "G02",
-      "message": "cytat nie występuje w transkrypcji: 'I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.'"
-    }
-  ]
+  "issues": []
 }
