@@ -10,7 +10,22 @@ from datetime import date
 from callflow.schema import Evidence, MeetingExtraction, State
 from callflow.transcript import Transcript
 
-_CHAR_MAP = str.maketrans({"„": '"', "”": '"', "“": '"', "«": '"', "»": '"', "’": "'", "–": "-", "—": "-"})
+_CHAR_MAP = str.maketrans(
+    {
+        "„": '"',
+        "”": '"',
+        "“": '"',
+        "«": '"',
+        "»": '"',
+        "‚": "'",
+        "‘": "'",
+        "’": "'",
+        "–": "-",
+        "—": "-",
+        "‑": "-",
+        "…": "...",
+    }
+)
 _WHITESPACE_RE = re.compile(r"\s+")
 
 
@@ -42,9 +57,10 @@ class Issue:
 class VerificationReport:
     quotes: list[QuoteCheck] = field(default_factory=list)
     issues: list[Issue] = field(default_factory=list)
+    missing_evidence: set[str] = field(default_factory=set)
 
     def unverified_ids(self) -> set[str]:
-        return {check.owner_id for check in self.quotes if not check.verified}
+        return {check.owner_id for check in self.quotes if not check.verified} | self.missing_evidence
 
     def quotes_for(self, owner_id: str) -> list[QuoteCheck]:
         return [check for check in self.quotes if check.owner_id == owner_id]
@@ -84,6 +100,7 @@ def verify(extraction: MeetingExtraction, transcript: Transcript) -> Verificatio
     ]
     for owner_id, evidence_list in evidenced:
         if not evidence_list:
+            report.missing_evidence.add(owner_id)
             report.issues.append(Issue(owner_id, "brak cytatu-dowodu"))
         for evidence in evidence_list:
             check = check_quote(owner_id, evidence, transcript)

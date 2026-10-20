@@ -85,3 +85,12 @@ def test_due_date_without_known_meeting_date_is_flagged(transcript):
     assert messages(verify(extraction, transcript)) == [
         ("A01", "termin 2026-10-15 podany mimo nieznanej daty spotkania")
     ]
+
+
+def test_item_without_any_evidence_counts_as_unverified(transcript):
+    report = verify(make_extraction(items=[make_item(evidence=[])]), transcript)
+    assert report.unverified_ids() == {"A01"}
+
+
+def test_ellipsis_and_single_quotes_are_normalized():
+    assert normalize("Czekam… ‚tak‘") == normalize("Czekam... 'tak'")
