@@ -62,15 +62,18 @@ def inbox_for(item: ActionItem) -> Inbox:
 class RoutedMeeting:
     extraction: MeetingExtraction
     inboxes: dict[Inbox, list[ActionItem]] = field(default_factory=dict)
-    reminders: list[ActionItem] = field(default_factory=list)
+    calendar: list[ActionItem] = field(default_factory=list)
+
+
+# on_hold is deliberately absent: the client said they will come back themselves, so no reminder.
+CALENDAR_STATES = {State.scheduled, State.waiting_on_client}
 
 
 def route(extraction: MeetingExtraction) -> RoutedMeeting:
     routed = RoutedMeeting(extraction, {inbox: [] for inbox in INBOX_ORDER})
     for item in extraction.items:
         routed.inboxes[inbox_for(item)].append(item)
-        # on_hold items deliberately get no reminder: the client said they will come back themselves.
-        if item.state == State.waiting_on_client and item.due_date:
-            routed.reminders.append(item)
-    routed.reminders.sort(key=lambda item: item.due_date)
+        if item.state in CALENDAR_STATES and item.due_date:
+            routed.calendar.append(item)
+    routed.calendar.sort(key=lambda item: item.due_date)
     return routed

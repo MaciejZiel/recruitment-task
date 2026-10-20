@@ -31,15 +31,16 @@ def test_rejected_request_never_reaches_backlog():
     assert len(routed.inboxes[Inbox.do_not_do]) == 1
 
 
-def test_reminders_only_for_dated_client_dependencies_sorted_by_date():
+def test_calendar_has_dated_scheduled_and_client_items_but_not_on_hold():
     items = [
         make_item(id="A01", state=State.waiting_on_client, due_date=date(2026, 10, 15)),
-        make_item(id="A02", state=State.waiting_on_client, due_date=date(2026, 10, 14)),
+        make_item(id="A02", state=State.scheduled, due_date=date(2026, 10, 9)),
         make_item(id="A03", state=State.waiting_on_client, due_date=None),
         make_item(id="A04", state=State.on_hold, due_date=date(2026, 10, 20)),
+        make_item(id="A05", state=State.do_now, due_date=date(2026, 10, 13)),
     ]
     routed = route(make_extraction(items=items))
-    assert [item.id for item in routed.reminders] == ["A02", "A01"]
+    assert [item.id for item in routed.calendar] == ["A02", "A01"]
 
 
 def test_every_item_lands_in_exactly_one_inbox():

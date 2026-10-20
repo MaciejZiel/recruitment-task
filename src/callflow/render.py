@@ -98,9 +98,9 @@ def render_report(routed: RoutedMeeting, report: VerificationReport, source_name
         lines += [f"- **{issue.owner_id}**: {md(issue.message)}" for issue in report.issues]
         lines.append("")
 
-    if routed.reminders:
-        lines += ["## Przypomnienia", ""]
-        for item in routed.reminders:
+    if routed.calendar:
+        lines += ["## Terminy (kalendarz i przypomnienia)", ""]
+        for item in routed.calendar:
             limits = f" · {md('; '.join(item.constraints))}" if item.constraints else ""
             lines.append(f"- **{item.due_date}** · {item.id} {md(item.title)}{limits}")
         lines.append("")
@@ -167,7 +167,7 @@ def build_outbox(routed: RoutedMeeting, report: VerificationReport) -> dict:
             }
             for inbox in INBOX_ORDER
         },
-        "reminders": [{"date": item.due_date.isoformat(), "item": item.id} for item in routed.reminders],
+        "calendar": [{"date": item.due_date.isoformat(), "item": item.id} for item in routed.calendar],
         "guardrails": [guardrail.model_dump(mode="json") for guardrail in routed.extraction.guardrails],
         "drafts": [draft.model_dump(mode="json") for draft in routed.extraction.drafts],
         "issues": [{"id": issue.owner_id, "message": issue.message} for issue in report.issues],
