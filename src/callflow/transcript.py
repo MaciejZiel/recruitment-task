@@ -105,6 +105,7 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
     # Bold "**Label:**" lines also appear in context sections (e.g. a glossary), so when the
     # file has a dedicated transcript section, only lines inside it count as speaker turns.
     has_transcript_section = any(_is_transcript_heading(line.strip()) for line in lines)
+    in_dialogue = not has_transcript_section
 
     for number, raw in enumerate(lines, start=1):
         line = raw.strip()
@@ -116,25 +117,26 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
         if line.startswith("## "):
             current_section = line[3:].strip()
             sections.setdefault(current_section, [])
+            in_dialogue = not has_transcript_section or _is_transcript_heading(line)
             continue
 
-        in_dialogue = not has_transcript_section or _is_transcript_heading(f"## {current_section}")
         if in_dialogue and (match := TURN_RE.match(line)):
             turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
             continue
         if match := STAGE_RE.match(line):
             stage_directions.append(StageDirection(number, match["text"].strip()))
             continue
-        if in_dialogue and turns:
-            # A line that starts no new turn continues the previous utterance (wrapped text, paragraphs).
-            turns[-1].text += " " + line
-            continue
-        if in_dialogue and (match := PLAIN_TURN_RE.match(line)):
-            plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
-            continue
-        if in_dialogue and plain_turns:
-            plain_turns[-1].text += " " + line
-            continue
+        if in_dialogue:
+            if turns:
+                # A line that starts no new turn continues the previous utterance (wrapped text, paragraphs).
+                turns[-1].text += " " + line
+                continue
+            if match := PLAIN_TURN_RE.match(line):
+                plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
+                continue
+            if plain_turns:
+                plain_turns[-1].text += " " + line
+                continue
 
         if current_section is None:
             header_lines.append(line)
