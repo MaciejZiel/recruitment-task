@@ -3,7 +3,9 @@ name = "callflow"
 version = "0.1.0"
 description = "Turns a client call transcript into verified, routed follow-up actions."
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.14.1",
+]
 
 [project.scripts]
 callflow = "callflow.cli:main"
