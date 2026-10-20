@@ -73,6 +73,19 @@ def test_example_transcripts_parse():
     second = load_transcript(EXAMPLES / "druga-rozmowa.md")
     assert second.call_date == "2026-10-13"
     assert second.turns
+    assert (len(main.turns), len(second.turns)) == (108, 22)
+
+
+def test_year_followed_by_r_suffix_is_parsed():
+    assert parse_call_date("Spotkanie 14.10.2026r., Teams") == date(2026, 10, 14)
+    assert parse_call_date("6 października 2026r.") == date(2026, 10, 6)
+    assert parse_call_date("2026-10-13r.") == date(2026, 10, 13)
+    assert parse_call_date("14.10.20261") is None
+
+
+def test_bold_label_with_timestamp_inside():
+    transcript = parse_transcript("**[00:01] Kasia:** Cześć.\n**[00:02:15] Marek**: Hej.\n")
+    assert [(t.speaker, t.text) for t in transcript.turns] == [("Kasia", "Cześć."), ("Marek", "Hej.")]
 
 
 def test_parses_dotted_date_and_rejects_impossible_dates():
@@ -179,3 +192,11 @@ def test_every_example_transcript_yields_only_real_speakers():
 def test_plain_label_with_parenthetical_role():
     transcript = parse_transcript("Marek (Rinvo): Cześć.\nMarek Rewoliński (Rinvo): Hej.\nKasia: Ok.\n")
     assert [t.speaker for t in transcript.turns] == ["Marek (Rinvo)", "Marek Rewoliński (Rinvo)", "Kasia"]
+
+
+def test_plain_label_with_meet_timestamp_suffix():
+    transcript = parse_transcript(
+        "Kasia Malinowska (11:02): Dzień dobry.\nMarek (00:01:15): Cześć.\nKasia Malinowska (11:03): Ok.\n"
+    )
+    assert [t.speaker for t in transcript.turns] == ["Kasia Malinowska", "Marek", "Kasia Malinowska"]
+    assert [t.text for t in transcript.turns] == ["Dzień dobry.", "Cześć.", "Ok."]

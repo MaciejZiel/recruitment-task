@@ -25,18 +25,22 @@ POLISH_MONTHS_GENITIVE = {
     "grudnia": 12,
 }
 
-DATE_RE = re.compile(r"\b(\d{1,2})\s+(" + "|".join(POLISH_MONTHS_GENITIVE) + r")\s+(\d{4})\b", re.IGNORECASE)
-ISO_DATE_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
-DOTTED_DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
-# "**Kasia:** text" and the variant "**Kasia**: text".
-TURN_RE = re.compile(r"^\*\*(?P<speaker>[^*]+?)(?::\*\*|\*\*:)\s*(?P<text>.+)$")
-# Fallback for transcripts without bold labels: "Kasia: ..." or "[00:01:02] Speaker 1: ...".
-# A label is 1-4 capitalised words, so a sentence like "I mówię od razu: ..." inside an
-# utterance is a continuation, not a new speaker.
+DATE_RE = re.compile(
+    r"\b(\d{1,2})\s+(" + "|".join(POLISH_MONTHS_GENITIVE) + r")\s+(\d{4})(?!\d)", re.IGNORECASE
+)
+ISO_DATE_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})(?!\d)")
+DOTTED_DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})(?!\d)")
+# "**Kasia:** text", the variant "**Kasia**: text" and "**[00:01] Kasia:** text".
+TURN_RE = re.compile(r"^\*\*(?:\[[\d:.]+\]\s*)?(?P<speaker>[^*]+?)(?::\*\*|\*\*:)\s*(?P<text>.+)$")
+# Fallback for transcripts without bold labels: "Kasia: ...", "[00:01:02] Speaker 1: ..."
+# or Google Meet's "Kasia Malinowska (11:02): ...". A label is 1-4 capitalised words, so a
+# sentence like "I mówię od razu: ..." inside an utterance is a continuation, not a new
+# speaker. A role suffix "(Rinvo)" stays in the speaker; a timestamp suffix is dropped.
 _LABEL_WORD = r"[A-ZĄĆĘŁŃÓŚŹŻ0-9][^\s:*\[\]]*"
 PLAIN_TURN_RE = re.compile(
     rf"^(?:\[[\d:.]+\]\s*)?"
     rf"(?P<speaker>{_LABEL_WORD}(?:\s+{_LABEL_WORD}){{0,3}}(?:\s+\([^()\n:]{{1,40}}\))?)"
+    rf"(?:\s+\([\d:.]+\))?"
     rf":\s+(?P<text>.+)$"
 )
 # "Data: 2026-10-06" above the first turn of a plain transcript is metadata, not a speaker.
