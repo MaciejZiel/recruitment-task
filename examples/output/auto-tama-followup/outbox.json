@@ -1,0 +1,644 @@
+{
+  "meeting_date": "2026-10-13",
+  "client": "Grupa Auto Tama",
+  "requires_approval": true,
+  "inboxes": {
+    "do_not_do": {
+      "target": "lista zabezpieczeń konta klienta",
+      "items": []
+    },
+    "tickets": {
+      "target": "issue tracker (np. Linear/Jira)",
+      "items": []
+    },
+    "config_changes": {
+      "target": "panel konfiguracji agenta (zmiana po zatwierdzeniu)",
+      "items": [
+        {
+          "id": "A01",
+          "title": "Przestawić soboty na 14:00 w obu salonach",
+          "details": "Zmienić sobotnie godziny dzwonienia oraz godziny, które agent podaje klientom, z 15:00 na 14:00, dla Torunia i Włocławka. Paweł skrócił soboty w salonach od 17.10. Zmianę trzeba zrobić w piątek 16.10, nie wcześniej.",
+          "kind": "config_change",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-16",
+          "due_text": "w piątek szesnastego",
+          "condition": null,
+          "constraints": [
+            "Nie przestawiać przed piątkiem 16.10",
+            "Dotyczy obu salonów",
+            "Zmienić obie rzeczy: godziny dzwonienia i godziny podawane klientom"
+          ],
+          "approval_by": null,
+          "final_value": "Sobota do 14:00 (dzwonienie i godziny podawane klientom) w obu salonach od 17.10, zmiana w piątek 16.10",
+          "superseded": [
+            "Sobota do 15:00 (ustawione w czwartek 8.10)"
+          ],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "Paweł skrócił salonowi soboty, od siedemnastego znowu do czternastej."
+            },
+            {
+              "speaker": "Kasia",
+              "quote": "Przestaw w piątek, nie wcześniej, bo w tę sobotę jeszcze jest do piętnastej."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Dobra, w piątek szesnastego przestawiam obie rzeczy na czternastą."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A07",
+          "title": "Włączyć walidację leadów Opla we Włocławku",
+          "details": "Na polecenie Pawła, przekazane przez Tomka, włączyć Opla we Włocławku od poniedziałku 19.10. Leady Opla będą w tym samym pliku co pozostałe, a marka będzie w osobnej kolumnie.",
+          "kind": "config_change",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-19",
+          "due_text": "Od poniedziałku dziewiętnastego",
+          "condition": null,
+          "constraints": [
+            "Leady Opla w tym samym pliku, marka w osobnej kolumnie"
+          ],
+          "approval_by": "Paweł (przekazane przez Tomka)",
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "Paweł kazał włączyć Opla. Mówi, że adres już jest dobry, to nie ma na co czekać. Od poniedziałku dziewiętnastego."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Opel we Włocławku od dziewiętnastego. Leady z Opla będą w tym samym pliku?"
+            },
+            {
+              "speaker": "Tomek",
+              "quote": "W tym samym, marka jest w osobnej kolumnie."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "tasks": {
+      "target": "lista zadań właściciela",
+      "items": [
+        {
+          "id": "A04",
+          "title": "Odjąć 11 podwójnych telefonów z faktury za październik",
+          "details": "Przy wystawianiu faktury za październik odjąć 11 podwójnych połączeń wynikających z błędu reguły trzech sekund.",
+          "kind": "task",
+          "state": "do_now",
+          "owner": "Rinvo (Marek Rewoliński)",
+          "due_date": null,
+          "due_text": "z faktury za październik",
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": "11 połączeń",
+          "superseded": [
+            "6 połączeń"
+          ],
+          "depends_on": [
+            "A03"
+          ],
+          "evidence": [
+            {
+              "speaker": "Marek",
+              "quote": "Podwójnych telefonów było jedenaście, nie sześć. Odejmiemy je z faktury za październik."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A05",
+          "title": "Wysłać Kasi maila o podwójnych telefonach",
+          "details": "Opisać na piśmie przyczynę błędu, datę poprawki, liczbę 11 podwójnych połączeń i odjęcie ich z faktury za październik. Paweł chce mieć to na piśmie.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-13",
+          "due_text": "dziś",
+          "condition": null,
+          "constraints": [
+            "Adresat: Kasia"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A03",
+            "A04"
+          ],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "To napisz mi to mailem, Paweł będzie chciał na piśmie."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Napiszę dziś."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A10",
+          "title": "Przypomnieć Kasi o tekstach wstępu w poniedziałek",
+          "details": "Na prośbę Tomka przypomnieć Kasi o tekstach wstępu w poniedziałek 19.10. Marek przypominał jej już w piątek.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-19",
+          "due_text": "w poniedziałek",
+          "condition": null,
+          "constraints": [
+            "Przypomnieć tylko jeszcze raz (jedno przypomnienie)"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A09"
+          ],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "I przypomnijcie jej jeszcze raz o tych tekstach w poniedziałek, bo zapomni."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Mogę."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A12",
+          "title": "Przygotowywać ręczne miesięczne podsumowanie liczb",
+          "details": "Raz w miesiącu wysyłać Kasi mailem podsumowanie: liczbę połączeń, odebranych i zainteresowanych. Termin to pierwszy dzień roboczy miesiąca. Automatycznego raportu nie ma, więc Marek będzie go robił ręcznie. Pierwsze podsumowanie 2.11.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-11-02",
+          "due_text": "Pierwszy drugiego listopada",
+          "condition": null,
+          "constraints": [
+            "Do Kasi, mailem",
+            "Pierwszy dzień roboczy każdego miesiąca",
+            "Raport ręczny, nie automatyczny"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "Paweł chce raz w miesiącu podsumowanie liczb: ile zadzwoniliśmy, ile odebrało, ilu zainteresowanych. Do mnie, mailem, pierwszego dnia roboczego miesiąca."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Automatycznego raportu nie mamy, ale ręcznie raz w miesiącu zrobię. Pierwszy drugiego listopada."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A13",
+          "title": "Wysłać Pawłowi zaproszenie na spotkanie",
+          "details": "Wysłać na adres pawel@autotama.pl zaproszenie na spotkanie w czwartek 15.10 o 10:00 w Toruniu. Paweł potwierdził termin.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-13",
+          "due_text": "dziś",
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "I Paweł potwierdził czwartek, dziesiąta, w Toruniu. Wyślij mu zaproszenie, pawel@autotama.pl."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Wyślę dziś. Pokażę tę 208, bez nazwy firmy."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A14",
+          "title": "Spotkanie z Pawłem w Toruniu – pokazać przykład 208",
+          "details": "Na spotkaniu w czwartek 15.10 o 10:00 w Toruniu Marek pokaże przykład „208” bez nazwy firmy.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-15",
+          "due_text": "czwartek, dziesiąta, w Toruniu",
+          "condition": null,
+          "constraints": [
+            "Pokazać przykład 208 bez nazwy firmy"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A13"
+          ],
+          "evidence": [
+            {
+              "speaker": "Marek",
+              "quote": "Wyślę dziś. Pokażę tę 208, bez nazwy firmy."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A15",
+          "title": "Wysłać Oli ściągę ze statusami",
+          "details": "Ola prosiła, żeby wysłać jej ściągę ze statusami bezpośrednio na adres ola.nowak@autotama.pl. Marek ma ją prawie gotową.",
+          "kind": "task",
+          "state": "do_now",
+          "owner": "Marek Rewoliński",
+          "due_date": null,
+          "due_text": null,
+          "condition": "Gdy ściąga będzie gotowa",
+          "constraints": [
+            "Wysłać bezpośrednio do Oli: ola.nowak@autotama.pl"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "Prosiła, żebyście jej wysłali ściągę ze statusami bezpośrednio, ola.nowak@autotama.pl."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Ściągę mam prawie gotową. Z mailem zobaczę, czy da się szybko."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "backlog": {
+      "target": "tablica produktowa",
+      "items": [
+        {
+          "id": "A16",
+          "title": "Ocenić dodanie modelu i salonu na górze maila po walidacji",
+          "details": "Ola chce, żeby mail po walidacji miał na górze model i salon, i to od razu, a nie za miesiąc. Marek sprawdzi, czy da się to zrobić szybko. Nie złożył zobowiązania co do terminu.",
+          "kind": "feature_request",
+          "state": "do_now",
+          "owner": "Marek Rewoliński",
+          "due_date": null,
+          "due_text": "już, nie za miesiąc",
+          "condition": null,
+          "constraints": [
+            "Brak zobowiązania terminowego – tylko ocena, czy da się szybko"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "I żeby mail po walidacji miał model i salon na górze. Ona by to chciała już, nie za miesiąc."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Ściągę mam prawie gotową. Z mailem zobaczę, czy da się szybko."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "waiting_on_client": {
+      "target": "przypomnienia w kalendarzu",
+      "items": [
+        {
+          "id": "A06",
+          "title": "Puścić plik ze świeżymi leadami po otrzymaniu",
+          "details": "Kasia nie wysłała pliku w poniedziałek. Eksport jest gotowy i wyśle go dziś po południu, a Marek puści leady, gdy plik przyjdzie.",
+          "kind": "task",
+          "state": "waiting_on_client",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-13",
+          "due_text": "dziś po południu",
+          "condition": "Otrzymanie pliku od Kasi",
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "Eksport jest gotowy, wyślę dziś po południu."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Jak przyjdzie, puszczam."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A08",
+          "title": "Skonfigurować agenta po godzinach po otrzymaniu numerów assistance",
+          "details": "Według Tomka Kasia zgodziła się na uruchomienie nocnego agenta. Marek nie dostał jeszcze numerów assistance i zacznie konfigurację, gdy przyjdą. Tomek obiecał wysłać je dziś.",
+          "kind": "config_change",
+          "state": "waiting_on_client",
+          "owner": "Marek Rewoliński",
+          "due_date": null,
+          "due_text": null,
+          "condition": "Otrzymanie numerów assistance od Tomka (obiecane na dziś)",
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "Kasia mówiła, że po godzinach od wtorku. Że możecie już ustawiać tego nocnego agenta, a numery assistance ja wam podeślę."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Numery assistance jeszcze do mnie nie doszły. Jak przyjdą, siadam do tego."
+            },
+            {
+              "speaker": "Tomek",
+              "quote": "Podeślę dziś."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A09",
+          "title": "Czekać na teksty wstępu od Kasi",
+          "details": "Teksty wstępu leżą u Kasi w szkicu. Kasia nie zdąży ich wysłać w tym tygodniu.",
+          "kind": "task",
+          "state": "waiting_on_client",
+          "owner": "Kasia Malinowska",
+          "due_date": null,
+          "due_text": "W tym tygodniu nie zdążę",
+          "condition": "Kasia wyśle teksty wstępu",
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "Leżą u mnie w szkicu. W tym tygodniu nie zdążę."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A11",
+          "title": "Uruchomić test wstępu od środy 21.10",
+          "details": "Gdy Kasia wyśle teksty wstępu, puścić test od środy 21.10. Tomek będzie wtedy słuchał nagrań.",
+          "kind": "task",
+          "state": "waiting_on_client",
+          "owner": "Marek Rewoliński",
+          "due_date": "2026-10-21",
+          "due_text": "od środy dwudziestego pierwszego",
+          "condition": "Kasia wyśle teksty wstępu",
+          "constraints": [
+            "Nie wcześniej niż 21.10"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A09"
+          ],
+          "evidence": [
+            {
+              "speaker": "Tomek",
+              "quote": "I test tego wstępu: jak Kasia wyśle teksty, puśćcie od środy dwudziestego pierwszego."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Środa, dwudziesty pierwszy. Dobra."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "risks": {
+      "target": "CRM, notatka na koncie klienta",
+      "items": []
+    },
+    "on_hold": {
+      "target": "CRM, notatka na koncie klienta",
+      "items": []
+    },
+    "no_action": {
+      "target": "CRM, notatka na koncie klienta",
+      "items": [
+        {
+          "id": "A02",
+          "title": "Weryfikacja adresu zakończona",
+          "details": "Kasia sprawdziła w czwartek testowym połączeniem na swój numer, że agent podaje adres Toruńska 120 i sobotę do 15:00. Potwierdziła, że jest dobrze.",
+          "kind": "info",
+          "state": "no_action",
+          "owner": null,
+          "due_date": null,
+          "due_text": null,
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "Adres sprawdziłam w czwartek, testem na swój numer. Mówi Toruńska 120, sobota do piętnastej. Dobrze."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A03",
+          "title": "Błąd drugiego telefonu po rozłączeniu – naprawiony",
+          "details": "Reguła trzech sekund działała tylko przy pierwszej próbie, przez co agent dzwonił drugi raz po rozłączeniu. Błąd poprawiono w czwartek 8.10. Podwójnych połączeń było 11, nie 6.",
+          "kind": "bug",
+          "state": "no_action",
+          "owner": "Marek Rewoliński",
+          "due_date": null,
+          "due_text": null,
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": "11 podwójnych telefonów",
+          "superseded": [
+            "6 podwójnych telefonów"
+          ],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Marek",
+              "quote": "Reguła trzech sekund działała tylko przy pierwszej próbie. Poprawione w czwartek."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A17",
+          "title": "Tomek Wrona zastępuje Kasię w BDC",
+          "details": "Tomek pracuje w BDC od tego tygodnia i będzie zastępował Kasię. Od wczoraj ma dostęp do panelu. Pozostałe tematy z tego calla Kasia przekazała Tomkowi.",
+          "kind": "info",
+          "state": "no_action",
+          "owner": null,
+          "due_date": null,
+          "due_text": null,
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Kasia",
+              "quote": "To Tomek, od tego tygodnia u nas w BDC, będzie mnie zastępował."
+            },
+            {
+              "speaker": "Kasia",
+              "quote": "Tomek ma od wczoraj dostęp do panelu, resztę z nim."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    }
+  },
+  "calendar": [
+    {
+      "date": "2026-10-13",
+      "item": "A05"
+    },
+    {
+      "date": "2026-10-13",
+      "item": "A06"
+    },
+    {
+      "date": "2026-10-13",
+      "item": "A13"
+    },
+    {
+      "date": "2026-10-15",
+      "item": "A14"
+    },
+    {
+      "date": "2026-10-16",
+      "item": "A01"
+    },
+    {
+      "date": "2026-10-19",
+      "item": "A07"
+    },
+    {
+      "date": "2026-10-19",
+      "item": "A10"
+    },
+    {
+      "date": "2026-10-21",
+      "item": "A11"
+    },
+    {
+      "date": "2026-11-02",
+      "item": "A12"
+    }
+  ],
+  "guardrails": [
+    {
+      "rule": "Nie przestawiać sobotnich godzin (dzwonienie i godziny podawane klientom) na 14:00 przed piątkiem 16.10",
+      "until": "2026-10-16 (piątek)",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Przestaw w piątek, nie wcześniej, bo w tę sobotę jeszcze jest do piętnastej."
+        }
+      ]
+    },
+    {
+      "rule": "Na spotkaniu z Pawłem pokazywać przykład 208 bez nazwy firmy",
+      "until": null,
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Wyślę dziś. Pokażę tę 208, bez nazwy firmy."
+        }
+      ]
+    }
+  ],
+  "drafts": [
+    {
+      "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
+      "subject": "Podwójne telefony po rozłączeniu – podsumowanie i korekta faktury",
+      "body": "Cześć Kasiu,\n\nzgodnie z ustaleniami z dzisiejszego calla przesyłam podsumowanie na piśmie:\n\n- Przyczyna: reguła trzech sekund działała tylko przy pierwszej próbie połączenia, dlatego agent dzwonił drugi raz po rozłączeniu.\n- Poprawka: błąd został naprawiony w czwartek 8 października.\n- Skala: podwójnych telefonów było 11, a nie 6, jak podawaliśmy wcześniej.\n- Rozliczenie: odejmiemy te 11 połączeń z faktury za październik.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Dziś, 2026-10-13",
+      "related_items": [
+        "A03",
+        "A04",
+        "A05"
+      ]
+    },
+    {
+      "to": "Paweł <pawel@autotama.pl>",
+      "subject": "Zaproszenie: spotkanie Grupa Auto Tama × Rinvo – czwartek 15.10, 10:00, Toruń",
+      "body": "Dzień dobry,\n\nzgodnie z potwierdzeniem przekazanym przez Kasię zapraszam na spotkanie w czwartek 15 października 2026 o 10:00 w Toruniu.\n\nDo zobaczenia,\nMarek Rewoliński\nRinvo",
+      "send_when": "Dziś, 2026-10-13",
+      "related_items": [
+        "A13",
+        "A14"
+      ]
+    },
+    {
+      "to": "Ola Nowak <ola.nowak@autotama.pl>",
+      "subject": "Ściąga ze statusami walidacji leadów",
+      "body": "Dzień dobry,\n\nTomek przekazał, że chciałaby Pani dostać bezpośrednio ściągę ze statusami. Przesyłam ją w załączniku.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Gdy ściąga będzie gotowa (Marek ma ją prawie gotową)",
+      "related_items": [
+        "A15"
+      ]
+    },
+    {
+      "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
+      "subject": "Przypomnienie: teksty wstępu",
+      "body": "Cześć Kasiu,\n\nprzypominam o tekstach wstępu, które masz w szkicu. Gdy je prześlesz, uruchomimy test od środy 21 października.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Poniedziałek 2026-10-19, jednorazowo, tylko jeśli teksty nie przyszły wcześniej",
+      "related_items": [
+        "A09",
+        "A10",
+        "A11"
+      ]
+    }
+  ],
+  "issues": []
+}
