@@ -28,7 +28,8 @@ POLISH_MONTHS_GENITIVE = {
 DATE_RE = re.compile(r"\b(\d{1,2})\s+(" + "|".join(POLISH_MONTHS_GENITIVE) + r")\s+(\d{4})\b", re.IGNORECASE)
 ISO_DATE_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
 DOTTED_DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
-TURN_RE = re.compile(r"^\*\*(?P<speaker>[^*]+?):\*\*\s*(?P<text>.+)$")
+# "**Kasia:** text" and the variant "**Kasia**: text".
+TURN_RE = re.compile(r"^\*\*(?P<speaker>[^*]+?)(?::\*\*|\*\*:)\s*(?P<text>.+)$")
 # Fallback for transcripts without bold labels: "Kasia: ..." or "[00:01:02] Speaker 1: ...".
 PLAIN_TURN_RE = re.compile(r"^(?:\[[\d:.]+\]\s*)?(?P<speaker>[A-ZĄĆĘŁŃÓŚŹŻ][^:*\[\]]{0,39}):\s+(?P<text>.+)$")
 STAGE_RE = re.compile(r"^\*(?P<text>\[.+)\*$")
@@ -87,7 +88,7 @@ def _is_transcript_heading(line: str) -> bool:
 
 
 def parse_transcript(text: str, source: str = "<string>") -> Transcript:
-    lines = text.splitlines()
+    lines = text.removeprefix("﻿").splitlines()
     title = None
     call_date = None
     header_lines: list[str] = []
@@ -117,10 +118,18 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
         if in_dialogue and (match := TURN_RE.match(line)):
             turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
             continue
-        if in_dialogue and (match := PLAIN_TURN_RE.match(line)):
-            plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
         if match := STAGE_RE.match(line):
             stage_directions.append(StageDirection(number, match["text"].strip()))
+            continue
+        if in_dialogue and turns:
+            # A line that starts no new turn continues the previous utterance (wrapped text, paragraphs).
+            turns[-1].text += " " + line
+            continue
+        if in_dialogue and (match := PLAIN_TURN_RE.match(line)):
+            plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
+            continue
+        if in_dialogue and plain_turns:
+            plain_turns[-1].text += " " + line
             continue
 
         if current_section is None:
@@ -146,7 +155,7 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
 
 
 def load_transcript(path: Path) -> Transcript:
-    return parse_transcript(path.read_text(encoding="utf-8"), source=path.name)
+    return parse_transcript(path.read_text(encoding="utf-8-sig"), source=path.name)
 
 
 def main(argv: list[str] | None = None) -> int:

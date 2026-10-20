@@ -94,3 +94,33 @@ def test_plain_speaker_labels_are_used_when_no_bold_turns():
 def test_bold_turns_take_precedence_over_plain_labels():
     transcript = parse_transcript("**Kasia:** Cześć.\nUwaga: to nie jest wypowiedź.\n")
     assert [t.speaker for t in transcript.turns] == ["Kasia"]
+
+
+def test_colon_outside_bold_label_is_a_turn():
+    transcript = parse_transcript("**Kasia**: Filtr nie działa.\n**Marek**: Sprawdzę.\n")
+    assert [(t.speaker, t.text) for t in transcript.turns] == [
+        ("Kasia", "Filtr nie działa."),
+        ("Marek", "Sprawdzę."),
+    ]
+
+
+def test_utterance_spanning_lines_and_paragraphs_is_joined():
+    text = (
+        "## Transkrypcja\n\n**Kasia:** Pierwszy akapit.\n\nDrugi akapit z ustaleniem.\n**Marek:** Dobrze.\n"
+    )
+    transcript = parse_transcript(text)
+    assert [(t.line, t.text) for t in transcript.turns] == [
+        (3, "Pierwszy akapit. Drugi akapit z ustaleniem."),
+        (6, "Dobrze."),
+    ]
+
+
+def test_plain_utterance_continuation_is_joined():
+    transcript = parse_transcript("Kasia: Pierwsza linia\ndruga linia.\nMarek: Ok.\n")
+    assert [t.text for t in transcript.turns] == ["Pierwsza linia druga linia.", "Ok."]
+
+
+def test_utf8_bom_from_notepad_is_ignored(tmp_path):
+    path = tmp_path / "call.md"
+    path.write_text("**Kasia:** Cześć.\n**Marek:** Hej.\n", encoding="utf-8-sig")
+    assert [t.speaker for t in load_transcript(path).turns] == ["Kasia", "Marek"]
