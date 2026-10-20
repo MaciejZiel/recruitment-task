@@ -61,7 +61,9 @@ class ActionItem(StrictModel):
 
 
 class Guardrail(StrictModel):
-    rule: str = Field(description="Prohibition or freeze in Polish, e.g. 'Nie włączać Opla'.")
+    rule: str = Field(
+        description="Prohibition or freeze in Polish, e.g. 'Nie włączać nowej usługi bez zgody klienta'."
+    )
     until: str | None = Field(description="Until when / until what event it holds.")
     approval_by: str | None = Field(description="Who can lift it.")
     evidence: list[Evidence]
