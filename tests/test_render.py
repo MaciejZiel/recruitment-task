@@ -58,6 +58,23 @@ def test_write_outputs_creates_report_outbox_and_drafts(tmp_path, transcript, dr
     assert (tmp_path / "drafts" / "D01-anna.md").read_text(encoding="utf-8").startswith("**Do:** Anna")
 
 
+def test_draft_files_are_plain_text_for_copying_into_email(tmp_path, transcript):
+    draft = Draft(
+        to="Kasia <kasia@x.pl>",
+        subject="A & B",
+        body="Cena < 100 zł",
+        send_when="dziś",
+        related_items=["A01"],
+    )
+    extraction = make_extraction(items=[make_item()], drafts=[draft])
+    write_outputs(route(extraction), verify(extraction, transcript), tmp_path, "call.md")
+
+    text = (tmp_path / "drafts" / "D01-kasia.md").read_text(encoding="utf-8")
+    assert "**Do:** Kasia <kasia@x.pl>" in text
+    assert "**Temat:** A & B" in text and "Cena < 100 zł" in text
+    assert "&lt;" not in text and "&amp;" not in text
+
+
 def test_draft_file_names_are_readable():
     drafts = [
         Draft(

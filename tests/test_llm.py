@@ -70,3 +70,29 @@ def test_failures_become_llm_errors(monkeypatch, kwargs, message):
     run_with(monkeypatch, **kwargs)
     with pytest.raises(llm.LLMError, match=message):
         llm.complete_json("s", "u", {})
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"stdout": json.dumps({"is_error": True, "result": "quota", "total_cost_usd": 0.4}).encode()},
+        {"stdout": json.dumps({"is_error": False, "total_cost_usd": 0.4}).encode(), "returncode": 1},
+        {
+            "stdout": json.dumps(
+                {"is_error": False, "stop_reason": "max_tokens", "total_cost_usd": 0.4}
+            ).encode()
+        },
+    ],
+)
+def test_errors_after_a_paid_call_carry_the_raw_response(monkeypatch, kwargs):
+    run_with(monkeypatch, **kwargs)
+    with pytest.raises(llm.LLMError) as caught:
+        llm.complete_json("s", "u", {})
+    assert caught.value.raw is not None and caught.value.raw["total_cost_usd"] == 0.4
+
+
+def test_errors_without_a_json_response_have_no_raw(monkeypatch):
+    run_with(monkeypatch, stdout=b"not json", returncode=1, stderr=b"auth failed")
+    with pytest.raises(llm.LLMError) as caught:
+        llm.complete_json("s", "u", {})
+    assert caught.value.raw is None

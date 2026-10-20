@@ -152,10 +152,11 @@ def _slug(recipient: str) -> str:
 
 
 def render_draft(draft: Draft) -> str:
+    # Plain text on purpose: a draft is copied into an email, so "<kasia@x.pl>" must stay literal.
     return (
-        f"**Do:** {md(draft.to)}  \n**Temat:** {md(draft.subject)}  \n"
-        f"**Wysłać:** {md(draft.send_when)}  \n**Dotyczy:** {', '.join(draft.related_items)}\n\n"
-        f"---\n\n{md(draft.body)}\n"
+        f"**Do:** {draft.to}  \n**Temat:** {draft.subject}  \n"
+        f"**Wysłać:** {draft.send_when}  \n**Dotyczy:** {', '.join(draft.related_items)}\n\n"
+        f"---\n\n{draft.body}\n"
     )
 
 

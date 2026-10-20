@@ -19,7 +19,11 @@ DEFAULT_TIMEOUT_S = 900
 
 
 class LLMError(RuntimeError):
-    pass
+    """`raw` is the parsed JSON response when the (possibly paid) call returned one."""
+
+    def __init__(self, message: str, raw: dict[str, Any] | None = None):
+        super().__init__(message)
+        self.raw = raw
 
 
 @dataclass
@@ -96,9 +100,9 @@ def complete_json(
 
     if completed.returncode != 0 or raw.get("is_error"):
         detail = raw.get("result") or raw.get("subtype") or stderr or "unknown error"
-        raise LLMError(f"claude -p failed (exit code {completed.returncode}): {detail}")
+        raise LLMError(f"claude -p failed (exit code {completed.returncode}): {detail}", raw)
 
     data = raw.get("structured_output")
     if not isinstance(data, dict):
-        raise LLMError(f"claude -p returned no structured output (stop: {raw.get('stop_reason')})")
+        raise LLMError(f"claude -p returned no structured output (stop: {raw.get('stop_reason')})", raw)
     return LLMResponse(data=data, raw=raw)
