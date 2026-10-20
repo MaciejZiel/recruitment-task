@@ -178,6 +178,8 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
   automatycznie na następne.
 - **Ograniczenia są zapisane, nie egzekwowane.** „Przypomnij mi. Raz.” to `constraints` pozycji i warunek szkicu;
   nie ma harmonogramu, który pilnowałby limitu przy wysyłce.
+- **Brak skrzynki „inne”.** Aktywna pozycja (`do_now`, `scheduled`) rodzaju innego niż błąd, zmiana konfiguracji
+  czy prośba o funkcję, w tym `feedback` i `info`, trafia do „Zadania zespołu”.
 - **Koszt i czas**: około 4–5 minut i 0,7–0,9 USD na 36-minutową rozmowę przy `--effort high`.
 - **Integracje** (issue tracker, CRM, kalendarz, Gmail, panel konfiguracji agenta) oraz UI zatwierdzania są
   w [`docs/process.md`](docs/process.md) jako stan docelowy.
