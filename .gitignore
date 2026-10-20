@@ -60,3 +60,6 @@ desktop.ini
 
 # Playwright MCP snapshots
 .playwright-mcp/
+
+# Local callflow runs (committed demo lives in examples/output/)
+out/
