@@ -11,6 +11,9 @@ FIXTURE = Path(__file__).parent / "fixtures" / "extraction.json"
 def test_from_json_runs_offline(tmp_path, capsys):
     assert cli.main([str(TRANSCRIPT), "--out", str(tmp_path), "--from-json", str(FIXTURE)]) == 0
     assert "0 with unverified evidence" in capsys.readouterr().out
+    for name in ("report.md", "report.html", "outbox.json"):
+        assert (tmp_path / name).is_file()
+    assert (tmp_path / "report.html").read_text(encoding="utf-8").startswith("<!doctype html>")
 
 
 def test_missing_transcript_reports_error(tmp_path, capsys):

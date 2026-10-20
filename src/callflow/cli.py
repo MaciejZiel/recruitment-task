@@ -13,6 +13,7 @@ from pydantic import ValidationError
 
 from callflow import llm
 from callflow.extract import ExtractionError, extract
+from callflow.html_report import render_html
 from callflow.render import REPORT_FILE, write_outputs
 from callflow.route import route
 from callflow.schema import MeetingExtraction
@@ -21,6 +22,7 @@ from callflow.verify import verify
 
 EXTRACTION_FILE = "extraction.json"
 RAW_RESPONSE_FILE = "raw_response.json"
+HTML_REPORT_FILE = "report.html"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -102,8 +104,11 @@ def run(args: argparse.Namespace) -> int:
     )
     for issue in report.issues:
         print(f"  [{issue.owner_id}] {issue.message}")
-    write_outputs(route(extraction), report, args.out, args.transcript.name)
-    print(f"Report: {args.out / REPORT_FILE}")
+    routed = route(extraction)
+    write_outputs(routed, report, args.out, args.transcript.name)
+    html = render_html(routed, report, args.transcript.name)
+    (args.out / HTML_REPORT_FILE).write_text(html, encoding="utf-8")
+    print(f"Report: {args.out / REPORT_FILE} and {args.out / HTML_REPORT_FILE}")
     return 0
 
 
