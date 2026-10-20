@@ -7,7 +7,7 @@ skrzynek zespołów, które mają je wykonać. Każda pozycja ma cytat z rozmowy
 dotykające klienta (wiadomość, zmiana konfiguracji agenta) czeka na zatwierdzenie przez człowieka. Nic nie
 jest wysyłane do klienta automatycznie, bo rozmowy z klientem są pełne warunków i zakazów, których nie widać w samej
 liście zadań. W rozmowie z Auto Tama Kasia mówi: „Jak do czwartku nie wyślę obu wersji, przypomnij mi. Raz.”
-(l. 58), czyli jedno przypomnienie, 8.10, i ani jednego więcej. Marek obiecuje: „Opla nie włączam. Nawet jak Paweł
+(l. 58), czyli jedno przypomnienie 9.10, tylko jeśli do czwartku 8.10 teksty nie przyjdą, i ani jednego więcej. Marek obiecuje: „Opla nie włączam. Nawet jak Paweł
 napisze, że kazał, to najpierw zadzwonię do ciebie” (l. 132), więc nawet polecenie od szefa klienta nie wystarczy.
 Automat, który od razu „wykonuje” ustalenia, łatwo złamałby takie zastrzeżenie. Dlatego system przygotowuje
 działania, a decyzję o wykonaniu podejmuje człowiek.
@@ -36,12 +36,13 @@ flowchart TD
         OUT["render.py: report.md, outbox.json, drafts/*.md<br/>html_report.py: report.html"]
         WR["Widok wyniku w przeglądarce<br/>skrzynki, cytaty ze statusem, szkice, historia"]
         H["Człowiek czyta wynik i sam decyduje,<br/>co zatwierdzić i wykonać"]
+        JIRA["jira.py, tylko CLI --jira: zgłoszenia w Jirze<br/>zweryfikowane pozycje z tickets i config_changes,<br/>wewnętrzne zadania zespołu, nic do klienta"]
     end
 
     subgraph FUTURE_OUT["Docelowo: wyjście"]
         DEDUP["Deduplikacja z pozycjami<br/>z poprzednich spotkań"]
         UI["UI zatwierdzania<br/>zatwierdź, edytuj lub odrzuć każdą pozycję"]
-        INT["Integracje per skrzynka<br/>issue tracker (np. Jira/Linear),<br/>panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
+        INT["Integracje per skrzynka<br/>Jira w aplikacji webowej,<br/>panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
         FB["Pętla zwrotna<br/>poprawki z UI zasilają prompt i zestaw eval"]
     end
 
@@ -56,6 +57,7 @@ flowchart TD
     P --> V
     V --> R
     R --> OUT
+    R -->|"tickets, config_changes"| JIRA
     OUT --> WR
     OUT --> H
     WR --> H
@@ -69,7 +71,7 @@ flowchart TD
 
     classDef impl fill:#e6f4ea,stroke:#2e7d32,color:#1b1b1b
     classDef future fill:#f2f2f2,stroke:#888888,stroke-dasharray:5 5,color:#555555
-    class WIN,WQ,T,P,E,J,V,R,OUT,WR,H impl
+    class WIN,WQ,T,P,E,J,V,R,OUT,WR,H,JIRA impl
     class MEET,MEM,DEDUP,UI,INT,FB future
 ```
 
@@ -97,8 +99,9 @@ a reguły w kodzie wybierają skrzynkę. Reguły są sprawdzane w kolejności z 
 Poza skrzynkami raport zawiera trzy dodatkowe sekcje. Zabezpieczenia (`guardrails`) to stałe zakazy z warunkiem
 zdjęcia i osobą, która może je zdjąć; sprawdza się je przed każdym działaniem. Kalendarz (terminy
 i przypomnienia) powstaje z pozycji `scheduled` i `waiting_on_client` z datą; `on_hold` nigdy do niego nie trafia. Szkice wiadomości mają pole `send_when` i nigdy nie są wysyłane same. Kolumna
-„System docelowy” to tylko etykieta w raporcie: aplikacja nie wysyła niczego do tych systemów (w trakcie: Jira,
-patrz niżej). <!-- TODO lead: jira -->
+„System docelowy” to tylko etykieta w raporcie: aplikacja nie wysyła niczego do tych systemów. Wyjątek: CLI
+z flagą `--jira` tworzy zgłoszenia w Jirze ze zweryfikowanych pozycji skrzynek `tickets` i `config_changes`
+(patrz niżej).
 
 ## Stany pozycji
 
@@ -152,8 +155,11 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   wynik można przejrzeć, przetestować i pokazać bez klucza ani logowania.
 - **Bramka zatwierdzenia.** Aplikacja nie ma kodu, który wysyła coś do klienta albo zmienia konfigurację agenta.
   `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
-  zmienione”. <!-- TODO lead: jira --> Wyjątek w trakcie: zgłoszenia błędów i zmiany konfiguracji mogą trafiać
-  do Jiry (konfiguracja w `.env`).
+  zmienione”. Jedyny zapis do zewnętrznego systemu to Jira w CLI (`--jira`, jawnie włączana flagą): tworzy
+  wewnętrzne zadania zespołu Rinvo, nie wysyła niczego do klienta i nie zmienia konfiguracji agenta. Pomija
+  pozycje z niezweryfikowanym cytatem, nie dubluje zgłoszeń przy ponownym uruchomieniu na tej samej ekstrakcji
+  (`jira.json`), odrzuca przekierowania i nie wypisuje tokenu. `--jira-check` sprawdza połączenie tylko do odczytu,
+  zanim zostanie wywołany model.
 - **Aplikacja webowa tylko lokalnie.** Domyślnie słucha na adresie pętli zwrotnej, odrzuca obcy nagłówek `Host`
   (DNS rebinding) i `POST` z obcym `Origin`, a pliki serwuje tylko z katalogu `static/` i katalogu danego
   przebiegu. Nie ma uwierzytelniania, więc `--allow-remote` nadaje się tylko do zaufanej sieci.
@@ -168,10 +174,13 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   otwarcia lokalnie w przeglądarce, `html_report.py`), `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
   z Auto Tama leży w `examples/output/auto-tama/`: 37 pozycji, 11 zabezpieczeń, 8 szkiców, 108 ze 108
   zweryfikowanych cytatów, bez ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 6 pozycji,
-  3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów.
+  3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów. Trzeci przykład, syntetyczna rozmowa FitStudio
+  (`examples/output/fitstudio/`, w aplikacji do wyboru z listy przykładów): 18 pozycji, 8 zabezpieczeń, 5 szkiców,
+  58 z 58 cytatów (wszystkie zweryfikowane po poprawce parsera); wstawioną w rozmowę próbę prompt injection
+  model potraktował jako dane.
 - **Jest:** weryfikacja i routing w czystym Pythonie, bez modelu, pokryte testami (`tests/`).
-- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami. Ich nazwy w raporcie
-  to tylko etykiety. Aplikacja pokazuje wynik, ale nie ma w niej zatwierdzania, edycji ani odrzucania pozycji:
+- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami poza Jirą w CLI (CRM,
+  kalendarz, poczta, panel agenta, Jira w aplikacji webowej). Ich nazwy w raporcie to tylko etykiety. Aplikacja pokazuje wynik, ale nie ma w niej zatwierdzania, edycji ani odrzucania pozycji:
   decyzję człowiek podejmuje i wykonuje poza nią.
 - **Nie ma:** pamięci między rozmowami ani deduplikacji. Każda rozmowa jest analizowana osobno, więc stały zakaz
   z poprzedniego spotkania nie przechodzi automatycznie na następne.
@@ -180,5 +189,7 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Częściowo:** `eval/reference.md` to wzorzec odpowiedzi przygotowany przez niezależnego agenta AI (cytaty
   sprawdzone skryptem); porównanie z wynikiem systemu jest ręczne, nie automatyczne. Druga, fikcyjna rozmowa
   z innej branży (`examples/druga-rozmowa.md`) ma wynik w `examples/output/dentavita/`.
-- **W trakcie:** <!-- TODO lead: jira --> integracja z Jirą: zgłoszenia błędów i zmiany konfiguracji mogą trafiać
-  do Jiry (konfiguracja w `.env`).
+- **Jest (CLI):** integracja z Jirą (`jira.py`): `--jira-check` (sprawdzenie tylko do odczytu: użytkownik,
+  projekt, typy zgłoszeń, pola wymagane) i `--jira` (zgłoszenia dla zweryfikowanych pozycji z `tickets`
+  i `config_changes`, etykieta `callflow`, termin, opis z cytatami). Ustawienia w `.env`. Przetestowane testami
+  jednostkowymi; test na żywej Jirze w toku. W aplikacji webowej jeszcze jej nie ma.
