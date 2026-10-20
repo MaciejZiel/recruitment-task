@@ -68,18 +68,22 @@ class Transcript:
 
 
 def parse_call_date(text: str) -> date | None:
-    try:
-        if match := ISO_DATE_RE.search(text):
-            year, month, day = map(int, match.groups())
+    """Return the first valid date in the text, whichever of the supported formats it uses."""
+    candidates: list[tuple[int, int, int, int]] = []
+    for match in ISO_DATE_RE.finditer(text):
+        year, month, day = map(int, match.groups())
+        candidates.append((match.start(), year, month, day))
+    for match in DATE_RE.finditer(text):
+        day, month_name, year = match.groups()
+        candidates.append((match.start(), int(year), POLISH_MONTHS_GENITIVE[month_name.lower()], int(day)))
+    for match in DOTTED_DATE_RE.finditer(text):
+        day, month, year = map(int, match.groups())
+        candidates.append((match.start(), year, month, day))
+    for _, year, month, day in sorted(candidates):
+        try:
             return date(year, month, day)
-        if match := DATE_RE.search(text):
-            day, month_name, year = match.groups()
-            return date(int(year), POLISH_MONTHS_GENITIVE[month_name.lower()], int(day))
-        if match := DOTTED_DATE_RE.search(text):
-            day, month, year = map(int, match.groups())
-            return date(year, month, day)
-    except ValueError:
-        return None
+        except ValueError:
+            continue
     return None
 
 

@@ -124,3 +124,13 @@ def test_utf8_bom_from_notepad_is_ignored(tmp_path):
     path = tmp_path / "call.md"
     path.write_text("**Kasia:** Cześć.\n**Marek:** Hej.\n", encoding="utf-8-sig")
     assert [t.speaker for t in load_transcript(path).turns] == ["Kasia", "Marek"]
+
+
+def test_earliest_valid_date_in_line_wins():
+    assert parse_call_date("6 października 2026 (wtorek), notatka z 2026-09-01") == date(2026, 10, 6)
+    assert parse_call_date("2026-13-45, potem 06.10.2026") == date(2026, 10, 6)
+
+
+def test_date_mentioned_in_an_utterance_is_not_the_meeting_date():
+    transcript = parse_transcript("Kasia: Proszę o raport do 15 listopada 2026.\nMarek: Dobrze.\n")
+    assert transcript.call_date is None
