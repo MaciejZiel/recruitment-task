@@ -165,7 +165,8 @@ uv run callflow examples/transkrypcja-spotkanie.md --out out/auto-tama --jira-ch
   `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT_KEY`, opcjonalnie `JIRA_ISSUE_TYPE_BUG` (domyślnie `Bug`)
   i `JIRA_ISSUE_TYPE_CONFIG` (domyślnie `Task`). Przekierowania HTTP są odrzucane (token nie trafia pod inny
   adres), a token nie jest wypisywany w logach ani błędach.
-- Stan: przetestowane testami jednostkowymi (z podmienionym HTTP); test na żywej Jirze w toku.
+- Jeśli projekt nie ma typu „Bug”, ustaw `JIRA_ISSUE_TYPE_BUG=Task` (`--jira-check` wypisuje dostępne typy).
+- Stan: przetestowane testami jednostkowymi (z podmienionym HTTP) i na żywo 20.10.2026 na prawdziwej Jira Cloud: `--jira-check` przeszedł, `--jira` utworzył 6 zgłoszeń z dema Auto Tama, a drugi przebieg 0 (idempotencja potwierdzona).
 
 ### Testy i lint
 
@@ -298,7 +299,10 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
   kopiuje się ręcznie.
 - **Integracje** (CRM, kalendarz, Gmail, panel konfiguracji agenta) oraz UI zatwierdzania są
   w [`docs/process.md`](docs/process.md) jako stan docelowy. Jira działa tylko w CLI ([wyżej](#jira)), nie
-  w aplikacji webowej; test na żywej Jirze w toku.
+  w aplikacji webowej; przetestowana na żywo 20.10.2026 na prawdziwej Jira Cloud (6 zgłoszeń z dema Auto Tama,
+  drugi przebieg 0, idempotencja potwierdzona).
+- **Eksport do Jiry pomija tylko pozycje z niezweryfikowanym cytatem**; pozycje z innymi ostrzeżeniami walidacji
+  są wysyłane.
 
 ## Praca z AI
 

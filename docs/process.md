@@ -192,4 +192,5 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Jest (CLI):** integracja z Jirą (`jira.py`): `--jira-check` (sprawdzenie tylko do odczytu: użytkownik,
   projekt, typy zgłoszeń, pola wymagane) i `--jira` (zgłoszenia dla zweryfikowanych pozycji z `tickets`
   i `config_changes`, etykieta `callflow`, termin, opis z cytatami). Ustawienia w `.env`. Przetestowane testami
-  jednostkowymi; test na żywej Jirze w toku. W aplikacji webowej jeszcze jej nie ma.
+  jednostkowymi i na żywo 20.10.2026 na prawdziwej Jira Cloud: `--jira-check` przeszedł, `--jira` utworzył
+  6 zgłoszeń z dema Auto Tama, drugi przebieg 0 (idempotencja potwierdzona). W aplikacji webowej jeszcze jej nie ma.
