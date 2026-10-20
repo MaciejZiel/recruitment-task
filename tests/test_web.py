@@ -1,5 +1,6 @@
 import http.client
 import json
+import socket
 import threading
 import time
 from datetime import date
@@ -282,6 +283,9 @@ def test_path_traversal_is_blocked(client):
         f"/runs/{run_id}/drafts/../../../pyproject.toml",
         f"/runs/{run_id}/C:/Windows/win.ini",
         f"/runs/{run_id}/drafts",
+        "/static/app.js%00",
+        f"/runs/{run_id}/report.md%00.html",
+        f"/runs/{run_id}/report.md::$DATA",
     ]
     for path in paths:
         assert client.request("GET", path)[0] in (400, 404), path
@@ -345,4 +349,137 @@ def test_non_loopback_host_is_refused_without_allow_remote(host, capsys):
 
 def test_loopback_detection():
     assert server.is_loopback("127.0.0.1") and server.is_loopback("::1") and server.is_loopback("localhost")
+    assert server.is_loopback("127.0.0.2")
     assert not server.is_loopback("0.0.0.0")
+
+
+def test_any_loopback_host_header_is_served(client):
+    assert client.request("GET", "/api/runs", headers={"Host": f"127.0.0.2:{client.port}"})[0] == 200
+
+
+def raw_request(port: int, request: bytes) -> bytes:
+    with socket.create_connection(("127.0.0.1", port), timeout=5) as sock:
+        sock.sendall(request)
+        chunks = []
+        while chunk := sock.recv(65536):
+            chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def test_negative_content_length_is_rejected_without_reading(client):
+    response = raw_request(
+        client.port,
+        f"POST /api/runs HTTP/1.1\r\nHost: 127.0.0.1:{client.port}\r\nContent-Length: -1\r\n\r\n".encode(),
+    )
+    assert response.startswith(b"HTTP/1.0 400") or response.startswith(b"HTTP/1.1 400")
+    assert b"negative" in response
+    assert client.json("GET", "/api/runs")[1] == []
+
+
+def test_deeply_nested_json_is_rejected(client):
+    status, payload = client.json("POST", "/api/runs", b"[" * 100_000)
+    assert status == 400 and "invalid JSON" in payload["error"]
+    assert client.json("GET", "/api/runs")[1] == []
+
+
+def test_worker_survives_a_failed_run(client, monkeypatch):
+    original_save = RunManager._save
+    failed = []
+
+    def save(self, run):
+        if run.status == "running" and not failed:
+            failed.append(run.id)
+            raise OSError("disk full")
+        original_save(self, run)
+
+    monkeypatch.setattr(RunManager, "_save", save)
+    run = client.wait(client.json("POST", "/api/runs", example_request())[1]["id"])
+    assert run["status"] == "error" and "disk full" in run["error"] and run["finished_at"] is not None
+    assert client.wait(client.json("POST", "/api/runs", example_request())[1]["id"])["status"] == "done"
+
+
+def test_worker_survives_an_unexpected_exception(client, monkeypatch):
+    original_pipeline = runs.run_pipeline
+    calls = []
+
+    def pipeline_failing_once(*args, **kwargs):
+        calls.append(1)
+        if len(calls) == 1:
+            raise RuntimeError("boom")
+        return original_pipeline(*args, **kwargs)
+
+    monkeypatch.setattr(runs, "run_pipeline", pipeline_failing_once)
+    run = client.wait(client.json("POST", "/api/runs", example_request())[1]["id"])
+    assert run["status"] == "error" and "boom" in run["error"]
+    assert client.wait(client.json("POST", "/api/runs", example_request())[1]["id"])["status"] == "done"
+
+
+def test_only_one_live_run_at_a_time(client, monkeypatch):
+    release = threading.Event()
+    monkeypatch.setattr(runs, "extract", fake_extract(release=release))
+    status, first = client.json("POST", "/api/runs", live_request())
+    assert status == 202
+
+    status, body = client.json("POST", "/api/runs", live_request())
+    assert status == 409 and "already" in body["error"]
+    status, example = client.json("POST", "/api/runs", example_request())
+    assert status == 202
+
+    release.set()
+    assert client.wait(first["id"])["status"] == "done"
+    assert client.wait(example["id"])["status"] == "done"
+    status, again = client.json("POST", "/api/runs", live_request())
+    assert status == 202
+    assert client.wait(again["id"])["status"] == "done"
+
+
+def test_example_mode_refuses_an_edited_transcript(client):
+    edited = AUTO_TAMA_TRANSCRIPT + "\n**Anna:** Jeszcze jedna sprawa.\n"
+    status, payload = client.json("POST", "/api/runs", example_request(transcript=edited))
+    assert status == 400 and "live analysis" in payload["error"]
+    assert client.json("GET", "/api/runs")[1] == []
+
+
+def test_example_mode_accepts_crlf_line_endings(client, tmp_path):
+    crlf = AUTO_TAMA_TRANSCRIPT.replace("\n", "\r\n")
+    status, created = client.json("POST", "/api/runs", example_request(transcript=crlf))
+    assert status == 202
+    run = client.wait(created["id"])
+    assert run["status"] == "done" and run["summary"]["quotes_verified"] == 108
+    saved = (tmp_path / "runs" / run["id"] / "transcript.md").read_bytes().decode("utf-8")
+    assert saved == AUTO_TAMA_TRANSCRIPT
+
+
+def test_missing_result_file_is_500(client, tmp_path):
+    run_id = client.json("POST", "/api/runs", example_request())[1]["id"]
+    assert client.wait(run_id)["status"] == "done"
+    (tmp_path / "runs" / run_id / "result.json").unlink()
+
+    status, payload = client.json("GET", f"/api/runs/{run_id}/result")
+    assert status == 500 and "error" in payload
+
+
+def test_unexpected_handler_error_is_500(client, monkeypatch):
+    def broken_list(self):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr(RunManager, "list", broken_list)
+    status, payload = client.json("GET", "/api/runs")
+    assert status == 500 and payload == {"error": "internal server error"}
+
+
+def test_port_in_use_is_refused(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    manager = RunManager(tmp_path / "runs")
+    first = CallflowServer(("127.0.0.1", 0), manager)
+    port = first.server_address[1]
+    try:
+        with pytest.raises(OSError):
+            CallflowServer(("127.0.0.1", port), manager)
+        with pytest.raises(SystemExit) as exc:
+            server.main(["--port", str(port)])
+        assert exc.value.code == 1
+        assert "cannot listen" in capsys.readouterr().err
+    finally:
+        first.server_close()
+        manager.close()

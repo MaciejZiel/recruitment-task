@@ -8,19 +8,27 @@ import json
 import re
 import socket
 import sys
+import traceback
+from collections.abc import Callable
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
-from callflow.web.runs import RUN_ID_PATTERN, RequestError, RunManager, parse_run_request
+from callflow.web.runs import (
+    RUN_ID_PATTERN,
+    BusyError,
+    RequestError,
+    ResultFileError,
+    RunManager,
+    parse_run_request,
+)
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 INDEX_FILE = "index.html"
 # Bound before reading: the transcript limit is 300 kB, JSON escaping can at most ~6x it.
 MAX_BODY_BYTES = 2 * 1024 * 1024
-LOOPBACK_NAMES = {"localhost", "127.0.0.1", "::1"}
 
 CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -42,6 +50,8 @@ RUN_FILE_RE = re.compile(rf"/runs/(?P<id>{RUN_ID_PATTERN})/(?P<path>.+)")
 
 class CallflowServer(ThreadingHTTPServer):
     daemon_threads = True
+    # On Windows SO_REUSEADDR lets a second server bind a port that is already in use.
+    allow_reuse_address = sys.platform != "win32"
 
     def __init__(
         self,
@@ -61,8 +71,30 @@ class CallflowServer(ThreadingHTTPServer):
 class Handler(BaseHTTPRequestHandler):
     server: CallflowServer
     server_version = "callflow-web"
+    # Socket timeout: a client that stops sending must not hold a thread forever.
+    timeout = 30
 
     def do_GET(self) -> None:
+        self._dispatch(self._handle_get)
+
+    def do_POST(self) -> None:
+        self._dispatch(self._handle_post)
+
+    def _dispatch(self, handle: Callable[[], None]) -> None:
+        try:
+            handle()
+        except ConnectionError:  # the client went away; there is nobody to answer
+            self.close_connection = True
+        except Exception:
+            self.log_error("unhandled error for %s %s\n%s", self.command, self.path, traceback.format_exc())
+            # A response may already be partly written; never reuse this connection.
+            self.close_connection = True
+            try:
+                self._send_error(HTTPStatus.INTERNAL_SERVER_ERROR, "internal server error")
+            except OSError:
+                return
+
+    def _handle_get(self) -> None:
         if not self._host_allowed():
             return
         path = unquote(urlsplit(self.path).path)
@@ -91,7 +123,7 @@ class Handler(BaseHTTPRequestHandler):
         else:
             self._send_error(HTTPStatus.NOT_FOUND, "not found")
 
-    def do_POST(self) -> None:
+    def _handle_post(self) -> None:
         if not self._host_allowed():
             return
         if urlsplit(self.path).path != "/api/runs":
@@ -108,6 +140,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             run = self.server.manager.submit(request)
+        except BusyError as exc:
+            self._send_error(HTTPStatus.CONFLICT, str(exc))
+            return
         except OSError as exc:
             self._send_error(HTTPStatus.INTERNAL_SERVER_ERROR, f"could not create the run: {exc}")
             return
@@ -118,6 +153,9 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length", ""))
         except ValueError:
             raise RequestError("Content-Length header is required") from None
+        if length < 0:
+            self.close_connection = True  # rfile.read(-1) would wait for the client to close
+            raise RequestError("Content-Length must not be negative")
         if length > MAX_BODY_BYTES:
             self.close_connection = True  # the unread body would otherwise be parsed as the next request
             raise RequestError("request body is too large")
@@ -126,6 +164,8 @@ class Handler(BaseHTTPRequestHandler):
             return json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise RequestError(f"invalid JSON: {exc}") from None
+        except RecursionError:
+            raise RequestError("invalid JSON: nesting is too deep") from None
 
     def _send_result(self, run_id: str) -> None:
         manager = self.server.manager
@@ -133,7 +173,14 @@ class Handler(BaseHTTPRequestHandler):
         if run is None:
             self._send_error(HTTPStatus.NOT_FOUND, "unknown run")
             return
-        result = manager.result(run_id)
+        try:
+            result = manager.result(run_id)
+        except ResultFileError as exc:
+            self.log_error("%s", exc)
+            self._send_error(
+                HTTPStatus.INTERNAL_SERVER_ERROR, "the result file of this run is missing or unreadable"
+            )
+            return
         if result is None:
             self._send_error(HTTPStatus.CONFLICT, f"run is {run['status']}, the result is not available")
         else:
@@ -144,7 +191,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.server.allow_remote:
             return True
         hostname = urlsplit("//" + self.headers.get("Host", "")).hostname
-        if hostname in LOOPBACK_NAMES:
+        if hostname and is_loopback(hostname):
             return True
         self._send_error(HTTPStatus.FORBIDDEN, "host not allowed")
         return False
@@ -159,7 +206,11 @@ class Handler(BaseHTTPRequestHandler):
         if path is None:
             self._send_error(HTTPStatus.NOT_FOUND, "not found")
             return
-        body = path.read_bytes()
+        try:
+            body = path.read_bytes()
+        except OSError:
+            self._send_error(HTTPStatus.NOT_FOUND, "not found")
+            return
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", CONTENT_TYPES.get(path.suffix.lower(), "application/octet-stream"))
         self.send_header("Content-Length", str(len(body)))
@@ -188,11 +239,15 @@ class Handler(BaseHTTPRequestHandler):
 
 def safe_path(base: Path, relative: str) -> Path | None:
     """The file `relative` inside `base`, or None if it is missing or escapes `base`."""
-    if not relative or "\\" in relative or ".." in relative.split("/"):
+    # ':' would reach drive letters and NTFS alternate data streams (report.md::$DATA) on Windows.
+    if not relative or any(char in relative for char in "\\\x00:") or ".." in relative.split("/"):
         return None
-    root = base.resolve()
-    path = (root / relative).resolve()
-    if not path.is_relative_to(root) or not path.is_file():
+    try:
+        root = base.resolve()
+        path = (root / relative).resolve()
+        if not path.is_relative_to(root) or not path.is_file():
+            return None
+    except (OSError, ValueError):
         return None
     return path
 
@@ -232,7 +287,11 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     manager = RunManager(Path.cwd() / "runs")
-    server = CallflowServer((args.host, args.port), manager, allow_remote=args.allow_remote)
+    try:
+        server = CallflowServer((args.host, args.port), manager, allow_remote=args.allow_remote)
+    except OSError as exc:
+        manager.close()
+        parser.exit(1, f"callflow-web: cannot listen on {args.host}:{args.port}: {exc}\n")
     host, port = server.server_address[:2]
     shown_host = f"[{host}]" if ":" in str(host) else host
     print(

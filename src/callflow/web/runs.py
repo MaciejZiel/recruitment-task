@@ -52,6 +52,14 @@ class RequestError(ValueError):
     """Invalid run request; the message is shown to the user."""
 
 
+class BusyError(RuntimeError):
+    """A live run is refused while another one is queued or running."""
+
+
+class ResultFileError(RuntimeError):
+    """The result.json of a finished run cannot be read."""
+
+
 @dataclass(frozen=True)
 class Example:
     id: str
@@ -109,6 +117,13 @@ def parse_run_request(payload: object, examples: dict[str, Example]) -> RunReque
         if not isinstance(example_id, str) or example_id not in examples:
             raise RequestError(f"unknown example_id: {example_id!r}")
         example = examples[example_id]
+        # The saved extraction only matches its own transcript; quotes would not verify against edits.
+        expected = example.transcript_path.read_text(encoding="utf-8-sig")
+        if _normalize_newlines(transcript).strip() != expected.strip():
+            raise RequestError(
+                "example mode needs the unchanged example transcript; use live analysis for edited text"
+            )
+        transcript = expected
 
     effort = payload.get("effort", llm.DEFAULT_EFFORT)
     if effort not in EFFORTS:
@@ -122,6 +137,10 @@ def parse_run_request(payload: object, examples: dict[str, Example]) -> RunReque
         mode=mode,
         example=example,
     )
+
+
+def _normalize_newlines(text: str) -> str:
+    return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
 def _text_field(payload: dict[str, Any], name: str, default: str, max_length: int) -> str:
@@ -203,7 +222,7 @@ class Run:
 def _iso(timestamp: float | None) -> str | None:
     if timestamp is None:
         return None
-    return datetime.fromtimestamp(timestamp).astimezone().isoformat(timespec="seconds")
+    return datetime.fromtimestamp(timestamp).astimezone().isoformat(timespec="milliseconds")
 
 
 def _timestamp(value: str | None) -> float | None:
@@ -236,13 +255,18 @@ class RunManager:
     def submit(self, request: RunRequest) -> Run:
         now = time.time()
         with self._lock:
+            if request.mode == "live" and any(
+                run.mode == "live" and run.status in ("queued", "running") for run in self._runs.values()
+            ):
+                # Live runs call the paid model; a double submit must not start a second one.
+                raise BusyError("a live analysis is already queued or running; wait for it to finish")
             run_id = self._new_id(now)
             run = Run(run_id, request.mode, request.source_name, created_at=now)
             self._runs[run_id] = run
         run_dir = self.run_dir(run_id)
         try:
             run_dir.mkdir(parents=True)
-            (run_dir / TRANSCRIPT_FILE).write_text(request.transcript, encoding="utf-8")
+            (run_dir / TRANSCRIPT_FILE).write_text(request.transcript, encoding="utf-8", newline="")
             self._save(run)
         except OSError:
             with self._lock:
@@ -267,7 +291,10 @@ class RunManager:
             run = self._runs.get(run_id)
             if run is None or run.status != "done":
                 return None
-        return json.loads((self.run_dir(run_id) / RESULT_FILE).read_text(encoding="utf-8"))
+        try:
+            return json.loads((self.run_dir(run_id) / RESULT_FILE).read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            raise ResultFileError(f"cannot read the result of run {run_id}: {exc}") from exc
 
     def run_dir(self, run_id: str) -> Path:
         return self.root / run_id
@@ -301,15 +328,18 @@ class RunManager:
 
     def _work(self) -> None:
         while (job := self._queue.get()) is not None:
-            self._execute(*job)
+            try:
+                self._execute(*job)
+            except Exception:  # a dead worker would leave every later run queued forever
+                log.exception("run %s: unexpected failure in the worker", job[0].id)
 
     def _execute(self, run: Run, request: RunRequest) -> None:
         with self._lock:
             run.status = "running"
             run.started_at = time.time()
-        self._save(run)
         status, error, summary = "error", None, None
         try:
+            self._save(run)
             outcome = run_pipeline(request, self.run_dir(run.id), run.warnings)
             write_json(self.run_dir(run.id) / RESULT_FILE, outcome.result)
             status, summary = "done", outcome.summary
