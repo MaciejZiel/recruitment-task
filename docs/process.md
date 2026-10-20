@@ -141,7 +141,7 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Cytaty sprawdzane dosłownie.** Każda pozycja i każde zabezpieczenie mają co najmniej jeden cytat z mówcą.
   `verify.py` szuka cytatu w wypowiedziach tego mówcy, normalizując tylko cudzysłowy, myślniki, białe znaki
   i wielkość liter. Raport podaje numer linii, a cytat, którego nie znaleziono lub który padł z ust innej osoby,
-  dostaje ⚠️ (w `outbox.json`: `needs_review: true`). Na rozmowie z Auto Tama zweryfikowano 108 ze 108 cytatów.
+  dostaje ⚠️ (w `outbox.json`: `needs_review: true`). Na rozmowie z Auto Tama zweryfikowano 131 ze 131 cytatów.
 - **Kontrola pól.** Weryfikacja zgłasza też zduplikowane id, termin wcześniejszy niż spotkanie, pozycję `do_now`
   lub `scheduled` bez właściciela, `scheduled` bez terminu oraz odwołania do nieistniejących pozycji.
   `extract.py` odrzuca wynik niezgodny ze schematem, a inną datę spotkania od modelu zastępuje znaną datą
@@ -172,11 +172,11 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   analiz zapisana w `runs/` i zachowana po restarcie. To samo z wiersza poleceń daje CLI `callflow`.
 - **Jest:** cały przebieg od pliku `.md` do `report.md`, `report.html` (ten sam raport jako jeden plik HTML do
   otwarcia lokalnie w przeglądarce, `html_report.py`), `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
-  z Auto Tama leży w `examples/output/auto-tama/`: 37 pozycji, 11 zabezpieczeń, 8 szkiców, 108 ze 108
-  zweryfikowanych cytatów, bez ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 6 pozycji,
-  3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów. Trzeci przykład, syntetyczna rozmowa FitStudio
-  (`examples/output/fitstudio/`, w aplikacji do wyboru z listy przykładów): 18 pozycji, 8 zabezpieczeń, 5 szkiców,
-  58 z 58 cytatów (wszystkie zweryfikowane po poprawce parsera); wstawioną w rozmowę próbę prompt injection
+  z Auto Tama leży w `examples/output/auto-tama/`: 42 pozycje, 20 zabezpieczeń, 8 szkiców, 131 ze 131
+  zweryfikowanych cytatów, 6 ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 7 pozycji,
+  3 zabezpieczenia, 2 szkice, 20 z 20 cytatów. Trzeci przykład, syntetyczna rozmowa FitStudio
+  (`examples/output/fitstudio/`, w aplikacji do wyboru z listy przykładów): 20 pozycji, 13 zabezpieczeń, 4 szkice,
+  63 z 63 cytatów; wstawioną w rozmowę próbę prompt injection
   model potraktował jako dane.
 - **Jest:** weryfikacja i routing w czystym Pythonie, bez modelu, pokryte testami (`tests/`).
 - **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami poza Jirą w CLI (CRM,

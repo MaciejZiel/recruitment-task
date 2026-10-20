@@ -1,18 +1,18 @@
 **Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
-**Temat:** Poprawione: adres we Włocławku i godziny  
-**Wysłać:** Po wprowadzeniu poprawek, planowo 2026-10-06. Bez nagrania testowego.  
-**Dotyczy:** A05, A06, A09
+**Temat:** Poprawione: adres salonu we Włocławku i godziny  
+**Wysłać:** 2026-10-06, po wprowadzeniu poprawek (A06, A07, A11)  
+**Dotyczy:** A06, A07, A08, A11
 
 ---
 
 Cześć Kasiu,
 
-zmiany, o których mówiliśmy, są już wprowadzone:
-- adres salonu Peugeot i Citroën we Włocławku: ul. Toruńska 120 (zamiast Kapitulnej),
-- godziny salonów podawane przez agenta: sobota 9:00–15:00 w obu salonach, w tygodniu bez zmian,
-- godziny dzwonienia agenta: pon–pt 9:00–19:00, sobota 9:00–15:00, w niedzielę agent nie dzwoni.
+zgodnie z ustaleniami z 6.10.2026:
+- adres salonu we Włocławku w bazie wiedzy agenta jest poprawiony na ul. Toruńska 120 (zamiast Kapitulnej),
+- godziny salonów, które agent podaje klientom: sobota 9:00–15:00 w obu salonach; Włocławek w tygodniu bez zmian, 9:00–18:00,
+- godziny dzwonienia agenta: poniedziałek–piątek 9:00–19:00, sobota 9:00–15:00, w niedzielę agent nie dzwoni.
 
-Możesz puścić sobie test.
+Możesz to sprawdzić własnym testem.
 
 Pozdrawiam,
 Marek

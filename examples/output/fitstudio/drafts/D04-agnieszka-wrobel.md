@@ -1,17 +1,19 @@
 **Do:** Agnieszka Wróbel  
-**Temat:** Wyniki agenta głosowego od startu: podsumowanie dla Roberta  
-**Wysłać:** Najpóźniej 2026-10-31 (do końca miesiąca). Tylko do Agnieszki, nie do Roberta.  
-**Dotyczy:** A09, A10
+**Temat:** Wyniki agenta Rinvo w FitStudio od startu – zestawienie  
+**Wysłać:** Najpóźniej 2026-10-30. Wysłać do Agnieszki, nie do Roberta. Nie wysyłać automatycznie.  
+**Dotyczy:** A12, A11
 
 ---
 
 Cześć Agnieszko,
 
-w załączniku jednostronicowe podsumowanie wyników agenta od startu współpracy:
-- wejścia próbne umówione przez agenta (kampania Zapytania): [UZUPEŁNIĆ]
-- karnety przedłużone po telefonie (kampania Karnety): [UZUPEŁNIĆ]
+w załączniku jest jednostronicowe zestawienie wyników agenta od startu współpracy:
 
-Możesz przekazać je Robertowi razem z pozostałymi materiałami.
+- Wejścia próbne umówione przez agenta (Zapytania): [UZUPEŁNIĆ], z podziałem na kluby: [UZUPEŁNIĆ]
+- Karnety przedłużone po telefonie (Karnety): [UZUPEŁNIĆ]
+
+Wysyłam tylko do Ciebie, żebyś mogła przekazać to Robertowi razem z resztą materiałów.
 
 Pozdrawiam,
-Marek
+Marek Rewoliński
+Rinvo

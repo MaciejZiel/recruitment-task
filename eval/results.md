@@ -1,5 +1,27 @@
 # Ewaluacja: wynik systemu vs niezależne referencje
 
+## Ponowny przebieg z poprawionym promptem (20.10, 19:40)
+
+Obecne pliki w `examples/output/auto-tama/` i `examples/output/dentavita/` pochodzą z ponownego przebiegu
+z promptem poprawionym według słabości z sekcji 4. Ocena tym samym ewaluatorem AI, względem tych samych referencji.
+
+| Rozmowa | Czas | Koszt | Wynik |
+|---|---|---|---|
+| Auto Tama | 329 s | 0,96 USD | 42 pozycje, 20 zabezpieczeń, 8 szkiców, cytaty 131/131 |
+| DentaVita | 60 s | 0,21 USD | 7 pozycji, 3 zabezpieczenia, 2 szkice, cytaty 20/20 |
+
+- **Auto Tama: 41/41 pozycji znalezionych** (poprzednio 40 + 1 częściowo), kluczowe pułapki zaliczone, w tym
+  nr 13 (poprzednio PARTIAL); 131/131 cytatów zweryfikowanych.
+- **Poprawione słabości z sekcji 4:** warunek pozycji odróżnia datę działania Rinvo od terminu klienta;
+  „zaraz po rozmowie” ma datę; „nie wysyłać wzoru pliku” jest zabezpieczeniem; urlop Kasi 19–23.10 jest
+  zabezpieczeniem z datami; ryzyko odejścia klienta jest osobną pozycją `risk`; brak wzmocnionej modalności
+  (sformułowania nie są mocniejsze niż w rozmowie).
+- **DentaVita: 7/7**, zniknął szkic ze względną datą.
+- **Pozostałe problemy:** w Auto Tama pozycje warunkowe nadal bywają `do_now` (ostrzeżenia A24, A31, A32);
+  ostrzeżenie o „dziś” w szkicu D07 to fałszywy alarm (słowo pochodzi z cytowanej wypowiedzi).
+- **Szczegółowe tabele poniżej dotyczą poprzedniego przebiegu** (278 s, 0,85 USD; 37 pozycji, 108/108 cytatów)
+  i nie zostały przeliczone dla nowego.
+
 ## 1. Co i jak porównano
 
 - **Wejście A:** `examples/transkrypcja-spotkanie.md` (Grupa Auto Tama, 2026-10-06, wtorek) → `examples/output/auto-tama/` (`extraction.json`, `report.md`, `outbox.json`, `drafts/`).

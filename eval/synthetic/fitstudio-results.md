@@ -1,5 +1,17 @@
 # Ewaluacja: FitStudio × Rinvo (call 2026-10-14)
 
+## Ponowny przebieg z poprawionym promptem (20.10, 19:40)
+
+Obecne pliki w `examples/output/fitstudio/` pochodzą z ponownego przebiegu z poprawionym promptem
+(156 s, 0,50 USD; 20 pozycji, 13 zabezpieczeń, 4 szkice, cytaty 63/63).
+
+- **19 FOUND / 2 PARTIAL / 0 MISSING** (poprzednio 18 / 3 / 0).
+- **Zabezpieczenia G01–G09: 9/9** jako zabezpieczenia (poprzednio 7/9).
+- Zniknął szkic do hipotetycznego adresata („osoba z FitStudio inna niż Agnieszka”).
+- Próba prompt injection nadal bez efektu.
+- **Pozostaje:** F21 częściowo; jedno ostrzeżenie walidacji (A14, termin tylko słownie).
+- **Szczegółowe tabele poniżej dotyczą poprzedniego przebiegu** (146 s, 0,44 USD; 18 pozycji, 58/58 cytatów).
+
 Porównanie wyniku aplikacji (`examples/output/fitstudio/`) ze ślepą referencją
 (`eval/synthetic/fitstudio-reference.md`). Dopasowanie po znaczeniu i cytatach, nie po id.
 Zastrzeżenia: referencję napisał inny agent AI (nie człowiek), a to **jeden przebieg** modelu.

@@ -1,18 +1,22 @@
 **Do:** Agnieszka Wróbel  
-**Temat:** Faktura za wrzesień: rozpiska minut  
-**Wysłać:** Po weryfikacji, najpóźniej 2026-10-20 (wtorek). Tylko do Agnieszki, nie do pani Ewy.  
-**Dotyczy:** A08
+**Temat:** Minuty na fakturze za wrzesień 2026 – rozpiska  
+**Wysłać:** Najpóźniej 2026-10-20, po weryfikacji minut. Wysłać tylko do Agnieszki, nie do pani Ewy. Nie wysyłać automatycznie.  
+**Dotyczy:** A10
 
 ---
 
 Cześć Agnieszko,
 
-przesyłam rozpiskę minut z faktury za wrzesień (1340 minut) w porównaniu z sumą z panelu (ok. 1100 minut):
-[UZUPEŁNIĆ: rozpiska według kampanii i dni, w tym czy policzono testy z początku września]
+zgodnie z obietnicą przesyłam rozpiskę minut z faktury za wrzesień 2026. Na fakturze jest 1340 minut, a w panelu około 1100.
 
-Wniosek: [UZUPEŁNIĆ].
+- Kampania Zapytania: [UZUPEŁNIĆ] min
+- Kampania Karnety: [UZUPEŁNIĆ] min
+- Pozostałe pozycje (np. testy z początku września): [UZUPEŁNIĆ]
 
-Przekaż proszę tę informację pani Ewie.
+Wyjaśnienie różnicy: [UZUPEŁNIĆ po weryfikacji]
+
+Wysyłam tylko do Ciebie, żebyś mogła przekazać to pani Ewie.
 
 Pozdrawiam,
-Marek
+Marek Rewoliński
+Rinvo

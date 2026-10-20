@@ -117,11 +117,11 @@ def test_example_run_completes_with_auto_tama_numbers(client, tmp_path):
     assert run["summary"] == {
         "client": "Grupa Auto Tama",
         "meeting_date": "2026-10-06",
-        "items": 37,
-        "guardrails": 11,
+        "items": 42,
+        "guardrails": 20,
         "drafts": 8,
-        "quotes_verified": 108,
-        "quotes_total": 108,
+        "quotes_verified": 131,
+        "quotes_total": 131,
         # The committed demo is regenerated with the current verify(), so its warnings are the reference.
         "issues": len(json.loads(AUTO_TAMA_OUTBOX.read_text(encoding="utf-8"))["issues"]),
         "cost_usd": None,
@@ -157,7 +157,7 @@ def test_result_returns_outbox_and_quotes(client, tmp_path):
     outbox_file = tmp_path / "runs" / run_id / "outbox.json"
     assert result["outbox"] == json.loads(outbox_file.read_text(encoding="utf-8"))
     assert result["quotes"]["A01"][0].keys() == {"speaker", "quote", "line", "verified"}
-    assert sum(len(quotes) for quotes in result["quotes"].values()) == 108
+    assert sum(len(quotes) for quotes in result["quotes"].values()) == 131
     assert "G01" in result["quotes"]
     assert result["summary_text"] and result["participants"] and isinstance(result["assumptions"], list)
 
@@ -376,7 +376,7 @@ def test_runs_survive_a_restart(tmp_path):
     restarted = RunManager(root)
     try:
         listed = {run["id"]: run for run in restarted.list()}
-        assert listed[done_id]["status"] == "done" and listed[done_id]["summary"]["items"] == 37
+        assert listed[done_id]["status"] == "done" and listed[done_id]["summary"]["items"] == 42
         assert restarted.result(done_id)["outbox"]["client"] == "Grupa Auto Tama"
         assert listed[interrupted.name]["status"] == "error"
         assert "interrupted" in listed[interrupted.name]["error"]
@@ -490,7 +490,7 @@ def test_example_mode_accepts_crlf_line_endings(client, tmp_path):
     status, created = client.json("POST", "/api/runs", example_request(transcript=crlf))
     assert status == 202
     run = client.wait(created["id"])
-    assert run["status"] == "done" and run["summary"]["quotes_verified"] == 108
+    assert run["status"] == "done" and run["summary"]["quotes_verified"] == 131
     saved = (tmp_path / "runs" / run["id"] / "transcript.md").read_bytes().decode("utf-8")
     assert saved == AUTO_TAMA_TRANSCRIPT
 

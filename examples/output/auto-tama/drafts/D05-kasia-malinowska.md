@@ -1,13 +1,13 @@
 **Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
-**Temat:** Cena SMS po nieudanych próbach połączenia  
-**Wysłać:** Do piątku 2026-10-09. Tylko cena, bez przykładowej treści.  
-**Dotyczy:** A30, A31
+**Temat:** Cena SMS-ów po nieudanych próbach połączenia  
+**Wysłać:** Do 2026-10-09; tylko cena, bez przykładowego tekstu  
+**Dotyczy:** A33, A34
 
 ---
 
 Cześć Kasiu,
 
-zgodnie z prośbą przesyłam cenę SMS-a wysyłanego po dwóch nieudanych próbach połączenia: [CENA] za wiadomość. SMS-y są rozliczane osobno od minut. Treść przygotujesz Ty, a decyzja o uruchomieniu należy do Pawła.
+przesyłam cenę SMS-a wysyłanego po dwóch nieudanych próbach połączenia: [cena] za wiadomość. SMS-y rozliczane są osobno, za każdą wysłaną wiadomość. Treść przygotujesz Ty, a koszt wymaga zgody Pawła.
 
 Pozdrawiam,
 Marek

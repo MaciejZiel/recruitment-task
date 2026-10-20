@@ -1,15 +1,21 @@
-**Do:** Agnieszka Wróbel  
-**Temat:** Godziny dzwonienia zmienione na 17:30  
-**Wysłać:** Po faktycznym wprowadzeniu zmiany godzin w konfiguracji (A02). Nie wysyłać automatycznie.  
-**Dotyczy:** A02, A01
+**Do:** Agnieszka Wróbel (DentaVita)  
+**Temat:** Odwołane wizyty widoczne w panelu jako potwierdzone: wyniki analizy  
+**Wysłać:** Po zakończeniu analizy, najpóźniej 2026-10-15 (czwartek). Nie dołączać nagrań.  
+**Dotyczy:** A01
 
 ---
 
-Dzień dobry,
+Dzień dobry Pani Agnieszko,
 
-potwierdzam zmianę ustaloną na wczorajszym callu: od teraz agent dzwoni do pacjentów najpóźniej do 17:30, zarówno w Oliwie, jak i we Wrzeszczu.
+zgodnie z ustaleniami z rozmowy z 13 października 2026 r. przesyłam wyniki analizy trzech wizyt w gabinecie dr Kani w Oliwie, zaplanowanych na 12 października 2026 r. na 8:00, 8:30 i 9:00. Pacjenci odwołali je w rozmowie z agentem 9 października 2026 r., a w panelu miały status „potwierdzona”.
 
-Do czwartku 15.10 wrócę z informacją o przyczynie błędnych statusów wizyt w Oliwie. Napiszę też, czy problem wystąpił w inne dni.
+Przyczyna: [UZUPEŁNIĆ po analizie]
+
+Czy błąd wystąpił w inne dni: [UZUPEŁNIĆ: tak/nie, jakie daty i wizyty]
+
+Dalsze kroki: [UZUPEŁNIĆ]
+
+Nagrania tych rozmów może Pani odsłuchać w panelu Rinvo.
 
 Pozdrawiam,
 Marek Rewoliński

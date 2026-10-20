@@ -2,67 +2,89 @@
   "meeting_date": "2026-10-06",
   "client": "Grupa Auto Tama",
   "participants": [
-    "Kasia Malinowska (BDC, Grupa Auto Tama)",
+    "Kasia Malinowska (Grupa Auto Tama, BDC)",
     "Marek Rewoliński (Rinvo)"
   ],
-  "summary": "Call statusowy dotyczył walidacji leadów (Peugeot i Citroën, Toruń i Włocławek). Wyszły trzy błędy: nieaktualny adres salonu we Włocławku, ponowne połączenie po rozłączeniu w ciągu 3 sekund i filtr statusu, który nie zawęża listy kontaktów. Ustalono nowe godziny dzwonienia (pon–pt 9–19, sobota 9–15) i sobotnie godziny salonów (9–15). Ustalono też test wstępu w dwóch wersjach, który ruszy dopiero po otrzymaniu tekstów od Kasi. Opel, agent po godzinach, nowy format maila do handlowców i szkolenie są wstrzymane do decyzji Kasi. Do tego Rinvo przekaże korektę faktury za wrzesień, wyśle cenę SMS-ów i ściągę statusów oraz zaproponuje Pawłowi spotkanie 15.10 o 10:00 z powodu konkurencji VoiceDesk. Od 19 do 23.10 Kasia jest na urlopie i w tym czasie nic nowego nie startuje.",
+  "summary": "Call statusowy w sprawie walidacji leadów (Peugeot i Citroën, Toruń i Włocławek). Ustalono na dziś poprawki: adres salonu we Włocławku (Toruńska 120), sobotnie godziny salonów (do 15:00), godziny dzwonienia (pn–pt 9–19, sob 9–15), a także diagnozę dwóch błędów: ponownego połączenia po rozłączeniu w ciągu 3 sekund oraz niedziałającego filtra statusu „zainteresowany”. Na ruch klienta czekają: teksty do ręcznego testu A/B wstępu, plik ze świeżymi leadami (poniedziałek 12.10, jedno przypomnienie) i potwierdzenie spotkania z Pawłem 15.10 o 10:00. Opel, nowy format maila do handlowców, agent po godzinach i szkolenie handlowców są wstrzymane do sygnału od Kasi. Od 19 do 23.10 obowiązuje zamrożenie zmian. Dla konta są dwa ryzyka: konkurencja ze strony VoiceDesk (taniej, z integracją z CRM) i to, że Paweł chciał wyłączyć usługę.",
   "items": [
     {
       "id": "A01",
-      "title": "Uruchomić test wstępu w dwóch wersjach po otrzymaniu tekstów",
-      "details": "Kasia przyśle dwie wersje wstępu: obecną i krótszą. Obie muszą nadal mówić, że to wirtualna asystentka i że rozmowa jest nagrywana. Rinvo puszcza je ręcznie na dwa dni albo na dwa miasta (Toruń i Włocławek), a Kasia sama wybiera wersję, która zostaje.",
-      "kind": "task",
-      "state": "waiting_on_client",
-      "owner": "Marek Rewoliński",
-      "due_date": "2026-10-08",
-      "due_text": "do czwartku",
-      "condition": "Kasia przysyła obie wersje tekstu (termin: czwartek).",
-      "constraints": [
-        "Tekst pisze wyłącznie Kasia, Rinvo nie pisze go za nią",
-        "Nie uruchamiać w tym tygodniu (Kasia odsłuchuje starą bazę)",
-        "Obie wersje muszą informować o wirtualnej asystentce i nagrywaniu",
-        "Nie uruchamiać w dniach 19–23.10 (urlop Kasi)",
-        "Wybór wersji należy do Kasi"
-      ],
-      "approval_by": "Kasia Malinowska (Paweł NIE może zatwierdzić tekstu wstępu)",
-      "final_value": "Dwie wersje napisane przez Kasię, test ręczny na 2 dni albo na 2 miasta, wybór należy do Kasi",
-      "superseded": [
-        "Marek sam sprawdzi po callu, czy da się skrócić początek wstępu"
-      ],
+      "title": "Odnotować uwagi do przebiegu rozmów walidacyjnych",
+      "details": "Według Kasi statystyki wyglądają dobrze, ale z nagrań słychać, że w połowie rozmowy ludzie orientują się, że rozmawiają z robotem, i rozłączają się albo odpowiadają byle jak. Agent nie robi przerwy na początku, więc klient nie może wejść mu w słowo. Końcowe „przepraszam, jest pani w aucie?” Kasia ocenia dobrze.",
+      "kind": "feedback",
+      "state": "no_action",
+      "owner": null,
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
       "depends_on": [],
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Puśćcie to na dwa dni albo na dwa miasta, Toruń i Włocławek, a ja sama wybiorę, którą zostawiamy."
+          "quote": "Że w połowie rozmowy ludzie łapią, że to nie człowiek."
         },
         {
           "speaker": "Kasia",
-          "quote": "Tekst napiszę ja. W tym tygodniu tego nie puszczajcie, bo odsłuchuję starą bazę i wszystko mi się zleje."
-        },
-        {
-          "speaker": "Kasia",
-          "quote": "Druga krótsza, ale dalej ma mówić, że jest wirtualną asystentką i że rozmowa jest nagrywana."
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Mogę po callu zobaczyć, czy sam początek da się skrócić, żeby szybciej doszła do pytania."
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Tekstu za ciebie nie piszę."
+          "quote": "To „przepraszam” jest dobre. Złe jest to, że wcześniej nie ma żadnej przerwy, żebym mogła wejść jej w słowo."
         }
       ]
     },
     {
       "id": "A02",
-      "title": "Przypomnieć raz o tekstach wstępu",
-      "details": "Jeśli do końca czwartku 8.10 Kasia nie przyśle obu wersji wstępu, wysłać jej jedno przypomnienie.",
+      "title": "Uruchomić ręczny test dwóch wersji wstępu",
+      "details": "Test dwóch wersji wstępu: obecnej i krótszej, w której agent nadal mówi, że jest wirtualną asystentką i że rozmowa jest nagrywana. Test ma trwać dwa dni albo być rozdzielony na dwa miasta (Toruń i Włocławek). Wersję do zostawienia wybiera Kasia. Teksty pisze wyłącznie Kasia.",
+      "kind": "config_change",
+      "state": "waiting_on_client",
+      "owner": "Marek Rewoliński",
+      "due_date": null,
+      "due_text": "w tym tygodniu tego nie puszczajcie",
+      "condition": "Po otrzymaniu od Kasi tekstów obu wersji (klient: do czwartku 2026-10-08); nie wcześniej niż po bieżącym tygodniu",
+      "constraints": [
+        "Nie uruchamiać w tym tygodniu (do 2026-10-11), bo Kasia odsłuchuje starą bazę",
+        "Tekstu nie pisze Rinvo – pisze go Kasia",
+        "Obie wersje muszą zawierać informację o wirtualnej asystentce i nagrywaniu rozmowy",
+        "Nie uruchamiać w dniach 2026-10-19–2026-10-23 (urlop Kasi)",
+        "Paweł nie może zatwierdzić tekstu wstępu"
+      ],
+      "approval_by": "Kasia Malinowska (nie Paweł)",
+      "final_value": "Dwie wersje (obecna i krótsza, napisana przez Kasię), test przez 2 dni albo na 2 miasta, wybór należy do Kasi",
+      "superseded": [
+        "Marek sam sprawdza po callu, czy da się skrócić początek, i wdraża jedną wersję"
+      ],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Mogę po callu zobaczyć, czy sam początek da się skrócić, żeby szybciej doszła do pytania."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Tylko ja chcę to zobaczyć na dwóch wersjach, a nie na jednej, którą wy uznacie za lepszą."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Puśćcie to na dwa dni albo na dwa miasta, Toruń i Włocławek, a ja sama wybiorę, którą zostawiamy."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Jak przyślesz obie, puścimy i sobie wybierzesz. Tekstu za ciebie nie piszę."
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "Przypomnieć Kasi raz o tekstach wstępu",
+      "details": "Jeśli do czwartku nie przyjdą obie wersje tekstu, wysłać Kasi jedno przypomnienie.",
       "kind": "task",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-09",
-      "due_text": "Jak do czwartku nie wyślę obu wersji, przypomnij mi. Raz.",
-      "condition": "Brak obu wersji tekstu do końca czwartku 2026-10-08.",
+      "due_text": "Jak do czwartku nie wyślę obu wersji, przypomnij mi",
+      "condition": "Brak obu wersji tekstu (klient: do czwartku 2026-10-08)",
       "constraints": [
         "Przypomnieć tylko raz"
       ],
@@ -70,7 +92,7 @@
       "final_value": null,
       "superseded": [],
       "depends_on": [
-        "A01"
+        "A02"
       ],
       "evidence": [
         {
@@ -84,18 +106,16 @@
       ]
     },
     {
-      "id": "A03",
-      "title": "Nie szukać przypadku z powtórnym pytaniem o model",
-      "details": "Ola zgłosiła rozmowę, w której asystentka przestała reagować na klientkę i drugi raz zapytała o model. Nie ma nagrania ani numeru, więc Rinvo nie jest w stanie znaleźć tej rozmowy.",
+      "id": "A04",
+      "title": "Odnotować zgłoszenie podwójnego pytania o model (bez nagrania)",
+      "details": "Ola zgłosiła rozmowę, w której agent przestał reagować na odpowiedzi klientki i drugi raz zapytał o model. Nie ma nagrania ani numeru, więc nie da się tego zdiagnozować.",
       "kind": "bug",
       "state": "no_action",
       "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
-      "constraints": [
-        "Nie zgadywać, która to rozmowa"
-      ],
+      "constraints": [],
       "approval_by": null,
       "final_value": null,
       "superseded": [],
@@ -103,18 +123,18 @@
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "W drugiej asystentka w środku rozmowy przestała odpowiadać na to, co klientka mówi, i drugi raz zapytała o model."
+          "quote": "Ola nie spisała numerów, powiedziała tylko „jakaś pani przed południem”."
         },
         {
           "speaker": "Marek",
-          "quote": "A tej drugiej sytuacji, gdzie pyta drugi raz o model, bez nagrania nie znajdę."
+          "quote": "A tej drugiej sytuacji, gdzie pyta drugi raz o model, bez nagrania nie znajdę. Ola nie dała numeru."
         }
       ]
     },
     {
-      "id": "A04",
-      "title": "Zapisać w backlogu testy A/B wbudowane w panel",
-      "details": "Kasia chce sama wgrywać 2–3 wersje początku rozmowy lub kolejności pytań. System ma automatycznie dzielić połączenia i pokazywać wyniki. Za wynik uznaje się większą liczbę pełnych rozmów (telefon, model, salon), a nie mniejszą liczbę rozłączeń.",
+      "id": "A05",
+      "title": "Zapisać w backlogu prośbę o testy A/B w panelu",
+      "details": "Kasia chce sama ustawiać w panelu 2–3 warianty początku i przebiegu rozmowy (np. kolejność pytań), z automatycznym podziałem połączeń i wynikami po tygodniu. Za wynik uznaje większą liczbę pełnych rozmów (telefon, model, salon), a nie mniejszą liczbę rozłączeń.",
       "kind": "feature_request",
       "state": "do_now",
       "owner": "Marek Rewoliński",
@@ -125,79 +145,76 @@
         "Nie podawać terminu"
       ],
       "approval_by": null,
-      "final_value": "Miara sukcesu: więcej pełnych rozmów",
+      "final_value": null,
       "superseded": [],
       "depends_on": [],
       "evidence": [
         {
-          "speaker": "Kasia",
-          "quote": "Chciałabym mieć w panelu coś takiego, że wrzucam dwie albo trzy wersje początku rozmowy, system sam dzieli połowę telefonów na jedną, połowę na drugą, a po tygodniu widzę, przy której ludzie rzadziej się rozłączają i częściej dochodzą do końca."
+          "speaker": "Marek",
+          "quote": "Czyli testy A/B wbudowane w panel, które sama ustawiasz i sama czytasz wyniki."
         },
         {
           "speaker": "Marek",
-          "quote": "A to, żebyś mogła sama, zapisuję jako prośbę."
+          "quote": "A to, żebyś mogła sama, zapisuję jako prośbę. Terminu ci teraz nie dam, ale pytam, bo nie jesteście pierwsi."
         },
         {
           "speaker": "Kasia",
-          "quote": "Więcej pełnych rozmów."
+          "quote": "Ważne, ilu dochodzi do końca z telefonem, modelem i salonem."
         }
       ]
     },
     {
-      "id": "A05",
+      "id": "A06",
       "title": "Poprawić adres salonu we Włocławku w bazie wiedzy",
-      "details": "Agent podaje stary adres przy ul. Kapitulnej. Salon Peugeot i Citroën we Włocławku jest od sierpnia przy ul. Toruńskiej 120. Po poprawce trzeba napisać do Kasi, bez wysyłania nagrania testowego.",
+      "details": "Agent podaje stary adres przy ul. Kapitulnej, a salon od sierpnia jest przy ul. Toruńskiej 120. To błąd po stronie Rinvo (nieaktualna baza wiedzy).",
       "kind": "bug",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-06",
       "due_text": "poprawię dzisiaj",
       "condition": null,
-      "constraints": [
-        "Nie wysyłać nagrania testowego, Kasia przetestuje sama",
-        "Napisać do Kasi, gdy będzie poprawione"
-      ],
+      "constraints": [],
       "approval_by": null,
-      "final_value": "Toruńska 120, Włocławek",
-      "superseded": [
-        "Marek wyśle nagranie testowe"
-      ],
+      "final_value": "Włocławek: ul. Toruńska 120",
+      "superseded": [],
       "depends_on": [],
       "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "A my od sierpnia jesteśmy na Toruńskiej."
+        },
         {
           "speaker": "Marek",
           "quote": "O, to jest nasz błąd, ewidentnie nieaktualna baza wiedzy. Podaj mi nowy adres, poprawię dzisiaj."
         },
         {
           "speaker": "Kasia",
-          "quote": "Toruńska 120. Godziny bez zmian, w tygodniu dziewiąta–osiemnasta, sobota dziewiąta–czternasta. Toruń bez zmian."
-        },
-        {
-          "speaker": "Kasia",
-          "quote": "Nie musisz mi wysyłać, puszczę sobie test sama. Tylko napisz, jak będzie poprawione."
+          "quote": "Toruńska 120."
         }
       ]
     },
     {
-      "id": "A06",
-      "title": "Zmienić sobotnie godziny salonów podawane przez agenta na 9–15",
-      "details": "Od tego miesiąca oba salony (Toruń i Włocławek) są w sobotę czynne do 15:00. Godziny w tygodniu bez zmian, dla Włocławka 9–18. Poprawić razem z adresem.",
+      "id": "A07",
+      "title": "Zaktualizować godziny salonów podawane przez agenta",
+      "details": "W bazie wiedzy ustawić sobotę 9:00–15:00 dla obu salonów. Włocławek w tygodniu bez zmian (9:00–18:00), pozostałe godziny Torunia bez zmian.",
       "kind": "config_change",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-06",
-      "due_text": "adres i godziny dzisiaj",
+      "due_text": "poprawię razem z adresem",
       "condition": null,
-      "constraints": [
-        "Dotyczy obu salonów"
-      ],
+      "constraints": [],
       "approval_by": null,
-      "final_value": "Sobota 9:00–15:00 dla obu salonów, w tygodniu bez zmian",
+      "final_value": "Oba salony: sobota 9:00–15:00; Włocławek pn–pt 9:00–18:00",
       "superseded": [
-        "Godziny bez zmian (sobota 9:00–14:00)"
+        "Godziny bez zmian: sobota 9:00–14:00, Toruń bez zmian"
       ],
       "depends_on": [],
       "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Godziny bez zmian, w tygodniu dziewiąta–osiemnasta, sobota dziewiąta–czternasta. Toruń bez zmian."
+        },
         {
           "speaker": "Marek",
           "quote": "A co z godzinami salonu, które agent podaje klientom? Też mam zmienić na piętnastą?"
@@ -213,17 +230,54 @@
       ]
     },
     {
-      "id": "A07",
-      "title": "Zbadać ponowne połączenia po rozłączeniu w ciągu 3 sekund",
-      "details": "Według ustawień po rozłączeniu w ciągu 3 sekund agent nie powinien dzwonić drugi raz tego samego dnia. 5.10 po południu w tej samej kampanii zdarzyło się to 6 razy. Pierwszy przypadek: 16:40, numer kończący się na 14.",
-      "kind": "bug",
-      "state": "do_now",
+      "id": "A08",
+      "title": "Napisać Kasi, że adres i godziny są poprawione",
+      "details": "Po wprowadzeniu poprawek dać Kasi znać wiadomością. Nagrania testowego nie wysyłać, bo Kasia sprawdzi to sama.",
+      "kind": "task",
+      "state": "scheduled",
       "owner": "Marek Rewoliński",
-      "due_date": null,
+      "due_date": "2026-10-06",
+      "due_text": "Tylko napisz, jak będzie poprawione",
+      "condition": "Po wprowadzeniu poprawek A06 i A07",
+      "constraints": [
+        "Nie wysyłać nagrania testowego – Kasia sama puści test"
+      ],
+      "approval_by": null,
+      "final_value": "Tylko wiadomość o poprawce, bez nagrania testowego",
+      "superseded": [
+        "Marek wysyła nagranie testowe"
+      ],
+      "depends_on": [
+        "A06",
+        "A07"
+      ],
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Wyślę ci potem nagranie testowe, żebyś usłyszała, że mówi dobrze."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Nie musisz mi wysyłać, puszczę sobie test sama. Tylko napisz, jak będzie poprawione."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Dobra, napiszę."
+        }
+      ]
+    },
+    {
+      "id": "A09",
+      "title": "Zdiagnozować ponowne połączenia po rozłączeniu w ciągu 3 sekund",
+      "details": "Zgodnie z ustawieniem agent nie powinien dzwonić drugi raz tego samego dnia do osoby, która rozłączyła się w ciągu 3 sekund. 5.10 zdarzyło się to 6 razy w tej samej kampanii po południu. Pierwszy przypadek był o 16:40, numer kończy się na 14.",
+      "kind": "bug",
+      "state": "scheduled",
+      "owner": "Marek Rewoliński",
+      "due_date": "2026-10-06",
       "due_text": "zaraz po rozmowie",
       "condition": null,
       "constraints": [
-        "Nie zmieniać przy okazji limitu pięciu prób"
+        "Przy okazji nie zmieniać limitu pięciu prób"
       ],
       "approval_by": null,
       "final_value": null,
@@ -240,62 +294,66 @@
         },
         {
           "speaker": "Marek",
-          "quote": "Dobra, sprawdzę po spotkaniu na tej kampanii, nie będziemy teraz w tym grzebać."
+          "quote": "Drugi telefon i filtr biorę zaraz po rozmowie, adres i godziny dzisiaj."
         }
       ]
     },
     {
-      "id": "A08",
-      "title": "Nie zmieniać limitu pięciu prób",
-      "details": "Limit prób zostaje na 5. Kasia nie prosiła o zejście do 3, tylko wspomniała, że ktoś ją o to pytał.",
+      "id": "A10",
+      "title": "Nie zmniejszać limitu prób do trzech",
+      "details": "Limit pięciu prób zostaje. Kasia nie prosiła o zejście do trzech, tylko wspomniała, że ktoś ją o to pytał.",
       "kind": "config_change",
       "state": "do_not_do",
-      "owner": "Marek Rewoliński",
+      "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
       "constraints": [
-        "Limit zostaje 5"
+        "Limit prób pozostaje 5"
       ],
       "approval_by": "Kasia Malinowska",
-      "final_value": "5 prób",
+      "final_value": "Limit 5 prób",
       "superseded": [],
       "depends_on": [],
       "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Limitu pięciu prób przy okazji nie ruszam, to inna sprawa."
+        },
         {
           "speaker": "Kasia",
           "quote": "Zostaw pięć. Nie kazałam schodzić do trzech."
         },
         {
           "speaker": "Marek",
-          "quote": "Limitu pięciu prób przy okazji nie ruszam, to inna sprawa."
+          "quote": "No, zostaje pięć."
         }
       ]
     },
     {
-      "id": "A09",
-      "title": "Zmienić godziny dzwonienia na pon–pt 9–19, sobota 9–15",
-      "details": "Obecnie agent dzwoni pon–sob 9–20. Klient skarżył się na telefon o 19:30. Wieczorem i w sobotę po zamknięciu salonu nikt nie odbierze oddzwaniających klientów, dlatego godziny mają się pokrywać z pracą salonu. W niedzielę agent nie dzwoni.",
+      "id": "A11",
+      "title": "Zmienić godziny dzwonienia agenta",
+      "details": "Skrócić okno dzwonienia, bo klient skarżył się na telefon o 19:30, a gdy ktoś oddzwania po zamknięciu salonu, nikt nie odbiera. W niedzielę agent nie dzwoni.",
       "kind": "config_change",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-06",
-      "due_text": "Zmienię po callu / adres i godziny dzisiaj",
+      "due_text": "Zmienię po callu",
       "condition": null,
       "constraints": [
-        "Niedziela bez połączeń"
+        "W niedzielę bez połączeń"
       ],
-      "approval_by": "Kasia Malinowska",
-      "final_value": "Pon–pt 9:00–19:00, sobota 9:00–15:00, niedziela brak",
+      "approval_by": null,
+      "final_value": "Pn–pt 9:00–19:00, sobota 9:00–15:00, niedziela bez połączeń",
       "superseded": [
-        "Pon–sob 9:00–20:00 (stan obecny)",
-        "Pon–pt 9:00–19:00, sobota 9:00–14:00"
+        "Pn–sob 9:00–20:00 (obecne ustawienie)",
+        "Pn–pt 9:00–19:00, sobota 9:00–14:00"
       ],
       "depends_on": [],
       "evidence": [
         {
-          "speaker": "Kasia",
-          "quote": "To skróćcie do dziewiętnastej."
+          "speaker": "Marek",
+          "quote": "Tak, od dziewiątej do dwudziestej, od poniedziałku do soboty."
         },
         {
           "speaker": "Marek",
@@ -308,83 +366,24 @@
         {
           "speaker": "Marek",
           "quote": "Czyli sobota dziewiąta–piętnasta, tydzień dziewiąta–dziewiętnasta."
-        }
-      ]
-    },
-    {
-      "id": "A10",
-      "title": "Sprawdzić, jak naliczane są minuty za krótkie połączenia",
-      "details": "Paweł i księgowa pytają, czy połączenia przerwane po 3 sekundach są liczone jako pełna minuta. Marek nie pamięta, czy rozliczenie idzie od pierwszej sekundy, czy za rozpoczętą minutę.",
-      "kind": "task",
-      "state": "do_now",
-      "owner": "Marek Rewoliński",
-      "due_date": null,
-      "due_text": null,
-      "condition": null,
-      "constraints": [],
-      "approval_by": null,
-      "final_value": null,
-      "superseded": [],
-      "depends_on": [],
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "Te połączenia, gdzie ktoś się rozłącza po trzech sekundach, też liczycie jako minutę?"
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Szczerze, nie pamiętam, czy liczymy od pierwszej sekundy, czy za rozpoczętą minutę. Sprawdzę."
-        }
-      ]
-    },
-    {
-      "id": "A11",
-      "title": "Odjąć podwójne połączenia z rozliczenia i podać Kasi ich liczbę",
-      "details": "Jeśli podwójne połączenia to błąd Rinvo, nie będą one płatne i zostaną odjęte. Kasi trzeba napisać, ile ich było, razem z informacją o stanie błędu.",
-      "kind": "task",
-      "state": "do_now",
-      "owner": "Marek Rewoliński",
-      "due_date": null,
-      "due_text": null,
-      "condition": "Potwierdzenie, że podwójne połączenia to błąd po stronie Rinvo.",
-      "constraints": [
-        "Informację o liczbie wysłać razem z informacją o błędzie"
-      ],
-      "approval_by": null,
-      "final_value": null,
-      "superseded": [],
-      "depends_on": [
-        "A07",
-        "A10"
-      ],
-      "evidence": [
-        {
-          "speaker": "Marek",
-          "quote": "A jeśli te podwójne telefony to nasz błąd, to ich nie powinniście płacić. Odejmiemy je."
         },
         {
           "speaker": "Kasia",
-          "quote": "To napisz mi, ile tego było, bo Paweł będzie pytał."
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Napiszę razem z informacją, co z tym błędem."
+          "quote": "I w niedzielę oczywiście w ogóle."
         }
       ]
     },
     {
       "id": "A12",
-      "title": "Wyniki na starej bazie: lead z urlopu to nie odmowa",
-      "details": "Wyniki: 70 numerów, 41 odebranych, 23 pełne rozmowy, 9 zainteresowanych, w tym jedna osoba z prośbą o kontakt po urlopie, czyli lead, a nie odmowa. Paweł, widząc 9 na 70, chciał wszystko wyłączyć. Kasia tłumaczy, że była to stara, martwa baza.",
+      "title": "Wyniki kampanii na starej bazie",
+      "details": "Stara baza: 70 numerów, 41 odebranych, 23 pełne rozmowy, 9 zainteresowanych. Jedna osoba poprosiła o telefon po urlopie – to lead, a nie odmowa, i nie należy jej liczyć jako „niezainteresowanej”.",
       "kind": "info",
       "state": "no_action",
       "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
-      "constraints": [
-        "Nie traktować prośby „oddzwońcie po urlopie” jako „niezainteresowany”"
-      ],
+      "constraints": [],
       "approval_by": null,
       "final_value": null,
       "superseded": [],
@@ -396,8 +395,30 @@
         },
         {
           "speaker": "Kasia",
-          "quote": "To jest lead, nie odmowa."
+          "quote": "Pełne rozmowy, czyli potwierdzony telefon, model i salon: dwadzieścia trzy."
         },
+        {
+          "speaker": "Kasia",
+          "quote": "Jak wrzucicie ją w „niezainteresowany”, bo nie umówiła się na jutro, to źle to czytacie."
+        }
+      ]
+    },
+    {
+      "id": "A13",
+      "title": "Ryzyko: Paweł chciał wyłączyć usługę",
+      "details": "Paweł, patrząc tylko na 9 zainteresowanych z 70 numerów, chciał wszystko wyłączyć. Kasia go powstrzymała, tłumacząc, że to była stara baza.",
+      "kind": "risk",
+      "state": "no_action",
+      "owner": null,
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
         {
           "speaker": "Kasia",
           "quote": "Paweł zobaczył tylko te dziewięć na siedemdziesiąt i chciał wszystko wyłączyć."
@@ -405,9 +426,9 @@
       ]
     },
     {
-      "id": "A13",
-      "title": "Wykorzystać przykład sprzedaży Peugeota 208 bez nazwy firmy",
-      "details": "Lead z lipca, rozmowa z botem w piątek, zakup Peugeota 208 w sobotę. Przykładu można używać od razu, ale bez nazwy firmy i nazwiska. Na użycie nazwy firmy musi zgodzić się Paweł; Marek zapyta o to na spotkaniu z nim.",
+      "id": "A14",
+      "title": "Wykorzystać przypadek sprzedaży Peugeota 208 jako przykład (bez nazwy)",
+      "details": "Lead z lipca, telefon bota w piątek, sprzedaż w sobotę. Można to od razu pokazywać bez nazwy firmy i bez nazwiska. O zgodę na użycie nazwy zapytać Pawła na spotkaniu.",
       "kind": "task",
       "state": "do_now",
       "owner": "Marek Rewoliński",
@@ -416,13 +437,19 @@
       "condition": null,
       "constraints": [
         "Bez nazwiska klienta",
-        "Bez nazwy firmy do czasu zgody Pawła"
+        "Bez nazwy firmy, dopóki nie zatwierdzi jej Paweł"
       ],
       "approval_by": "Paweł (nazwa firmy)",
       "final_value": null,
       "superseded": [],
-      "depends_on": [],
+      "depends_on": [
+        "A37"
+      ],
       "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Jeden z tych dziewięciu, pan z Torunia, w sobotę przyjechał i kupił Peugeota 208."
+        },
         {
           "speaker": "Kasia",
           "quote": "Mnie to nie przeszkadza, ale nazwę firmy musi zatwierdzić Paweł. Bez nazwy możesz od razu."
@@ -434,30 +461,32 @@
       ]
     },
     {
-      "id": "A14",
+      "id": "A15",
       "title": "Wstrzymać przesunięcie prób na porę obiadową",
-      "details": "Na starej bazie najwięcej osób odbierało około 12–13 i po 17. Pomysł przesunięcia pierwszej próby na porę obiadową czeka na wyniki ze świeżych leadów.",
+      "details": "Na starej bazie najwięcej osób odbierało około 12–13 i po 17, a przed 10 prawie nikt. Przesunięcie prób czeka na wyniki ze świeżych leadów.",
       "kind": "config_change",
       "state": "on_hold",
       "owner": null,
       "due_date": null,
       "due_text": null,
-      "condition": "Najpierw wyniki na świeżych leadach i sygnał od Kasi.",
+      "condition": "Po wynikach na świeżych leadach",
       "constraints": [
-        "Nie zmieniać harmonogramu prób teraz"
+        "Nie zmieniać teraz"
       ],
       "approval_by": "Kasia Malinowska",
       "final_value": null,
       "superseded": [],
-      "depends_on": [],
+      "depends_on": [
+        "A17"
+      ],
       "evidence": [
         {
-          "speaker": "Marek",
-          "quote": "Wtedy moglibyśmy przesunąć próby tak, żeby pierwsza szła w przerwie obiadowej."
+          "speaker": "Kasia",
+          "quote": "Najwięcej ludzi odbierało w okolicach dwunastej, trzynastej i po siedemnastej."
         },
         {
           "speaker": "Kasia",
-          "quote": "Najpierw zobaczmy świeże."
+          "quote": "Może, ale nie teraz. To była stara baza, na świeżych może być inaczej. Najpierw zobaczmy świeże."
         },
         {
           "speaker": "Marek",
@@ -466,20 +495,20 @@
       ]
     },
     {
-      "id": "A15",
+      "id": "A16",
       "title": "Nie włączać Opla",
-      "details": "Opel czeka na wyniki walidacji świeżych leadów z ostatniego miesiąca. Nawet jeśli Paweł napisze, że kazał go włączyć, najpierw trzeba zadzwonić do Kasi.",
+      "details": "Opel nie jest podpinany, dopóki nie będzie wyników ze świeżych leadów z ostatniego miesiąca. Jeśli Paweł napisze, że kazał włączyć, najpierw zadzwonić do Kasi.",
       "kind": "config_change",
       "state": "do_not_do",
-      "owner": "Marek Rewoliński",
+      "owner": null,
       "due_date": null,
       "due_text": null,
-      "condition": "Wyniki na świeżych leadach i decyzja Kasi.",
+      "condition": "Do decyzji Kasi po wynikach na świeżych leadach",
       "constraints": [
-        "Paweł nie może zatwierdzić Opla",
-        "Przy prośbie od Pawła najpierw zadzwonić do Kasi"
+        "Nawet na polecenie Pawła nie włączać – najpierw telefon do Kasi",
+        "Paweł nie zatwierdza Opla"
       ],
-      "approval_by": "Kasia Malinowska (Paweł NIE może zatwierdzić)",
+      "approval_by": "Kasia Malinowska (nie Paweł)",
       "final_value": null,
       "superseded": [],
       "depends_on": [],
@@ -490,7 +519,7 @@
         },
         {
           "speaker": "Marek",
-          "quote": "Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie, a nie będę tego klikał."
+          "quote": "Opla nie włączam. Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie, a nie będę tego klikał."
         },
         {
           "speaker": "Kasia",
@@ -499,35 +528,29 @@
       ]
     },
     {
-      "id": "A16",
-      "title": "Uruchomić walidację świeżych leadów po otrzymaniu pliku",
-      "details": "Kasia wyśle plik ze świeżymi leadami z ostatniego miesiąca (strona i Facebook), najpewniej w poniedziałek. Wystarczy numer telefonu i miasto (Toruń lub Włocławek), wtedy można uruchamiać.",
+      "id": "A17",
+      "title": "Uruchomić kampanię na świeżych leadach po otrzymaniu pliku",
+      "details": "Leady z ostatniego miesiąca (strona i Facebook). Kampanię można puścić, jeśli plik zawiera numer i informację, czy chodzi o Toruń, czy o Włocławek. Bez pliku nic nie uruchamiać.",
       "kind": "task",
       "state": "waiting_on_client",
       "owner": "Marek Rewoliński",
-      "due_date": "2026-10-12",
-      "due_text": "Powiedzmy poniedziałek.",
-      "condition": "Otrzymanie pliku od Kasi.",
+      "due_date": null,
+      "due_text": "Powiedzmy poniedziałek",
+      "condition": "Po otrzymaniu pliku od Kasi (klient: poniedziałek 2026-10-12)",
       "constraints": [
-        "Bez pliku nic nie uruchamiać",
-        "Nie wysyłać wzoru pliku",
-        "Wystarczy numer i miasto",
-        "Nie uruchamiać w dniach 19–23.10"
+        "Bez pliku nic nie puszczać",
+        "Nie wysyłać Kasi wzoru pliku",
+        "Wystarczy numer i miasto (Toruń/Włocławek)",
+        "Nie uruchamiać w dniach 2026-10-19–2026-10-23"
       ],
-      "approval_by": "Kasia Malinowska",
+      "approval_by": null,
       "final_value": null,
-      "superseded": [
-        "Piątek (Kasia nie obiecuje)"
-      ],
+      "superseded": [],
       "depends_on": [],
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Powiedzmy poniedziałek."
-        },
-        {
-          "speaker": "Kasia",
-          "quote": "I nie przysyłaj mi wzoru pliku."
+          "quote": "Plik wyślę. Piątku nie obiecuję, bo zamykamy miesiąc. Powiedzmy poniedziałek."
         },
         {
           "speaker": "Kasia",
@@ -535,34 +558,34 @@
         },
         {
           "speaker": "Marek",
-          "quote": "Bez pliku nic nie puszczam."
+          "quote": "Dobra. Bez pliku nic nie puszczam."
         }
       ]
     },
     {
-      "id": "A17",
-      "title": "Wysłać jeden mail-przypomnienie o pliku ze świeżymi leadami",
-      "details": "Jeśli w poniedziałek 12.10 plik nie przyjdzie, wysłać Kasi jeden mail.",
+      "id": "A18",
+      "title": "Wysłać jedno przypomnienie o pliku ze świeżymi leadami",
+      "details": "Jeśli w poniedziałek plik nie przyjdzie, wysłać Kasi jeden mail, bez wzoru pliku.",
       "kind": "task",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-13",
-      "due_text": "Jak w poniedziałek nic nie będzie, napiszę raz.",
-      "condition": "Brak pliku do końca poniedziałku 2026-10-12.",
+      "due_text": "Jak w poniedziałek nic nie będzie, napiszę raz",
+      "condition": "Brak pliku (klient: poniedziałek 2026-10-12)",
       "constraints": [
-        "Tylko jeden mail",
+        "Jeden mail, nie trzy",
         "Nie dołączać wzoru pliku"
       ],
       "approval_by": null,
       "final_value": null,
       "superseded": [],
       "depends_on": [
-        "A16"
+        "A17"
       ],
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Jak nie wyślę, napisz jeden mail, nie trzy."
+          "quote": "Jak nie wyślę, napisz jeden mail, nie trzy. I nie przysyłaj mi wzoru pliku."
         },
         {
           "speaker": "Marek",
@@ -571,17 +594,19 @@
       ]
     },
     {
-      "id": "A18",
-      "title": "Nie puszczać starej bazy drugi raz",
-      "details": "Stara baza leadów sprzed 2–3 miesięcy była już raz przedzwoniona i nie może być puszczona ponownie.",
+      "id": "A19",
+      "title": "Nie puszczać drugi raz starej bazy",
+      "details": "Stara baza leadów sprzed 2–3 miesięcy nie może być ponownie wykorzystana w kampanii.",
       "kind": "task",
       "state": "do_not_do",
-      "owner": "Marek Rewoliński",
+      "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
-      "constraints": [],
-      "approval_by": null,
+      "constraints": [
+        "Nie puszczać starej bazy ponownie"
+      ],
+      "approval_by": "Kasia Malinowska",
       "final_value": null,
       "superseded": [],
       "depends_on": [],
@@ -597,53 +622,52 @@
       ]
     },
     {
-      "id": "A19",
-      "title": "Czekać na przypadek przeglądu zakwalifikowanego jako lead sprzedażowy",
-      "details": "Ola dostała mail po walidacji: klient chciał umówić przegląd, a u niej trafiło to jako lead sprzedażowy. Nie wiadomo, czy agent źle to zakwalifikował, czy Ola nie doczytała. Kasia prześle sprawę, jeśli Ola ją znajdzie.",
+      "id": "A20",
+      "title": "Sprawdzić zgłoszenie przeglądu zakwalifikowanego jako lead sprzedażowy",
+      "details": "Klient chciał umówić przegląd, a w CRM Oli wpadło to jako lead sprzedażowy. Nie wiadomo, czy agent źle zakwalifikował rozmowę, czy Ola nie doczytała maila. Sprawdzić dopiero, gdy Kasia prześle przypadek.",
       "kind": "bug",
       "state": "waiting_on_client",
       "owner": "Marek Rewoliński",
       "due_date": null,
       "due_text": null,
-      "condition": "Kasia przesyła sprawę znalezioną przez Olę.",
+      "condition": "Po przesłaniu przez Kasię przypadku, który Ola ma w skrzynce",
       "constraints": [
         "Nie zgadywać, która to kampania",
         "Nie ruszać bez wiadomości od Kasi",
         "Nie kontaktować się z Olą"
       ],
-      "approval_by": null,
+      "approval_by": "Kasia Malinowska",
       "final_value": null,
       "superseded": [],
       "depends_on": [],
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Wczoraj dostała taki mail i dopiero na samym dole przeczytała, że pan chciał umówić przegląd."
+          "quote": "Wczoraj dostała taki mail i dopiero na samym dole przeczytała, że pan chciał umówić przegląd. A u niej w systemie wpadło to jako lead sprzedażowy."
         },
         {
           "speaker": "Kasia",
-          "quote": "Jak nie, to nie zgadujcie, która to kampania."
+          "quote": "Jak znajdzie, prześlę. Jak nie, to nie zgadujcie, która to kampania."
         },
         {
           "speaker": "Marek",
-          "quote": "Bez tego nie ruszam."
+          "quote": "Jak mi tego nie prześlesz, to nie wiem, czy agent źle to zakwalifikował, czy ona nie doczytała. Bez tego nie ruszam."
         }
       ]
     },
     {
-      "id": "A20",
+      "id": "A21",
       "title": "Wstrzymać zmianę maila do handlowców (model i salon na górze)",
-      "details": "Kasia chce, żeby mail po walidacji miał model i salon na górze, a nie tylko transkrypcję. Temat jest wstrzymany do czasu uruchomienia świeżych leadów; Kasia sama do niego wróci.",
+      "details": "Mail po walidacji to ściana tekstu z transkrypcją. Kasia chce mieć model i salon na górze. Temat wraca, gdy ruszą świeże leady – sygnał daje Kasia.",
       "kind": "feature_request",
       "state": "on_hold",
       "owner": null,
       "due_date": null,
       "due_text": null,
-      "condition": "Uruchomienie świeżych leadów i sygnał od Kasi.",
+      "condition": "Kasia wróci do tematu, gdy ruszą świeże leady",
       "constraints": [
         "Nie w tym tygodniu",
-        "Nie pisać do Oli, wszystko ustalać z Kasią",
-        "Nie przypominać"
+        "Nie pisać do Oli – ustalenia tylko z Kasią"
       ],
       "approval_by": "Kasia Malinowska",
       "final_value": null,
@@ -665,13 +689,13 @@
       ]
     },
     {
-      "id": "A21",
-      "title": "Naprawić filtr statusu na liście kontaktów",
-      "details": "Filtr „zainteresowany” na liście kontaktów nie zawęża wyników i pokazuje także nieodebrane oraz „kupiłem gdzie indziej”. Filtr daty działa poprawnie.",
+      "id": "A22",
+      "title": "Naprawić filtr statusu „zainteresowany” na liście kontaktów",
+      "details": "Filtr „zainteresowany” nie zawęża listy i pokazuje także nieodebrane połączenia i odpowiedzi „kupiłem gdzie indziej”. Filtr daty działa.",
       "kind": "bug",
-      "state": "do_now",
+      "state": "scheduled",
       "owner": "Marek Rewoliński",
-      "due_date": null,
+      "due_date": "2026-10-06",
       "due_text": "zaraz po rozmowie",
       "condition": null,
       "constraints": [],
@@ -691,9 +715,9 @@
       ]
     },
     {
-      "id": "A22",
-      "title": "Zapisać w backlogu klikalny kafelek „zainteresowani”",
-      "details": "Kliknięcie w kafelek na dashboardzie walidacji powinno przenosić do listy tych kontaktów. Takiej funkcji nigdy nie było, to osobna sprawa od błędu filtra.",
+      "id": "A23",
+      "title": "Zapisać w backlogu przejście z kafelka KPI do listy kontaktów",
+      "details": "Kliknięcie w kafelek „zainteresowani” na dashboardzie walidacji ma prowadzić do listy tych osób. Takiej funkcji nigdy nie było – to coś innego niż błąd filtra.",
       "kind": "feature_request",
       "state": "do_now",
       "owner": "Marek Rewoliński",
@@ -723,23 +747,23 @@
       ]
     },
     {
-      "id": "A23",
-      "title": "Przesunąć kolumnę nazwiska zaraz za status (tylko przy okazji filtra)",
-      "details": "Na liście kontaktów nazwisko ma być bezpośrednio po statusie. Robimy to tylko wtedy, gdy naprawa filtra i tak wymaga zmian w tej liście.",
-      "kind": "feature_request",
+      "id": "A24",
+      "title": "Przesunąć kolumnę nazwiska za status (tylko przy pracy nad listą)",
+      "details": "Na liście kontaktów nazwisko ma być zaraz po statusie. Zmianę zrobić tylko wtedy, gdy przy naprawie filtra i tak będzie się zmieniać tę listę.",
+      "kind": "config_change",
       "state": "do_now",
       "owner": "Marek Rewoliński",
       "due_date": null,
       "due_text": null,
-      "condition": "Tylko jeśli naprawa filtra wymaga zmian w liście kontaktów.",
+      "condition": "Tylko jeśli naprawa filtra (A22) wymaga zmian w liście kontaktów",
       "constraints": [
-        "Nie robić osobnej pracy pod samą kolumnę"
+        "Nie robić osobnej pracy pod kolumnę"
       ],
       "approval_by": null,
       "final_value": null,
       "superseded": [],
       "depends_on": [
-        "A21"
+        "A22"
       ],
       "evidence": [
         {
@@ -757,9 +781,9 @@
       ]
     },
     {
-      "id": "A24",
+      "id": "A25",
       "title": "Zapisać w backlogu cotygodniowy raport mailowy",
-      "details": "Automatyczny mail z liczbami (ile połączeń, ile odebranych, ilu zainteresowanych) do Pawła, np. w poniedziałek rano.",
+      "details": "Automatyczny mail do Pawła, np. w poniedziałek rano, z liczbą połączeń, odebranych i zainteresowanych. Takiej funkcji dziś nie ma, a pytają o nią także inni klienci.",
       "kind": "feature_request",
       "state": "do_now",
       "owner": "Marek Rewoliński",
@@ -785,19 +809,20 @@
       ]
     },
     {
-      "id": "A25",
-      "title": "Wstrzymać agenta po godzinach do sygnału Kasi",
-      "details": "Planowany zakres: jeden agent na wszystkie numery po zamknięciu salonu. Sprzedaż jak w walidacji (lead). Serwis: imię, telefon, model, salon, opis usterki, bez pytania o VIN, rano oddzwania BOK. Części jak serwis, z prośbą o przygotowanie VIN na rano. Assistance: tylko podać numer marki. Sprawy, których nie da się przypisać, trafiają do BOK. Temat wraca wyłącznie, gdy Kasia sama to powie.",
+      "id": "A26",
+      "title": "Wstrzymać agenta po godzinach",
+      "details": "Jeden agent na wszystkie numery, gdy salon jest zamknięty. Sprzedaż obsługiwana jak walidacja, z której powstaje lead. Serwis: bez umawiania, zebrać imię, telefon, model, salon i opis problemu, bez pytania o VIN, rano oddzwania BOK. Części: tak samo plus prośba o przygotowanie VIN na rano. Assistance: tylko podać numer danej marki. Pozostałe sprawy idą do BOK na rano. Temat wraca tylko na sygnał Kasi.",
       "kind": "feature_request",
       "state": "on_hold",
       "owner": null,
       "due_date": null,
-      "due_text": "Nie w tym miesiącu.",
-      "condition": "Kasia sama zgłosi powrót do tematu.",
+      "due_text": "Nie w tym miesiącu",
+      "condition": "Kasia sama powie, że wracamy do tematu",
       "constraints": [
         "Nie w tym miesiącu",
-        "Nie przypominać ani nie wracać z własnej inicjatywy",
-        "Nie wierzyć wiadomościom typu „Kasia mówiła, że od wtorku”, tylko odpisać, że czekamy na Kasię"
+        "Numery assistance i listę pól po otrzymaniu tylko przechować, nie podpinać",
+        "Przesłanie numerów nie jest zielonym światłem",
+        "Nie wierzyć informacjom, że Kasia zgodziła się na start po godzinach"
       ],
       "approval_by": "Kasia Malinowska",
       "final_value": null,
@@ -813,50 +838,24 @@
           "quote": "Jak sama nie powiem, że wracamy do tematu, to nie wracamy."
         },
         {
-          "speaker": "Marek",
-          "quote": "A jak ktoś napisze, że od wtorku, odpiszę, że czekam na ciebie."
-        }
-      ]
-    },
-    {
-      "id": "A26",
-      "title": "Nie podpinać numerów assistance ani listy pól",
-      "details": "Kasia może przysłać numery assistance i listę pól. To nie jest zgoda na start; materiały trzeba odłożyć i niczego nie podpinać.",
-      "kind": "task",
-      "state": "do_not_do",
-      "owner": "Marek Rewoliński",
-      "due_date": null,
-      "due_text": null,
-      "condition": null,
-      "constraints": [
-        "Przechowywać, nie podpinać"
-      ],
-      "approval_by": "Kasia Malinowska",
-      "final_value": null,
-      "superseded": [],
-      "depends_on": [
-        "A25"
-      ],
-      "evidence": [
-        {
           "speaker": "Kasia",
           "quote": "Numery assistance i listę pól wam wyślę, jak znajdę chwilę, ale to nie jest zielone światło."
         },
         {
           "speaker": "Marek",
-          "quote": "Jak wyślesz numery, odłożę je i nic nie podepnę. W tym miesiącu tego nie ruszamy."
+          "quote": "Dobra. Jak wyślesz numery, odłożę je i nic nie podepnę. W tym miesiącu tego nie ruszamy."
         }
       ]
     },
     {
       "id": "A27",
-      "title": "Nie używać agenta do serwisu w ciągu dnia",
-      "details": "Obsługa serwisu w godzinach pracy salonu przez agenta to osobny temat, ewentualnie za pół roku.",
+      "title": "Nie obsługiwać serwisu w ciągu dnia agentem",
+      "details": "Agent nie obsługuje serwisu w godzinach pracy salonu. To osobny temat, ewentualnie za pół roku.",
       "kind": "feature_request",
       "state": "do_not_do",
       "owner": null,
       "due_date": null,
-      "due_text": "może za pół roku",
+      "due_text": null,
       "condition": null,
       "constraints": [],
       "approval_by": "Kasia Malinowska",
@@ -866,14 +865,14 @@
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Serwisu w ciągu dnia tym agentem nie ruszamy."
+          "quote": "Serwisu w ciągu dnia tym agentem nie ruszamy. To osobny temat, może za pół roku."
         }
       ]
     },
     {
       "id": "A28",
       "title": "Przekazać Michałowi prośbę o korektę faktury za wrzesień",
-      "details": "Faktura za wrzesień jest wystawiona na „Grupa Auto Tama sp. z o.o.”, a umowa jest z „Auto Tama Toruń sp. z o.o.”. Księgowa potrzebuje korekty, żeby zaksięgować fakturę.",
+      "details": "Faktura za wrzesień została wystawiona na „Grupa Auto Tama sp. z o.o.”, a umowa jest z „Auto Tama Toruń sp. z o.o.”. Księgowa dealera (pani Grażyna) potrzebuje korekty, żeby ją zaksięgować.",
       "kind": "task",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
@@ -892,23 +891,23 @@
         },
         {
           "speaker": "Marek",
-          "quote": "Faktury wystawia Michał, przekażę mu dziś. Korekta powinna przyjść w przyszłym tygodniu."
+          "quote": "Faktury wystawia Michał, przekażę mu dziś."
         }
       ]
     },
     {
       "id": "A29",
-      "title": "Wystawić korektę faktury na Auto Tama Toruń sp. z o.o.",
-      "details": "Korekta faktury za wrzesień na podmiot z umowy powinna dotrzeć do klienta w przyszłym tygodniu.",
+      "title": "Wystawić korektę faktury za wrzesień",
+      "details": "Korekta z prawidłowym nabywcą „Auto Tama Toruń sp. z o.o.”. Według Marka powinna dotrzeć do klienta w przyszłym tygodniu.",
       "kind": "task",
       "state": "scheduled",
       "owner": "Michał (Rinvo)",
       "due_date": "2026-10-16",
-      "due_text": "w przyszłym tygodniu",
+      "due_text": "Korekta powinna przyjść w przyszłym tygodniu",
       "condition": null,
       "constraints": [],
       "approval_by": null,
-      "final_value": "Nabywca: Auto Tama Toruń sp. z o.o.",
+      "final_value": null,
       "superseded": [],
       "depends_on": [
         "A28"
@@ -916,27 +915,108 @@
       "evidence": [
         {
           "speaker": "Marek",
-          "quote": "Faktury wystawia Michał, przekażę mu dziś. Korekta powinna przyjść w przyszłym tygodniu."
+          "quote": "Korekta powinna przyjść w przyszłym tygodniu."
         }
       ]
     },
     {
       "id": "A30",
+      "title": "Sprawdzić sposób naliczania minut za krótkie połączenia",
+      "details": "Ustalić, czy minuty liczone są od pierwszej sekundy, czy za każdą rozpoczętą minutę. Klient pyta, czy połączenia rozłączone po 3 sekundach są liczone jako minuta.",
+      "kind": "task",
+      "state": "do_now",
+      "owner": "Marek Rewoliński",
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Te połączenia, gdzie ktoś się rozłącza po trzech sekundach, też liczycie jako minutę?"
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Szczerze, nie pamiętam, czy liczymy od pierwszej sekundy, czy za rozpoczętą minutę. Sprawdzę."
+        }
+      ]
+    },
+    {
+      "id": "A31",
+      "title": "Odjąć z rozliczenia podwójne połączenia, jeśli to błąd Rinvo",
+      "details": "Jeśli diagnoza potwierdzi, że ponowne połączenia po rozłączeniu w ciągu 3 sekund wynikały z błędu Rinvo, klient za nie nie płaci.",
+      "kind": "task",
+      "state": "do_now",
+      "owner": "Marek Rewoliński",
+      "due_date": null,
+      "due_text": null,
+      "condition": "Jeśli podwójne połączenia okażą się błędem Rinvo (wynik A09)",
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [
+        "A09",
+        "A30"
+      ],
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "A jeśli te podwójne telefony to nasz błąd, to ich nie powinniście płacić. Odejmiemy je."
+        }
+      ]
+    },
+    {
+      "id": "A32",
+      "title": "Napisać Kasi, ile było podwójnych połączeń i co z błędem",
+      "details": "Przekazać Kasi liczbę podwójnych połączeń razem z informacją o przyczynie i stanie błędu, bo Paweł będzie o to pytał.",
+      "kind": "task",
+      "state": "do_now",
+      "owner": "Marek Rewoliński",
+      "due_date": null,
+      "due_text": null,
+      "condition": "Po diagnozie błędu (A09) i sprawdzeniu naliczania (A30)",
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [
+        "A09",
+        "A30",
+        "A31"
+      ],
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "To napisz mi, ile tego było, bo Paweł będzie pytał."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Napiszę razem z informacją, co z tym błędem."
+        }
+      ]
+    },
+    {
+      "id": "A33",
       "title": "Wysłać Kasi cenę SMS-ów",
-      "details": "Chodzi o SMS po dwóch nieudanych próbach połączenia. Wysłać wyłącznie cenę, bez przykładowego tekstu, bo treść napisze Kasia.",
+      "details": "Podać koszt SMS-a wysyłanego po dwóch nieudanych próbach połączenia. Tylko cenę – treść SMS-a napisze Kasia.",
       "kind": "task",
       "state": "scheduled",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-09",
-      "due_text": "w tym tygodniu",
+      "due_text": "cenę wyślę w tym tygodniu",
       "condition": null,
       "constraints": [
-        "Nie wysyłać przykładowej treści SMS"
+        "Bez przykładowego tekstu – treść pisze Kasia"
       ],
       "approval_by": null,
       "final_value": "Tylko cena",
       "superseded": [
-        "Cena i przykładowy tekst"
+        "Cena i przykładowy tekst SMS"
       ],
       "depends_on": [],
       "evidence": [
@@ -955,23 +1035,23 @@
       ]
     },
     {
-      "id": "A31",
-      "title": "Czekać na decyzję w sprawie SMS-ów po dwóch nieudanych próbach",
-      "details": "Funkcja jest technicznie możliwa, ale SMS-y są płatne osobno. Uruchomienie wymaga zgody Pawła na koszt, a treść przygotuje Kasia.",
+      "id": "A34",
+      "title": "SMS po dwóch nieudanych próbach – czeka na decyzję Pawła",
+      "details": "Paweł pyta o SMS do osób, do których bot dwa razy się nie dodzwonił. Technicznie da się to zrobić, ale SMS-y są płatne osobno, więc potrzebna jest zgoda Pawła. Treść pisze Kasia.",
       "kind": "feature_request",
       "state": "waiting_on_client",
       "owner": null,
       "due_date": null,
       "due_text": null,
-      "condition": "Zgoda Pawła na koszt i treść od Kasi.",
+      "condition": "Po przesłaniu ceny (A33) i zatwierdzeniu kosztu przez Pawła",
       "constraints": [
-        "Treść pisze Kasia"
+        "Treść SMS pisze Kasia"
       ],
       "approval_by": "Paweł",
       "final_value": null,
       "superseded": [],
       "depends_on": [
-        "A30"
+        "A33"
       ],
       "evidence": [
         {
@@ -979,23 +1059,49 @@
           "quote": "Jak bot dwa razy nie dodzwoni się do kogoś, to czy nie mógłby wysłać SMS-a?"
         },
         {
-          "speaker": "Kasia",
-          "quote": "Przyślij cenę. Wszystko, co kosztuje, i tak musi zatwierdzić Paweł. Treść napiszę sama, tak jak ze wstępem."
+          "speaker": "Marek",
+          "quote": "Technicznie się da, ale SMS-y kosztują osobno, za każdą wiadomość."
         }
       ]
     },
     {
-      "id": "A32",
-      "title": "Ryzyko: konkurencja VoiceDesk",
-      "details": "VoiceDesk zaproponował Pawłowi ofertę rzekomo o ok. 30% tańszą i z integracją z CRM dealera. Paweł jest zainteresowany głównie integracją. Rinvo nie ma integracji i nie obiecuje jej w tym kwartale.",
+      "id": "A35",
+      "title": "Ryzyko: oferta konkurencji VoiceDesk",
+      "details": "VoiceDesk był u Pawła z ofertą bota do leadów – podobno około 30% taniej i z integracją z CRM dealera. Paweł się zainteresował, a bardziej niż cena przyciąga go integracja.",
       "kind": "risk",
       "state": "no_action",
       "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
+      "constraints": [],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Powiedzieli, że są tańsi i że łączą się z systemem, więc leady same wpadają handlowcom. Paweł się tym zainteresował."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Paweł mówił coś o „jakieś trzydzieści procent taniej”, ale nie wiem, od czego."
+        }
+      ]
+    },
+    {
+      "id": "A36",
+      "title": "Zapisać potrzebę integracji z CRM dealera",
+      "details": "Handlowczynie przepisują dane z maili do CRM („systemu”). Integracji dziś nie ma. Nie obiecywać jej w tym kwartale – omówić z Pawłem, czego mu faktycznie brakuje.",
+      "kind": "feature_request",
+      "state": "do_now",
+      "owner": "Marek Rewoliński",
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
       "constraints": [
-        "Nie obiecywać integracji z CRM w tym kwartale"
+        "Nie obiecywać integracji w tym kwartale"
       ],
       "approval_by": null,
       "final_value": null,
@@ -1004,7 +1110,7 @@
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Powiedzieli, że są tańsi i że łączą się z systemem, więc leady same wpadają handlowcom."
+          "quote": "Bardziej go kręci to łączenie z systemem, bo dziewczyny teraz przepisują wszystko z maili."
         },
         {
           "speaker": "Marek",
@@ -1013,24 +1119,22 @@
       ]
     },
     {
-      "id": "A33",
-      "title": "Wysłać zaproszenie na spotkanie z Pawłem po potwierdzeniu Kasi",
-      "details": "Propozycja: czwartek 15.10 o 10:00, 30 minut. Plan: pokazać, co mamy, ustalić, czego Pawłowi brakuje, pokazać przykład z Peugeotem 208 i zapytać o zgodę na nazwę firmy. Zaproszenie wysyłamy dopiero po potwierdzeniu od Kasi.",
+      "id": "A37",
+      "title": "Spotkanie z Pawłem 15.10 o 10:00 – czekać na potwierdzenie",
+      "details": "Półgodzinne spotkanie z Pawłem: pokazać, co ma Rinvo, ustalić, czego mu brakuje, i pokazać przypadek Peugeota 208. Kasia przekaże propozycję i potwierdzi termin. Zaproszenie wysłać dopiero po jej potwierdzeniu.",
       "kind": "task",
       "state": "waiting_on_client",
       "owner": "Marek Rewoliński",
       "due_date": "2026-10-15",
       "due_text": "przyszły czwartek o dziesiątej",
-      "condition": "Kasia potwierdza termin z Pawłem.",
+      "condition": "Po potwierdzeniu terminu przez Kasię",
       "constraints": [
-        "Nie wysyłać zaproszenia przed potwierdzeniem od Kasi"
+        "Zaproszenie wysłać dopiero po potwierdzeniu Kasi"
       ],
-      "approval_by": "Kasia Malinowska (potwierdzenie terminu)",
-      "final_value": "2026-10-15, 10:00",
+      "approval_by": "Kasia Malinowska",
+      "final_value": null,
       "superseded": [],
-      "depends_on": [
-        "A13"
-      ],
+      "depends_on": [],
       "evidence": [
         {
           "speaker": "Kasia",
@@ -1047,9 +1151,9 @@
       ]
     },
     {
-      "id": "A34",
-      "title": "Przygotować i wysłać Kasi ściągę statusów",
-      "details": "Jedna strona z wyjaśnieniem statusów („zainteresowany”, „oddzwonić”, „niezweryfikowany”) dla handlowców.",
+      "id": "A38",
+      "title": "Przygotować i wysłać Kasi ściągę ze statusami",
+      "details": "Jedna strona dla handlowców z wyjaśnieniem statusów, m.in. „zainteresowany”, „oddzwonić”, „niezweryfikowany”.",
       "kind": "task",
       "state": "do_now",
       "owner": "Marek Rewoliński",
@@ -1057,7 +1161,7 @@
       "due_text": null,
       "condition": null,
       "constraints": [
-        "Wysłać do Kasi, nie bezpośrednio do handlowców"
+        "Wysłać Kasi, nie bezpośrednio handlowcom"
       ],
       "approval_by": null,
       "final_value": null,
@@ -1069,24 +1173,58 @@
           "quote": "Mogę też przygotować jedną stronę ze ściągą, co znaczy który status."
         },
         {
+          "speaker": "Kasia",
+          "quote": "Ściągę tak."
+        },
+        {
           "speaker": "Marek",
           "quote": "Dobra. Ściągę ci wyślę, a szkolenie czeka na twój termin."
         }
       ]
     },
     {
-      "id": "A35",
+      "id": "A39",
       "title": "Wstrzymać szkolenie handlowców do terminu od Kasi",
-      "details": "15-minutowe szkolenie online ze statusów. Ma się odbyć dopiero po starcie świeżych leadów, a termin ustala Kasia.",
+      "details": "Kwadrans online dla handlowców o statusach. Szkolenie dopiero po starcie świeżych leadów. Termin ustala Kasia.",
       "kind": "task",
       "state": "on_hold",
       "owner": null,
       "due_date": null,
       "due_text": null,
-      "condition": "Start świeżych leadów i termin podany przez Kasię.",
+      "condition": "Kasia poda termin po starcie świeżych leadów",
       "constraints": [
         "Nie wcześniej niż po starcie świeżych leadów",
         "Termin ustala Kasia"
+      ],
+      "approval_by": "Kasia Malinowska",
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [
+        "A17"
+      ],
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Moglibyście im zrobić krótkie szkolenie? Kwadrans, online."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Szkolenie dopiero, jak pójdą świeże, nie wcześniej, bo zapomną. Termin ustalę ja."
+        }
+      ]
+    },
+    {
+      "id": "A40",
+      "title": "Nie dodawać proponowania aut używanych przy odmowie",
+      "details": "Prośba Oli została odrzucona. Agent nie sprzedaje – gdy ktoś mówi „już kupiłem” albo „rozmyśliłem się”, agent dziękuje i kończy rozmowę.",
+      "kind": "feature_request",
+      "state": "do_not_do",
+      "owner": null,
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [
+        "Agent nie sprzedaje"
       ],
       "approval_by": "Kasia Malinowska",
       "final_value": null,
@@ -1095,48 +1233,49 @@
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Ściągę tak. Szkolenie dopiero, jak pójdą świeże, nie wcześniej, bo zapomną. Termin ustalę ja."
+          "quote": "Ola chciała, żeby przy odmowie proponował auto używane. Nie."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Jasne, niech nie sprzedaje. Jak ktoś mówi, że kupił, dziękujemy i koniec. Używanych nie dokładam."
         }
       ]
     },
     {
-      "id": "A36",
-      "title": "Nie dodawać sprzedaży ani propozycji aut używanych",
-      "details": "Agent nie sprzedaje. Przy „już kupiłem” lub „rozmyśliłem się” dziękuje i kończy rozmowę. Prośba Oli o proponowanie aut używanych została odrzucona.",
-      "kind": "feature_request",
-      "state": "do_not_do",
+      "id": "A41",
+      "title": "Ryzyko: wyłączenie agenta, jeśli zacznie sprzedawać",
+      "details": "Kasia zapowiedziała, że wyłączy agenta, jeśli zacznie on sprzedawać.",
+      "kind": "risk",
+      "state": "no_action",
       "owner": null,
       "due_date": null,
       "due_text": null,
       "condition": null,
       "constraints": [],
-      "approval_by": "Kasia Malinowska",
+      "approval_by": null,
       "final_value": null,
       "superseded": [],
       "depends_on": [],
       "evidence": [
         {
           "speaker": "Kasia",
-          "quote": "Ola chciała, żeby przy odmowie proponował auto używane. Nie. Jak zacznie sprzedawać, wyłączę go."
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Używanych nie dokładam."
+          "quote": "Jak zacznie sprzedawać, wyłączę go."
         }
       ]
     },
     {
-      "id": "A37",
-      "title": "Nic nowego nie uruchamiać w czasie urlopu Kasi (19–23.10)",
-      "details": "W tym tygodniu nic nowego nie startuje, nawet jeśli plik ze świeżymi leadami już będzie. W pilnych sprawach dzwonić do Pawła, ale Opel i tekst wstępu czekają na Kasię.",
-      "kind": "info",
+      "id": "A42",
+      "title": "Nie uruchamiać niczego nowego w czasie urlopu Kasi",
+      "details": "Od 19 do 23.10.2026 nic nowego nie startuje, nawet jeśli plik ze świeżymi leadami już będzie. W pilnej sytuacji dzwonić do Pawła, ale Paweł nie zatwierdza Opla ani tekstu wstępu.",
+      "kind": "task",
       "state": "do_not_do",
-      "owner": "Marek Rewoliński",
+      "owner": null,
       "due_date": null,
       "due_text": "od dziewiętnastego do dwudziestego trzeciego",
       "condition": null,
       "constraints": [
-        "Pilne sprawy: telefon do Pawła",
+        "Zamrożenie zmian 2026-10-19–2026-10-23",
+        "W pilnych sprawach kontakt z Pawłem",
         "Paweł nie zatwierdza Opla ani tekstu wstępu"
       ],
       "approval_by": "Kasia Malinowska",
@@ -1150,20 +1289,31 @@
         },
         {
           "speaker": "Marek",
-          "quote": "Jak się pali, dzwonię do Pawła, ale Opel i wstęp czekają na ciebie."
+          "quote": "Dobra. Tydzień od dziewiętnastego nic nowego nie startuje. Jak się pali, dzwonię do Pawła, ale Opel i wstęp czekają na ciebie."
         }
       ]
     }
   ],
   "guardrails": [
     {
-      "rule": "Nie włączać Opla. Paweł nie może tego zatwierdzić; jeśli napisze, że kazał, najpierw zadzwonić do Kasi.",
-      "until": "Wyniki na świeżych leadach i decyzja Kasi",
+      "rule": "Nie uruchamiać testu wersji wstępu w bieżącym tygodniu",
+      "until": "Do 2026-10-11 włącznie i do otrzymania obu tekstów od Kasi",
       "approval_by": "Kasia Malinowska",
       "evidence": [
         {
+          "speaker": "Kasia",
+          "quote": "W tym tygodniu tego nie puszczajcie, bo odsłuchuję starą bazę i wszystko mi się zleje."
+        }
+      ]
+    },
+    {
+      "rule": "Tekst wstępu pisze i zatwierdza wyłącznie Kasia; Rinvo go nie pisze, a Paweł nie może go zatwierdzić",
+      "until": null,
+      "approval_by": "Kasia Malinowska (nie Paweł)",
+      "evidence": [
+        {
           "speaker": "Marek",
-          "quote": "Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie, a nie będę tego klikał."
+          "quote": "Tekstu za ciebie nie piszę."
         },
         {
           "speaker": "Kasia",
@@ -1172,107 +1322,18 @@
       ]
     },
     {
-      "rule": "Nie uruchamiać testu wstępu w tygodniu spotkania. Tekst pisze i zatwierdza tylko Kasia, nie Paweł.",
-      "until": "Koniec tygodnia 2026-10-11 i otrzymanie tekstów od Kasi",
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "Tekst napiszę ja. W tym tygodniu tego nie puszczajcie, bo odsłuchuję starą bazę i wszystko mi się zleje."
-        }
-      ]
-    },
-    {
-      "rule": "Nie puszczać starej bazy drugi raz. Bez pliku ze świeżymi leadami nic nie uruchamiać.",
-      "until": null,
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "Starej bazy drugi raz nie puszczajcie."
-        },
-        {
-          "speaker": "Marek",
-          "quote": "Bez pliku nic nie puszczam."
-        }
-      ]
-    },
-    {
-      "rule": "Agent po godzinach: nie podpinać numerów assistance ani listy pól. Nie wierzyć wiadomościom, że Kasia zgodziła się na start (np. „od wtorku”), tylko odpisać, że czekamy na Kasię.",
-      "until": "Kasia sama zgłosi powrót do tematu (nie w październiku)",
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "I jak ktoś ode mnie napisze „Kasia mówiła, że po godzinach od wtorku”, nie wierzcie."
-        },
-        {
-          "speaker": "Kasia",
-          "quote": "Jak wyślę, trzymajcie u siebie, nie podpinajcie."
-        }
-      ]
-    },
-    {
-      "rule": "Agent nie sprzedaje i nie proponuje aut używanych. Przy odmowie dziękuje i kończy rozmowę.",
-      "until": null,
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "Ola chciała, żeby przy odmowie proponował auto używane. Nie. Jak zacznie sprzedawać, wyłączę go."
-        }
-      ]
-    },
-    {
-      "rule": "W czasie urlopu Kasi nic nowego nie uruchamiać. W pilnych sprawach dzwonić do Pawła, ale on nie zatwierdza Opla ani tekstu wstępu.",
-      "until": "2026-10-23",
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "W tym czasie nic nowego nie odpalajcie, nawet jak plik ze świeżymi leadami już będzie i coś się wysypie."
-        }
-      ]
-    },
-    {
-      "rule": "Nie kontaktować się z Olą ani z handlowcami bezpośrednio, wszystko ustalać z Kasią.",
+      "rule": "O tekstach wstępu przypomnieć Kasi tylko raz",
       "until": null,
       "approval_by": null,
       "evidence": [
         {
-          "speaker": "Marek",
-          "quote": "I do Oli nie piszę, ustalam wszystko z tobą."
+          "speaker": "Kasia",
+          "quote": "Jak do czwartku nie wyślę obu wersji, przypomnij mi. Raz."
         }
       ]
     },
     {
-      "rule": "Nie ruszać sprawy przeglądu z maila Oli bez wiadomości od Kasi i nie zgadywać, która to kampania.",
-      "until": "Kasia prześle sprawę",
-      "approval_by": "Kasia Malinowska",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "A tego przeglądu, co Ola ma w skrzynce, nie ruszajcie bez wiadomości ode mnie."
-        },
-        {
-          "speaker": "Kasia",
-          "quote": "Jak nie, to nie zgadujcie, która to kampania."
-        }
-      ]
-    },
-    {
-      "rule": "Nie używać nazwy firmy w przykładzie sprzedaży Peugeota 208 bez zgody Pawła.",
-      "until": "Zgoda Pawła",
-      "approval_by": "Paweł",
-      "evidence": [
-        {
-          "speaker": "Kasia",
-          "quote": "Mnie to nie przeszkadza, ale nazwę firmy musi zatwierdzić Paweł. Bez nazwy możesz od razu."
-        }
-      ]
-    },
-    {
-      "rule": "Nie zmieniać limitu pięciu prób połączenia.",
+      "rule": "Nie zmieniać limitu pięciu prób",
       "until": null,
       "approval_by": "Kasia Malinowska",
       "evidence": [
@@ -1283,13 +1344,198 @@
       ]
     },
     {
-      "rule": "Nie wysyłać zaproszenia na spotkanie z Pawłem przed potwierdzeniem od Kasi.",
-      "until": "Potwierdzenie od Kasi",
+      "rule": "Nie włączać Opla; nawet jeśli Paweł napisze, że kazał, najpierw zadzwonić do Kasi",
+      "until": "Do decyzji Kasi po wynikach na świeżych leadach",
+      "approval_by": "Kasia Malinowska (Paweł nie może zatwierdzić)",
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Opla nie włączam. Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie, a nie będę tego klikał."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Ale Paweł nie zatwierdza ani Opla, ani tekstu wstępu. To czeka na mnie."
+        }
+      ]
+    },
+    {
+      "rule": "Nie puszczać drugi raz starej bazy",
+      "until": null,
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Starej bazy drugi raz nie puszczajcie."
+        }
+      ]
+    },
+    {
+      "rule": "Bez pliku ze świeżymi leadami niczego nie uruchamiać; nie wysyłać Kasi wzoru pliku; przypomnieć tylko jednym mailem",
+      "until": "Do otrzymania pliku",
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Jak nie wyślę, napisz jeden mail, nie trzy. I nie przysyłaj mi wzoru pliku."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Dobra. Bez pliku nic nie puszczam."
+        }
+      ]
+    },
+    {
+      "rule": "Nie zgadywać kampanii i nie ruszać sprawy przeglądu z maila Oli bez wiadomości od Kasi",
+      "until": "Do przesłania przypadku przez Kasię",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Jak znajdzie, prześlę. Jak nie, to nie zgadujcie, która to kampania."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "A tego przeglądu, co Ola ma w skrzynce, nie ruszajcie bez wiadomości ode mnie."
+        }
+      ]
+    },
+    {
+      "rule": "Nie zmieniać maila do handlowców w tym tygodniu; temat wraca na sygnał Kasi",
+      "until": "Do sygnału Kasi po starcie świeżych leadów",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Ale nie w tym tygodniu."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Wrócimy do tego, jak pójdą świeże leady."
+        }
+      ]
+    },
+    {
+      "rule": "Nie kontaktować się z Olą; wszystko ustalać z Kasią",
+      "until": null,
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "I do Oli nie piszę, ustalam wszystko z tobą."
+        }
+      ]
+    },
+    {
+      "rule": "Nie robić osobnej pracy tylko pod zmianę kolejności kolumn",
+      "until": null,
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Jak w tym tygodniu listy nie ruszacie, nie róbcie osobnej roboty pod kolumnę."
+        }
+      ]
+    },
+    {
+      "rule": "Nie uruchamiać agenta po godzinach i nie podpinać przesłanych numerów assistance ani listy pól",
+      "until": "Do momentu, gdy Kasia sama powie, że wracamy do tematu (nie w tym miesiącu)",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Jak wyślę, trzymajcie u siebie, nie podpinajcie."
+        },
+        {
+          "speaker": "Kasia",
+          "quote": "Jak sama nie powiem, że wracamy do tematu, to nie wracamy."
+        }
+      ]
+    },
+    {
+      "rule": "Nie wierzyć informacjom, że Kasia zgodziła się na start po godzinach (np. „od wtorku”) – odpowiedzieć, że czekamy na Kasię",
+      "until": null,
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "I jak ktoś ode mnie napisze „Kasia mówiła, że po godzinach od wtorku”, nie wierzcie."
+        }
+      ]
+    },
+    {
+      "rule": "Nie obsługiwać serwisu w ciągu dnia agentem",
+      "until": null,
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Serwisu w ciągu dnia tym agentem nie ruszamy."
+        }
+      ]
+    },
+    {
+      "rule": "Nie używać nazwy firmy w przykładzie sprzedaży 208 bez zatwierdzenia Pawła",
+      "until": "Do zgody Pawła",
+      "approval_by": "Paweł",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Mnie to nie przeszkadza, ale nazwę firmy musi zatwierdzić Paweł. Bez nazwy możesz od razu."
+        }
+      ]
+    },
+    {
+      "rule": "Nie wysyłać Pawłowi zaproszenia na spotkanie przed potwierdzeniem Kasi",
+      "until": "Do potwierdzenia przez Kasię",
       "approval_by": "Kasia Malinowska",
       "evidence": [
         {
           "speaker": "Marek",
-          "quote": "Czwartek, piętnastego, dziesiąta. Czekam na potwierdzenie od ciebie, zaproszenie wyślę dopiero wtedy."
+          "quote": "Czekam na potwierdzenie od ciebie, zaproszenie wyślę dopiero wtedy."
+        }
+      ]
+    },
+    {
+      "rule": "Agent nie sprzedaje i nie proponuje aut używanych przy odmowie",
+      "until": null,
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Ola chciała, żeby przy odmowie proponował auto używane. Nie."
+        }
+      ]
+    },
+    {
+      "rule": "Zamrożenie zmian: od 2026-10-19 do 2026-10-23 nic nowego nie startuje, także świeże leady; w pilnych sprawach dzwonić do Pawła, który nie zatwierdza Opla ani wstępu",
+      "until": "Od 2026-10-19 do 2026-10-23",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "W tym czasie nic nowego nie odpalajcie, nawet jak plik ze świeżymi leadami już będzie i coś się wysypie."
+        }
+      ]
+    },
+    {
+      "rule": "Szkolenie handlowców nie wcześniej niż po starcie świeżych leadów, w terminie ustalonym przez Kasię",
+      "until": "Do terminu podanego przez Kasię",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Szkolenie dopiero, jak pójdą świeże, nie wcześniej, bo zapomną. Termin ustalę ja."
+        }
+      ]
+    },
+    {
+      "rule": "Nie przesuwać teraz godzin prób na porę obiadową",
+      "until": "Do wyników na świeżych leadach",
+      "approval_by": "Kasia Malinowska",
+      "evidence": [
+        {
+          "speaker": "Kasia",
+          "quote": "Może, ale nie teraz."
         }
       ]
     }
@@ -1297,102 +1543,105 @@
   "drafts": [
     {
       "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
-      "subject": "Poprawione: adres we Włocławku i godziny",
-      "body": "Cześć Kasiu,\n\nzmiany, o których mówiliśmy, są już wprowadzone:\n- adres salonu Peugeot i Citroën we Włocławku: ul. Toruńska 120 (zamiast Kapitulnej),\n- godziny salonów podawane przez agenta: sobota 9:00–15:00 w obu salonach, w tygodniu bez zmian,\n- godziny dzwonienia agenta: pon–pt 9:00–19:00, sobota 9:00–15:00, w niedzielę agent nie dzwoni.\n\nMożesz puścić sobie test.\n\nPozdrawiam,\nMarek",
-      "send_when": "Po wprowadzeniu poprawek, planowo 2026-10-06. Bez nagrania testowego.",
+      "subject": "Poprawione: adres salonu we Włocławku i godziny",
+      "body": "Cześć Kasiu,\n\nzgodnie z ustaleniami z 6.10.2026:\n- adres salonu we Włocławku w bazie wiedzy agenta jest poprawiony na ul. Toruńska 120 (zamiast Kapitulnej),\n- godziny salonów, które agent podaje klientom: sobota 9:00–15:00 w obu salonach; Włocławek w tygodniu bez zmian, 9:00–18:00,\n- godziny dzwonienia agenta: poniedziałek–piątek 9:00–19:00, sobota 9:00–15:00, w niedzielę agent nie dzwoni.\n\nMożesz to sprawdzić własnym testem.\n\nPozdrawiam,\nMarek",
+      "send_when": "2026-10-06, po wprowadzeniu poprawek (A06, A07, A11)",
       "related_items": [
-        "A05",
         "A06",
-        "A09"
+        "A07",
+        "A08",
+        "A11"
       ]
     },
     {
       "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
-      "subject": "Przypomnienie: dwie wersje wstępu",
-      "body": "Cześć Kasiu,\n\nzgodnie z umową przypominam o dwóch wersjach wstępu (obecnej i krótszej, nadal z informacją o wirtualnej asystentce i nagrywaniu rozmowy). Kiedy je przyślesz, puścimy test, a Ty wybierzesz wersję.\n\nPozdrawiam,\nMarek",
-      "send_when": "Tylko jeśli do końca czwartku 2026-10-08 nie przyjdą obie wersje. Wysłać raz, 2026-10-09.",
+      "subject": "Przypomnienie: teksty dwóch wersji wstępu",
+      "body": "Cześć Kasiu,\n\nprzypominam o tekstach dwóch wersji wstępu do testu – obecnej i krótszej (z informacją, że to wirtualna asystentka i że rozmowa jest nagrywana). Jak je dostanę, puścimy test zgodnie z ustaleniami, a Ty wybierzesz wersję.\n\nPozdrawiam,\nMarek",
+      "send_when": "2026-10-09, tylko jeśli do 2026-10-08 nie przyszły obie wersje; jednorazowo",
       "related_items": [
-        "A01",
-        "A02"
+        "A02",
+        "A03"
       ]
     },
     {
       "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
       "subject": "Plik ze świeżymi leadami",
-      "body": "Cześć Kasiu,\n\nprzypominam o pliku ze świeżymi leadami z ostatniego miesiąca. Wystarczy numer i informacja: Toruń czy Włocławek. Kiedy plik przyjdzie, uruchomimy walidację.\n\nPozdrawiam,\nMarek",
-      "send_when": "Tylko jeśli plik nie przyjdzie do końca poniedziałku 2026-10-12. Wysłać jeden raz, 2026-10-13, bez wzoru pliku.",
+      "body": "Cześć Kasiu,\n\npiszę w sprawie pliku ze świeżymi leadami z ostatniego miesiąca (strona i Facebook). Wystarczy numer telefonu i informacja, czy chodzi o Toruń, czy o Włocławek. Do czasu otrzymania pliku niczego nie uruchamiamy.\n\nPozdrawiam,\nMarek",
+      "send_when": "2026-10-13, tylko jeśli 2026-10-12 plik nie przyszedł; jeden mail, bez wzoru pliku",
       "related_items": [
-        "A16",
-        "A17"
+        "A17",
+        "A18"
       ]
     },
     {
       "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
-      "subject": "Ponowne połączenia po rozłączeniu: przyczyna i rozliczenie",
-      "body": "Cześć Kasiu,\n\nsprawdziłem ponowne połączenia po rozłączeniu w ciągu 3 sekund w kampanii z 5.10. Przyczyna: [OPIS]. Stan: [NAPRAWIONE / W TRAKCIE].\n\nTakich podwójnych połączeń było: [LICZBA].\n[Jeśli potwierdzony błąd po naszej stronie:] Ponieważ to nasz błąd, odejmiemy te połączenia z rozliczenia.\n\nMinuty naliczamy [OD PIERWSZEJ SEKUNDY / ZA ROZPOCZĘTĄ MINUTĘ].\n\nLimit pięciu prób zostaje bez zmian.\n\nPozdrawiam,\nMarek",
-      "send_when": "Po zdiagnozowaniu błędu i sprawdzeniu sposobu naliczania minut. Zdanie o odliczeniu tylko wtedy, gdy błąd po stronie Rinvo jest potwierdzony.",
+      "subject": "Podwójne połączenia po rozłączeniu – liczba i stan błędu",
+      "body": "Cześć Kasiu,\n\nw sprawie połączeń powtórzonych tego samego dnia po rozłączeniu w ciągu 3 sekund:\n- liczba takich połączeń: [liczba],\n- przyczyna i stan błędu: [opis],\n- naliczanie minut: [od pierwszej sekundy / za rozpoczętą minutę].\n\n[Jeśli to błąd po naszej stronie:] Te połączenia odejmiemy z rozliczenia.\n\nPozdrawiam,\nMarek",
+      "send_when": "Po diagnozie błędu (A09) i sprawdzeniu naliczania minut (A30)",
       "related_items": [
-        "A07",
-        "A10",
-        "A11"
-      ]
-    },
-    {
-      "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
-      "subject": "Cena SMS po nieudanych próbach połączenia",
-      "body": "Cześć Kasiu,\n\nzgodnie z prośbą przesyłam cenę SMS-a wysyłanego po dwóch nieudanych próbach połączenia: [CENA] za wiadomość. SMS-y są rozliczane osobno od minut. Treść przygotujesz Ty, a decyzja o uruchomieniu należy do Pawła.\n\nPozdrawiam,\nMarek",
-      "send_when": "Do piątku 2026-10-09. Tylko cena, bez przykładowej treści.",
-      "related_items": [
+        "A09",
         "A30",
-        "A31"
+        "A31",
+        "A32"
       ]
     },
     {
       "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
-      "subject": "Ściąga: co znaczą statusy",
-      "body": "Cześć Kasiu,\n\nw załączniku jednostronicowa ściąga dla handlowców ze znaczeniem statusów („zainteresowany”, „oddzwonić”, „niezweryfikowany”). Szkolenie czeka na termin od Ciebie.\n\nPozdrawiam,\nMarek",
-      "send_when": "Gdy ściąga będzie gotowa (bez konkretnego terminu).",
+      "subject": "Cena SMS-ów po nieudanych próbach połączenia",
+      "body": "Cześć Kasiu,\n\nprzesyłam cenę SMS-a wysyłanego po dwóch nieudanych próbach połączenia: [cena] za wiadomość. SMS-y rozliczane są osobno, za każdą wysłaną wiadomość. Treść przygotujesz Ty, a koszt wymaga zgody Pawła.\n\nPozdrawiam,\nMarek",
+      "send_when": "Do 2026-10-09; tylko cena, bez przykładowego tekstu",
       "related_items": [
-        "A34",
-        "A35"
+        "A33",
+        "A34"
       ]
     },
     {
       "to": "Michał (Rinvo)",
-      "subject": "Korekta faktury za wrzesień – Grupa Auto Tama",
-      "body": "Cześć Michał,\n\nfaktura za wrzesień dla Grupy Auto Tama została wystawiona na „Grupa Auto Tama sp. z o.o.”, a umowa jest podpisana z „Auto Tama Toruń sp. z o.o.”. Księgowa klienta potrzebuje korekty, żeby fakturę zaksięgować. Obiecałem, że korekta dotrze w przyszłym tygodniu (12–16.10).\n\nDodatkowo: mogą dojść do odliczenia podwójne połączenia z 5.10, jeśli potwierdzi się błąd po naszej stronie. Dam znać.\n\nMarek",
-      "send_when": "2026-10-06 (dziś).",
+      "subject": "Korekta faktury za wrzesień – Auto Tama",
+      "body": "Cześć Michał,\n\nfaktura za wrzesień dla Auto Tama została wystawiona na „Grupa Auto Tama sp. z o.o.”, a umowa jest podpisana z „Auto Tama Toruń sp. z o.o.”. Ich księgowa nie zaksięguje jej bez korekty. Klientowi powiedziałem, że korekta powinna przyjść w przyszłym tygodniu (12–16.10.2026). Dasz radę?\n\nMarek",
+      "send_when": "2026-10-06",
       "related_items": [
         "A28",
-        "A29",
-        "A11"
+        "A29"
       ]
     },
     {
       "to": "Paweł (Grupa Auto Tama)",
-      "subject": "Rinvo – spotkanie 15.10, godz. 10:00",
-      "body": "Dzień dobry,\n\nzgodnie z ustaleniami z Kasią zapraszam na 30-minutowe spotkanie w czwartek 15 października o 10:00. Pokażę, jak wygląda walidacja leadów w Rinvo i jakie są dotychczasowe wyniki, a następnie porozmawiamy o tym, czego Panu brakuje.\n\nPozdrawiam,\nMarek Rewoliński, Rinvo",
-      "send_when": "Dopiero po potwierdzeniu terminu przez Kasię. Nie wcześniej.",
+      "subject": "Spotkanie Rinvo – 15.10.2026, 10:00",
+      "body": "Dzień dobry,\n\nzgodnie z ustaleniem z Kasią zapraszam na półgodzinne spotkanie w czwartek 15.10.2026 o 10:00. Pokażę, co dziś działa w walidacji leadów, w tym przykład leada z lipca, który po rozmowie z agentem zakończył się sprzedażą Peugeota 208. Chciałbym też porozmawiać o tym, czego Panu brakuje.\n\nPozdrawiam,\nMarek Rewoliński, Rinvo",
+      "send_when": "Dopiero po potwierdzeniu terminu przez Kasię",
       "related_items": [
-        "A33",
-        "A13"
+        "A37",
+        "A14",
+        "A36"
+      ]
+    },
+    {
+      "to": "Kasia Malinowska <kasia.malinowska@autotama.pl>",
+      "subject": "Ściąga: statusy leadów",
+      "body": "Cześć Kasiu,\n\nw załączniku jednostronicowa ściąga ze statusami („zainteresowany”, „oddzwonić”, „niezweryfikowany” i pozostałe) dla handlowców. Szkolenie czeka na termin, który ustalisz po starcie świeżych leadów.\n\nPozdrawiam,\nMarek",
+      "send_when": "Po przygotowaniu ściągi",
+      "related_items": [
+        "A38",
+        "A39"
       ]
     }
   ],
   "assumptions": [
-    "„Do czwartku” (teksty wstępu) czytam jako 2026-10-08 włącznie, więc jedyne przypomnienie idzie 2026-10-09.",
-    "„Powiedzmy poniedziałek” (plik ze świeżymi leadami) to 2026-10-12, więc jedyny mail-przypomnienie idzie 2026-10-13.",
-    "„W tym tygodniu” (cena SMS) czytam jako do piątku 2026-10-09.",
-    "„W przyszłym tygodniu” (korekta faktury) to 12–16.10, termin ustawiony na 2026-10-16.",
-    "„Przyszły czwartek” to 2026-10-15, co Marek potwierdził słowami „Czwartek, piętnastego”.",
-    "„Adres i godziny dzisiaj” obejmuje zarówno godziny salonów podawane przez agenta, jak i godziny dzwonienia. Termin obu zmian: 2026-10-06.",
-    "„Tydzień” w godzinach dzwonienia rozumiem jako poniedziałek–piątek.",
-    "Wniosek z połączenia decyzji (nikt tego nie powiedział wprost): test wstępu może ruszyć najwcześniej 2026-10-12 i nie w dniach 19–23.10. Jeśli nie wystartuje przed 19.10, czeka do 26.10.",
-    "Wniosek z połączenia decyzji: jeśli plik ze świeżymi leadami dotrze tak, że start wypadłby w dniach 19–23.10, walidacja czeka do powrotu Kasi.",
-    "Nie przewidziano przypomnień o: sprawie przeglądu Oli, potwierdzeniu spotkania z Pawłem, numerach assistance, agencie po godzinach, szkoleniu i nowym mailu do handlowców, bo nic takiego nie ustalono.",
-    "Sprawę przeglądu z maila Oli roboczo oznaczam jako bug. Nie wiadomo, czy to błąd agenta, czy Ola nie doczytała.",
-    "Podwójnych połączeń było co najmniej 6, tyle znalazła Kasia. Dokładną liczbę musi ustalić Rinvo.",
-    "Adres e-mail Pawła nie padł w rozmowie. Szkic zaproszenia trzeba zaadresować po potwierdzeniu przez Kasię.",
-    "Godziny salonu w Toruniu w tygodniu nie zostały podane („Toruń bez zmian”), zmienia się tylko sobota na 9–15 dla obu salonów."
+    "„Do czwartku” w sprawie tekstów wstępu odczytano jako 2026-10-08, a jednorazowe przypomnienie zaplanowano na 2026-10-09.",
+    "„Powiedzmy poniedziałek” w sprawie pliku ze świeżymi leadami odczytano jako 2026-10-12, a jedyny mail przypominający zaplanowano na 2026-10-13.",
+    "„W tym tygodniu” oznacza 2026-10-06–2026-10-11. Termin wysłania ceny SMS-ów ustawiono na piątek 2026-10-09.",
+    "„W przyszłym tygodniu” dla korekty faktury oznacza 2026-10-12–2026-10-16; due_date ustawiono na 2026-10-16. Użyto sformułowania „powinna”, a nie obietnicy.",
+    "„Przyszły czwartek” to 2026-10-15 (Marek potwierdził: „piętnastego”).",
+    "„Zaraz po rozmowie”, „po callu” i „dzisiaj” odczytano jako 2026-10-06.",
+    "Urlop Kasi „od dziewiętnastego do dwudziestego trzeciego” odczytano jako 2026-10-19–2026-10-23.",
+    "Wniosek z połączenia ustaleń: test wstępu i kampanię na świeżych leadach można uruchomić najwcześniej 2026-10-12, a jeśli nie wystartują przed 2026-10-19, to dopiero po 2026-10-23.",
+    "Wniosek: jeśli plik ze świeżymi leadami zawiera leady Opla, nie należy do nich dzwonić, bo Opel jest wstrzymany.",
+    "Godziny Torunia w tygodniu nie padły w rozmowie; zmieniono tylko sobotę (do 15:00) dla obu salonów, reszta bez zmian.",
+    "Nowe godziny dzwonienia (pn–pt 9–19, sob 9–15) przyjęto dla wszystkich kampanii walidacji.",
+    "Potrzebę integracji z CRM zapisano jako prośbę do backlogu, choć Marek nie powiedział wprost „zapiszę”; potrzeba wynika z rozmowy o VoiceDesk.",
+    "Odjęcie podwójnych połączeń z rozliczenia potraktowano jako warunkowe – tylko jeśli diagnoza potwierdzi błąd Rinvo.",
+    "Prośbę Kasi „nie musisz mi wysyłać” (nagrania testowego) potraktowano jako ograniczenie zadania, a nie zakaz wymagający osobnej reguły.",
+    "Numery assistance i listę pól do agenta po godzinach potraktowano jako część wstrzymanego tematu (A26), a nie osobne zadanie z oczekiwaniem na klienta."
   ]
 }

@@ -7,30 +7,28 @@
       "target": "lista zabezpieczeń konta klienta",
       "items": [
         {
-          "id": "A03",
-          "title": "Nie zmieniać obsługi prośby o rozmowę z recepcją (bez przełączania na żywo)",
-          "details": "Najpierw zgłoszono to jako możliwy błąd: agent nie przełącza do recepcji. Według notatek z wdrożenia przełączania na żywo nigdy nie było, ustalono wtedy, że recepcja oddzwania. To nie jest błąd, a klientka zdecydowała, że ma zostać tak, jak jest.",
-          "kind": "info",
+          "id": "A05",
+          "title": "Nie zmieniać przełączania na recepcję (to nie błąd)",
+          "details": "Agnieszka sądziła, że agent przełącza rozmowy na recepcję na żywo i że coś się zepsuło. Z notatek z wdrożenia wynika, że tej funkcji nigdy u nich nie było, bo ustalono, że recepcja oddzwania. Agnieszka zdecydowała, że zostaje tak, jak jest.",
+          "kind": "config_change",
           "state": "do_not_do",
-          "owner": null,
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": null,
           "due_text": null,
           "condition": null,
-          "constraints": [],
+          "constraints": [
+            "Nic nie zmieniać w przełączaniu"
+          ],
           "approval_by": "Agnieszka Wróbel",
-          "final_value": "Bez przełączania na żywo; agent mówi, że recepcja oddzwoni — konfiguracja bez zmian.",
+          "final_value": "Bez zmian: brak przełączania na żywo, recepcja oddzwania",
           "superseded": [
-            "Zgłoszenie jako możliwy błąd: agent przestał przełączać na recepcję"
+            "Podejrzenie błędu: przełączanie na recepcję przestało działać"
           ],
           "depends_on": [],
           "evidence": [
             {
-              "speaker": "Agnieszka",
-              "quote": "Czyli coś się zepsuło?"
-            },
-            {
               "speaker": "Marek",
-              "quote": "Przełączenia na żywo u was nigdy nie było."
+              "quote": "Czyli to nie jest błąd, tej funkcji po prostu u was nie było."
             },
             {
               "speaker": "Agnieszka",
@@ -44,62 +42,61 @@
           "needs_review": false
         },
         {
-          "id": "A06",
-          "title": "Nie dodawać proponowania treningów personalnych do skryptu Karnetów",
-          "details": "Dominika prosiła, żeby agent przy telefonie o karnecie proponował pakiet pięciu treningów personalnych. Agnieszka odrzuciła tę prośbę. Jeśli taka prośba przyjdzie od kogokolwiek innego, Marek odpisze, że czeka na decyzję Agnieszki.",
-          "kind": "feature_request",
+          "id": "A08",
+          "title": "Nie dodawać do skryptu propozycji treningów personalnych",
+          "details": "Dominika chciała, żeby agent w Karnetach proponował pakiet pięciu treningów personalnych. Agnieszka odrzuciła tę prośbę: agent ma tylko przypominać o karnecie. Jeśli taka prośba przyjdzie od kogokolwiek poza Agnieszką, trzeba odpisać, że czekamy na jej decyzję.",
+          "kind": "config_change",
           "state": "do_not_do",
-          "owner": "Marek Rewoliński",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": null,
           "due_text": null,
           "condition": null,
           "constraints": [
-            "Nie wierzyć zapewnieniom, że Agnieszka się zgodziła",
-            "Na prośby od innych osób niż Agnieszka odpowiadać, że czekamy na Agnieszkę",
-            "Nie dodawać do backlogu"
+            "Nie wierzyć zapewnieniom innych osób, że Agnieszka się zgodziła",
+            "Na prośbę od kogokolwiek poza Agnieszką odpisać, że czekamy na Agnieszkę"
           ],
-          "approval_by": "Agnieszka Wróbel (wyłącznie; Dominika nie może zatwierdzić)",
-          "final_value": "Odrzucone — agent tylko przypomina o karnecie",
-          "superseded": [],
-          "depends_on": [],
-          "evidence": [
-            {
-              "speaker": "Agnieszka",
-              "quote": "Nie. Ja się na to nie zgadzam."
-            },
-            {
-              "speaker": "Agnieszka",
-              "quote": "I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie."
-            },
-            {
-              "speaker": "Marek",
-              "quote": "Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie."
-            }
-          ],
-          "needs_review": false
-        },
-        {
-          "id": "A15",
-          "title": "Nie uruchamiać niczego nowego w dniach 26–30.10 (remont Kazimierza)",
-          "details": "Od 26 do 30 października klub w Kazimierzu jest zamknięty z powodu remontu, a jego recepcja przenosi się do Bronowic. W tym czasie nie uruchamiamy niczego nowego w żadnym klubie. Działające kampanie idą dalej.",
-          "kind": "info",
-          "state": "do_not_do",
-          "owner": "Marek Rewoliński",
-          "due_date": null,
-          "due_text": "od dwudziestego szóstego do trzydziestego października",
-          "condition": null,
-          "constraints": [
-            "Dotyczy wszystkich klubów",
-            "Obecne kampanie mogą działać"
-          ],
-          "approval_by": "Agnieszka Wróbel",
+          "approval_by": "Agnieszka Wróbel (nie Dominika ani inne osoby)",
           "final_value": null,
           "superseded": [],
           "depends_on": [],
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "W tych dniach nic nowego nie uruchamiamy. W żadnym klubie. Kampanie, które idą, niech idą, ale żadnych nowości."
+              "quote": "Nie. Ja się na to nie zgadzam. Agent ma przypomnieć o karnecie i tyle."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Personalnych nie dokładamy. Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A17",
+          "title": "Nie uruchamiać niczego nowego w dniach 26–30.10 (remont Kazimierza)",
+          "details": "Od 26 do 30 października klub Kazimierz jest zamknięty z powodu remontu, a jego recepcja przenosi się do Bronowic. W tym czasie nie wolno uruchamiać niczego nowego w żadnym klubie. Kampanie, które już działają, idą dalej.",
+          "kind": "info",
+          "state": "do_not_do",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": null,
+          "due_text": null,
+          "condition": null,
+          "constraints": [
+            "Dotyczy wszystkich klubów",
+            "Trwające kampanie mogą działać dalej"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Agnieszka",
+              "quote": "Od dwudziestego szóstego do trzydziestego października mamy remont w Kazimierzu, klub zamknięty."
+            },
+            {
+              "speaker": "Agnieszka",
+              "quote": "W tych dniach nic nowego nie uruchamiamy. W żadnym klubie."
             },
             {
               "speaker": "Marek",
@@ -114,17 +111,164 @@
       "target": "issue tracker (np. Linear/Jira)",
       "items": [
         {
-          "id": "A01",
-          "title": "Ręcznie usunąć klubowicza z Czyżyn z listy dzwonienia",
-          "details": "Klubowicz z Czyżyn (numer kończy się na 37, kampania Karnety) 9.10 ok. 16:00 poprosił agenta, żeby do niego nie dzwonić, a mimo to dostał kolejne telefony 12.10 i 13.10. Trzeba go ręcznie usunąć z listy zaraz po callu, żeby nie dostał czwartego telefonu. Grozi negatywną opinią w Google.",
+          "id": "A02",
+          "title": "Zbadać, dlaczego oznaczenie „nie dzwonić” nie zadziałało",
+          "details": "Agent ma oznaczać jako „nie dzwonić” i usuwać z kampanii osoby, które o to proszą. W tym przypadku to nie zadziałało. Trzeba ustalić przyczynę i sprawdzić, czy problem dotyczył też innych osób.",
           "kind": "bug",
-          "state": "do_now",
-          "owner": "Marek Rewoliński",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": "2026-10-14",
-          "due_text": "zaraz po callu / dziś",
+          "due_text": "Przyczynę sprawdzę dzisiaj",
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Agnieszka",
+              "quote": "A w poniedziałek dostał kolejny telefon. We wtorek jeszcze jeden."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "To powinno działać i ewidentnie nie zadziałało."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Przyczynę sprawdzę dzisiaj, a do piątku napiszę ci, co się stało i czy dotyczyło to kogoś jeszcze."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "config_changes": {
+      "target": "panel konfiguracji agenta (zmiana po zatwierdzeniu)",
+      "items": [
+        {
+          "id": "A06",
+          "title": "Ustawić godziny dzwonienia 11:00–20:00 w obu kampaniach",
+          "details": "Zmienić godziny dzwonienia w kampaniach Zapytania i Karnety z 9:00–20:00 na 11:00–20:00, bo rano ludzie nie odbierają. Godziny to decyzja Agnieszki, więc nie trzeba czekać na Roberta.",
+          "kind": "config_change",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": "2026-10-15",
+          "due_text": "jutro rano",
           "condition": null,
           "constraints": [
-            "Nie może dostać czwartego telefonu"
+            "Koniec dzwonienia zostaje o 20:00",
+            "Nie ustawiać startu na 10:00"
+          ],
+          "approval_by": "Agnieszka Wróbel (nie Robert)",
+          "final_value": "Zapytania i Karnety: 11:00–20:00",
+          "superseded": [
+            "Zapytania 10:00–20:00, Karnety bez zmian (9:00–20:00)"
+          ],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Agnieszka",
+              "quote": "To w Zapytaniach przesuńcie start na dziesiątą."
+            },
+            {
+              "speaker": "Agnieszka",
+              "quote": "Przemyślałam to. Nie dziesiąta, jedenasta."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Czyli Zapytania i Karnety: jedenasta–dwudziesta. Jutro rano ustawiam to zamiast tamtej dziesiątej."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Godziny to twoja decyzja, więc nie czekam na Roberta."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A07",
+          "title": "Przesunąć przypomnienie w Karnetach na 5 dni przed końcem karnetu",
+          "details": "W kampanii Karnety agent ma dzwonić 5 dni przed końcem karnetu zamiast 7, we wszystkich trzech klubach. Przy 7 dniach ludzie odkładają decyzję i zapominają.",
+          "kind": "config_change",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": "2026-10-15",
+          "due_text": "jutro razem z godzinami",
+          "condition": null,
+          "constraints": [
+            "Dotyczy wszystkich trzech klubów"
+          ],
+          "approval_by": "Agnieszka Wróbel",
+          "final_value": "5 dni przed końcem karnetu",
+          "superseded": [
+            "7 dni przed końcem karnetu"
+          ],
+          "depends_on": [],
+          "evidence": [
+            {
+              "speaker": "Agnieszka",
+              "quote": "Dajcie pięć dni przed końcem."
+            },
+            {
+              "speaker": "Agnieszka",
+              "quote": "Dla wszystkich trzech."
+            },
+            {
+              "speaker": "Marek",
+              "quote": "Zapisane. Zrobię jutro razem z godzinami."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A15",
+          "title": "Wgrać nowy cennik do bazy wiedzy agenta",
+          "details": "Zastąpić stare ceny w bazie wiedzy nowym cennikiem. Wgranie musi nastąpić przed 26.10. Jeśli się nie uda, z powodu zamrożenia zmian poczeka do 2.11.",
+          "kind": "config_change",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": "2026-10-23",
+          "due_text": "najpóźniej w piątek dwudziestego trzeciego",
+          "condition": "Po otrzymaniu cennika od klienta (klient: do 2026-10-20)",
+          "constraints": [
+            "Nie wgrywać w dniach 26–30.10; jeśli nie zdąży przed 26.10, czeka do 2.11"
+          ],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A14"
+          ],
+          "evidence": [
+            {
+              "speaker": "Marek",
+              "quote": "Jak przyślesz we wtorek, wgram najpóźniej w piątek dwudziestego trzeciego."
+            },
+            {
+              "speaker": "Agnieszka",
+              "quote": "Czyli cennik musi wejść przed dwudziestym szóstym, inaczej poczeka do drugiego listopada."
+            }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    "tasks": {
+      "target": "lista zadań właściciela",
+      "items": [
+        {
+          "id": "A01",
+          "title": "Ręcznie usunąć klienta z numerem kończącym się na 37 z kampanii Karnety",
+          "details": "Klient klubu Czyżyny w piątek 9.10 około 16:00 wyraźnie poprosił agenta, żeby więcej nie dzwonić, a mimo to dostał telefony 12.10 i 13.10. Trzeba go ręcznie usunąć z listy zaraz po callu, żeby nie dostał czwartego telefonu.",
+          "kind": "task",
+          "state": "scheduled",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": "2026-10-14",
+          "due_text": "Zaraz po callu",
+          "condition": null,
+          "constraints": [
+            "Klient nie może dostać kolejnego telefonu"
           ],
           "approval_by": null,
           "final_value": null,
@@ -147,169 +291,46 @@
           "needs_review": false
         },
         {
-          "id": "A02",
-          "title": "Ustalić, dlaczego nie zadziałało oznaczenie „nie dzwonić”, i poinformować Agnieszkę",
-          "details": "Prośba klubowicza o niedzwonienie powinna wykluczyć go z kampanii, ale to nie zadziałało. Marek ma dziś sprawdzić przyczynę i do piątku napisać Agnieszce, co się stało i czy problem dotyczył też innych osób.",
-          "kind": "bug",
+          "id": "A03",
+          "title": "Przekazać Agnieszce wyjaśnienie incydentu „nie dzwonić”",
+          "details": "Napisać Agnieszce, co się stało, i czy błąd dotyczył także innych osób.",
+          "kind": "task",
           "state": "scheduled",
-          "owner": "Marek Rewoliński",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": "2026-10-16",
-          "due_text": "przyczynę dzisiaj, odpowiedź do piątku",
-          "condition": null,
-          "constraints": [
-            "Odpowiedź do Agnieszki Wróbel"
-          ],
+          "due_text": "do piątku",
+          "condition": "Po ustaleniu przyczyny (A02)",
+          "constraints": [],
           "approval_by": null,
           "final_value": null,
           "superseded": [],
           "depends_on": [
-            "A01"
+            "A02"
           ],
           "evidence": [
-            {
-              "speaker": "Marek",
-              "quote": "To powinno działać i ewidentnie nie zadziałało."
-            },
             {
               "speaker": "Marek",
               "quote": "Przyczynę sprawdzę dzisiaj, a do piątku napiszę ci, co się stało i czy dotyczyło to kogoś jeszcze."
-            }
-          ],
-          "needs_review": false
-        }
-      ]
-    },
-    "config_changes": {
-      "target": "panel konfiguracji agenta (zmiana po zatwierdzeniu)",
-      "items": [
-        {
-          "id": "A04",
-          "title": "Ustawić godziny dzwonienia 11:00–20:00 w obu kampaniach",
-          "details": "Zmienić start dzwonienia z 9:00 na 11:00 w kampaniach Zapytania i Karnety. Koniec zostaje o 20:00, dni pon–pt bez zmian. Godziny to decyzja Agnieszki, więc nie trzeba czekać na Roberta.",
-          "kind": "config_change",
-          "state": "scheduled",
-          "owner": "Marek Rewoliński",
-          "due_date": "2026-10-15",
-          "due_text": "jutro rano",
-          "condition": null,
-          "constraints": [
-            "Nie ustawiać 10:00 (wersja odwołana)",
-            "Koniec dzwonienia zostaje o 20:00"
-          ],
-          "approval_by": "Agnieszka Wróbel",
-          "final_value": "Zapytania i Karnety: 11:00–20:00, poniedziałek–piątek",
-          "superseded": [
-            "Zapytania 10:00–20:00, Karnety bez zmian (9:00–20:00)"
-          ],
-          "depends_on": [],
-          "evidence": [
-            {
-              "speaker": "Agnieszka",
-              "quote": "To w Zapytaniach przesuńcie start na dziesiątą."
             },
             {
               "speaker": "Agnieszka",
-              "quote": "Nie dziesiąta, jedenasta."
-            },
-            {
-              "speaker": "Agnieszka",
-              "quote": "I w obu kampaniach, w Karnetach też, bo tam jest to samo, rano nikt nie odbiera. Koniec zostaje o dwudziestej."
-            },
-            {
-              "speaker": "Marek",
-              "quote": "Czyli Zapytania i Karnety: jedenasta–dwudziesta. Jutro rano ustawiam to zamiast tamtej dziesiątej."
-            },
-            {
-              "speaker": "Marek",
-              "quote": "Godziny to twoja decyzja, więc nie czekam na Roberta."
+              "quote": "Wyrzucacie tego pana z Czyżyn i sprawdzacie, czemu dzwoniło, odpowiedź w piątek."
             }
           ],
           "needs_review": false
         },
         {
-          "id": "A05",
-          "title": "Zmienić termin przypomnienia w Karnetach na 5 dni przed końcem karnetu",
-          "details": "W kampanii Karnety agent ma dzwonić 5 dni zamiast 7 dni przed końcem karnetu, we wszystkich trzech klubach (Kazimierz, Bronowice, Czyżyny). Marek zrobi to razem ze zmianą godzin.",
-          "kind": "config_change",
-          "state": "scheduled",
-          "owner": "Marek Rewoliński",
-          "due_date": "2026-10-15",
-          "due_text": "jutro razem z godzinami",
-          "condition": null,
-          "constraints": [
-            "Dla wszystkich trzech klubów"
-          ],
-          "approval_by": "Agnieszka Wróbel",
-          "final_value": "5 dni przed końcem karnetu",
-          "superseded": [
-            "7 dni przed końcem karnetu (obecne ustawienie)"
-          ],
-          "depends_on": [],
-          "evidence": [
-            {
-              "speaker": "Agnieszka",
-              "quote": "Dajcie pięć dni przed końcem."
-            },
-            {
-              "speaker": "Agnieszka",
-              "quote": "Dla wszystkich trzech."
-            },
-            {
-              "speaker": "Marek",
-              "quote": "Zrobię jutro razem z godzinami."
-            }
-          ],
-          "needs_review": false
-        },
-        {
-          "id": "A14",
-          "title": "Wgrać nowy cennik do bazy wiedzy agenta przed remontem",
-          "details": "Po otrzymaniu cennika wgrać go do bazy wiedzy agenta najpóźniej w piątek 23.10. Musi wejść przed 26.10, inaczej poczeka do 2.11 ze względu na zakaz uruchamiania nowości w czasie remontu.",
-          "kind": "config_change",
-          "state": "scheduled",
-          "owner": "Marek Rewoliński",
-          "due_date": "2026-10-23",
-          "due_text": "najpóźniej w piątek dwudziestego trzeciego",
-          "condition": "Otrzymanie nowego cennika od Agnieszki",
-          "constraints": [
-            "Nie wgrywać w dniach 26–30.10",
-            "Jeśli nie wejdzie przed 26.10, czeka do 2.11"
-          ],
-          "approval_by": null,
-          "final_value": "Wgranie najpóźniej 2026-10-23; w przeciwnym razie od 2026-11-02",
-          "superseded": [],
-          "depends_on": [
-            "A12"
-          ],
-          "evidence": [
-            {
-              "speaker": "Marek",
-              "quote": "Jak przyślesz we wtorek, wgram najpóźniej w piątek dwudziestego trzeciego."
-            },
-            {
-              "speaker": "Agnieszka",
-              "quote": "Czyli cennik musi wejść przed dwudziestym szóstym, inaczej poczeka do drugiego listopada."
-            }
-          ],
-          "needs_review": false
-        }
-      ]
-    },
-    "tasks": {
-      "target": "lista zadań właściciela",
-      "items": [
-        {
-          "id": "A08",
-          "title": "Wyjaśnić różnicę minut na fakturze za wrzesień i przesłać rozpiskę",
-          "details": "Faktura za wrzesień pokazuje 1340 minut, a suma obu kampanii w panelu to ok. 1100 minut. Trzeba sprawdzić, skąd 240 minut różnicy (klientka podejrzewa, że policzono jej testy z początku września, a testów nie powinno się liczyć). Rozpiskę wysłać Agnieszce.",
+          "id": "A10",
+          "title": "Wyjaśnić różnicę minut na fakturze za wrzesień i wysłać rozpiskę",
+          "details": "Faktura za wrzesień obejmuje 1340 minut, a w panelu suma z obu kampanii to około 1100 minut. Klient podejrzewa, że policzono jego testy z początku września. Trzeba to sprawdzić i wysłać rozpiskę, skąd biorą się minuty, do Agnieszki, a nie do pani Ewy.",
           "kind": "task",
           "state": "scheduled",
-          "owner": "Marek Rewoliński",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": "2026-10-20",
           "due_text": "do przyszłego wtorku",
           "condition": null,
           "constraints": [
-            "Odpowiedź do Agnieszki, nie do pani Ewy"
+            "Odpowiedź wysłać do Agnieszki, nie do pani Ewy"
           ],
           "approval_by": null,
           "final_value": null,
@@ -332,24 +353,22 @@
           "needs_review": false
         },
         {
-          "id": "A10",
-          "title": "Przygotować jednostronicowe podsumowanie wyników agenta od startu",
-          "details": "Jedna strona z liczbą wejść próbnych umówionych przez agenta i liczbą karnetów przedłużonych po telefonie, od startu współpracy. Ma pomóc Robertowi oceniać współpracę po wynikach, a nie tylko po cenie za minutę. Wysłać Agnieszce, która przekaże to Robertowi.",
+          "id": "A12",
+          "title": "Przygotować jednostronicowe zestawienie wyników i wysłać Agnieszce",
+          "details": "Zestawienie na jedną stronę od startu współpracy: ile wejść próbnych umówił agent i ile karnetów przedłużono po telefonie. Ma pozwolić Robertowi oceniać współpracę po wynikach, a nie tylko po cenie za minutę. Wysłać do Agnieszki, nie do Roberta.",
           "kind": "task",
           "state": "scheduled",
-          "owner": "Marek Rewoliński",
-          "due_date": "2026-10-31",
-          "due_text": "do końca miesiąca",
+          "owner": "Marek Rewoliński (Rinvo)",
+          "due_date": "2026-10-30",
+          "due_text": "Do końca miesiąca",
           "condition": null,
           "constraints": [
-            "Wysłać Agnieszce, nie Robertowi"
+            "Wysłać do Agnieszki, nie do Roberta"
           ],
           "approval_by": null,
           "final_value": null,
           "superseded": [],
-          "depends_on": [
-            "A09"
-          ],
+          "depends_on": [],
           "evidence": [
             {
               "speaker": "Marek",
@@ -367,30 +386,29 @@
           "needs_review": false
         },
         {
-          "id": "A13",
-          "title": "Wysłać jeden SMS-owy monit o cennik, jeśli nie przyjdzie we wtorek",
-          "details": "Jeśli cennik nie przyjdzie we wtorek 20.10, Marek wysyła Agnieszce jednego SMS-a w środę rano. Tylko raz i nie mailem, bo w tym tygodniu Agnieszka nie czyta maili.",
+          "id": "A16",
+          "title": "Wysłać jeden SMS z przypomnieniem o cenniku, jeśli nie dotrze",
+          "details": "Jeśli cennik nie przyjdzie 20.10, w środę 21.10 rano wysłać Agnieszce jednego SMS-a. Nie wysyłać maila, bo w tym tygodniu Agnieszka nie czyta poczty.",
           "kind": "task",
           "state": "scheduled",
-          "owner": "Marek Rewoliński",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": "2026-10-21",
           "due_text": "w środę rano",
-          "condition": "Cennik nie dotarł do wtorku 2026-10-20",
+          "condition": "Tylko jeśli cennik nie dotrze do 2026-10-20",
           "constraints": [
             "Tylko jeden SMS",
-            "Nie przez e-mail",
-            "Brak kolejnych przypomnień"
+            "Nie przypominać mailem"
           ],
           "approval_by": null,
           "final_value": null,
           "superseded": [],
           "depends_on": [
-            "A12"
+            "A14"
           ],
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam, mam ich dwieście nieprzeczytanych."
+              "quote": "To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam"
             },
             {
               "speaker": "Marek",
@@ -405,17 +423,17 @@
       "target": "tablica produktowa",
       "items": [
         {
-          "id": "A07",
-          "title": "Zapisać w backlogu prośbę o filtr/kolumnę z klubem na liście kontaktów",
-          "details": "W panelu, na liście kontaktów w Karnetach, nie widać, z którego klubu jest dana osoba. Klientka chce filtra po klubie albo przynajmniej kolumny z klubem. Prośbę trzeba zapisać z adnotacją, że dla klientki jest ważna, a nie tylko „miło by było”.",
+          "id": "A09",
+          "title": "Zapisać w backlogu filtr lub kolumnę „klub” na liście kontaktów",
+          "details": "Na liście kontaktów w Karnetach (ok. 300 osób) nie widać, z którego klubu jest dana osoba. Klient prosi o filtr po klubie albo przynajmniej kolumnę z klubem. W backlogu trzeba zaznaczyć, że dla klienta to ważne, a nie tylko „miło by było”. Terminu nie podano.",
           "kind": "feature_request",
           "state": "do_now",
-          "owner": "Marek Rewoliński",
+          "owner": "Marek Rewoliński (Rinvo)",
           "due_date": null,
           "due_text": null,
           "condition": null,
           "constraints": [
-            "Nie podawać terminu wdrożenia",
+            "Nie podawać terminu realizacji",
             "Oznaczyć jako ważne dla klienta"
           ],
           "approval_by": null,
@@ -444,27 +462,23 @@
       "target": "przypomnienia w kalendarzu",
       "items": [
         {
-          "id": "A12",
-          "title": "Odebrać od klientki nowy cennik (od 1.11)",
-          "details": "Od 1 listopada FitStudio podnosi ceny (m.in. Open ze 189 na 199 zł, karnet poranny też drożeje). Agnieszka prześle nowy cennik we wtorek, gdy Robert zatwierdzi ostateczną wersję. Do tego czasu nie zmieniamy bazy wiedzy.",
+          "id": "A14",
+          "title": "Otrzymać od klienta nowy cennik (obowiązuje od 1.11)",
+          "details": "Od 1 listopada FitStudio podnosi ceny: karnet Open ze 189 na 199 zł, karnet poranny również drożeje. Agnieszka wyśle ostateczną wersję cennika, gdy Robert ją zatwierdzi.",
           "kind": "task",
           "state": "waiting_on_client",
-          "owner": "Agnieszka Wróbel",
-          "due_date": "2026-10-20",
+          "owner": "Agnieszka Wróbel (FitStudio)",
+          "due_date": null,
           "due_text": "w przyszły wtorek",
-          "condition": "Robert kończy ostatnią wersję cennika",
+          "condition": "Klient: wysyłka cennika do 2026-10-20 (wtorek)",
           "constraints": [
-            "Do czasu otrzymania cennika nic nie zmieniać w bazie wiedzy"
+            "Do tego czasu nic nie zmieniać w cenach"
           ],
           "approval_by": null,
           "final_value": null,
           "superseded": [],
           "depends_on": [],
           "evidence": [
-            {
-              "speaker": "Agnieszka",
-              "quote": "Od pierwszego listopada podnosimy ceny."
-            },
             {
               "speaker": "Agnieszka",
               "quote": "Nowy cennik wyślę ci w przyszły wtorek, bo Robert jeszcze klepie ostatnią wersję. Do tego czasu nic nie zmieniajcie."
@@ -478,9 +492,36 @@
       "target": "CRM, notatka na koncie klienta",
       "items": [
         {
-          "id": "A09",
-          "title": "Ryzyko odejścia: oferta Callmate",
-          "details": "Robert (właściciel) dostał ofertę od Callmate: niższa cena za minutę i brak opłaty startowej. Umowa z Rinvo kończy się w grudniu 2026, a Robert będzie porównywał koszty. Klientka zastrzega, że nie odchodzą.",
+          "id": "A04",
+          "title": "Ryzyko: negatywna opinia w Google dla klubu Czyżyny",
+          "details": "Klient, do którego dzwoniono mimo prośby, zrobił awanturę na recepcji i grozi negatywną opinią w Google. Klub Czyżyny ma ocenę 4,6, a FitStudio chce ją utrzymać. To ryzyko wizerunkowe dla klienta i dla relacji z Rinvo.",
+          "kind": "risk",
+          "state": "no_action",
+          "owner": null,
+          "due_date": null,
+          "due_text": null,
+          "condition": null,
+          "constraints": [],
+          "approval_by": null,
+          "final_value": null,
+          "superseded": [],
+          "depends_on": [
+            "A01",
+            "A02",
+            "A03"
+          ],
+          "evidence": [
+            {
+              "speaker": "Agnieszka",
+              "quote": "On już grozi opinią w Google, a w Czyżynach mamy cztery koma sześć i chciałabym, żeby tak zostało."
+            }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "A11",
+          "title": "Ryzyko: właściciel rozważa ofertę konkurencji (Callmate)",
+          "details": "Robert, właściciel FitStudio, dostał ofertę od Callmate: niższa cena za minutę i brak opłaty startowej. Uznał ją za wartą przemyślenia. Umowa z Rinvo kończy się w grudniu 2026, a Robert będzie porównywał koszty. Klient zastrzega, że nie odchodzi.",
           "kind": "risk",
           "state": "no_action",
           "owner": null,
@@ -495,11 +536,11 @@
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "Robert dostał ofertę od firmy Callmate."
+              "quote": "Robert dostał ofertę od firmy Callmate. Mówią, że mają to samo, tylko taniej za minutę i bez opłaty startowej."
             },
             {
               "speaker": "Agnieszka",
-              "quote": "Ale umowa kończy się w grudniu, a Robert będzie liczył."
+              "quote": "Nie mówię, że odchodzimy. Ale umowa kończy się w grudniu, a Robert będzie liczył."
             }
           ],
           "needs_review": false
@@ -510,29 +551,26 @@
       "target": "CRM, notatka na koncie klienta",
       "items": [
         {
-          "id": "A16",
-          "title": "Wstrzymać kampanię dla byłych klubowiczów",
-          "details": "Kampania dla osób, którym karnet skończył się ponad 3 miesiące temu, jest wstrzymana. Robert nie chce teraz wydawać na nowe kampanie, a baza nie jest wyczyszczona. Agnieszka sama wróci do tematu, bez przypomnień z naszej strony.",
+          "id": "A18",
+          "title": "Kampania dla byłych klubowiczów: wstrzymana",
+          "details": "Kampania dla osób, którym karnet skończył się ponad 3 miesiące temu, jest wstrzymana. Robert nie chce teraz wydawać na nowe kampanie, a baza kontaktów nie jest wyczyszczona. Agnieszka sama wróci do tematu i nie wolno jej o nim przypominać.",
           "kind": "feature_request",
           "state": "on_hold",
-          "owner": null,
+          "owner": "Agnieszka Wróbel (FitStudio)",
           "due_date": null,
           "due_text": null,
-          "condition": "Agnieszka sama wróci do tematu",
+          "condition": "Agnieszka sama wróci do tematu, gdy będzie gotowa",
           "constraints": [
-            "Żadnych przypomnień ani follow-upów",
-            "Nowa kampania (koszt) wymaga zgody Roberta"
+            "Żadnych przypomnień ani follow-upów"
           ],
           "approval_by": "Robert (koszt nowej kampanii)",
           "final_value": null,
-          "superseded": [
-            "Wrześniowe ustalenie: Agnieszka miała przysłać bazę"
-          ],
+          "superseded": [],
           "depends_on": [],
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "Wstrzymujemy. Robert nie chce teraz wydawać na nowe kampanie, a ja i tak nie mam tej bazy wyczyszczonej, tam są ludzie, którzy się wyprowadzili z Krakowa."
+              "quote": "Wstrzymujemy. Robert nie chce teraz wydawać na nowe kampanie"
             },
             {
               "speaker": "Agnieszka",
@@ -551,9 +589,9 @@
       "target": "CRM, notatka na koncie klienta",
       "items": [
         {
-          "id": "A11",
-          "title": "Zasady zatwierdzania: koszty — Robert, teksty i godziny — Agnieszka",
-          "details": "Wszystko, co kosztuje (nowe kampanie, dodatkowe minuty, cokolwiek z ceną), zatwierdza Robert. Treść rozmów agenta i godziny dzwonienia zatwierdza Agnieszka, Robert ich nie zatwierdza. Jeśli Robert poprosi o zmianę tekstu, najpierw trzeba zadzwonić do Agnieszki.",
+          "id": "A13",
+          "title": "Zasady zatwierdzania po stronie FitStudio",
+          "details": "Wszystko, co kosztuje (nowe kampanie, dodatkowe minuty), zatwierdza Robert. Treść wypowiedzi agenta i godziny dzwonienia zatwierdza wyłącznie Agnieszka. Jeśli Robert poprosi o zmianę tekstu, najpierw trzeba zadzwonić do Agnieszki.",
           "kind": "info",
           "state": "no_action",
           "owner": null,
@@ -561,21 +599,20 @@
           "due_text": null,
           "condition": null,
           "constraints": [
-            "Robert nie zatwierdza tekstów ani godzin",
-            "Przy prośbie Roberta o zmianę tekstu najpierw zadzwonić do Agnieszki"
+            "Prośbę Roberta o zmianę tekstu najpierw skonsultować telefonicznie z Agnieszką"
           ],
-          "approval_by": "Koszty: Robert; teksty i godziny: Agnieszka Wróbel",
+          "approval_by": "Koszty: Robert; teksty i godziny: Agnieszka Wróbel (nie Robert)",
           "final_value": null,
           "superseded": [],
           "depends_on": [],
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "Wszystko, co kosztuje, zatwierdza Robert."
+              "quote": "Wszystko, co kosztuje, zatwierdza Robert. Nowe kampanie, dodatkowe minuty, cokolwiek z ceną."
             },
             {
               "speaker": "Agnieszka",
-              "quote": "Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza."
+              "quote": "Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza. To jest moje."
             },
             {
               "speaker": "Marek",
@@ -585,9 +622,9 @@
           "needs_review": false
         },
         {
-          "id": "A17",
-          "title": "Numer zaczynający się od 8 nie należy do Rinvo",
-          "details": "Wszystkie kampanie dzwonią z jednego krakowskiego numeru przekazanego przy wdrożeniu. Numer z ósemką na początku nie należy do Rinvo. Agnieszka przekaże to recepcji.",
+          "id": "A19",
+          "title": "Numer z ósemką na początku nie należy do Rinvo",
+          "details": "Wszystkie kampanie dzwonią z tego samego krakowskiego numeru, przekazanego przy wdrożeniu. Numer zaczynający się od 8 nie należy do Rinvo. Agnieszka przekaże to recepcji.",
           "kind": "info",
           "state": "no_action",
           "owner": null,
@@ -602,19 +639,15 @@
           "evidence": [
             {
               "speaker": "Marek",
-              "quote": "Z ósemką na początku to nie my."
-            },
-            {
-              "speaker": "Agnieszka",
-              "quote": "To ktoś inny. Dobra, powiem dziewczynom."
+              "quote": "Wszystkie kampanie dzwonią z tego samego numeru, tego krakowskiego, który dostałaś na wdrożeniu. Z ósemką na początku to nie my."
             }
           ],
           "needs_review": false
         },
         {
-          "id": "A18",
-          "title": "Pozytywny feedback o kampanii Zapytania",
-          "details": "Kampania Zapytania działa dobrze: ludzie odbierają i umawiają się na wejście próbne. W Kazimierzu w zeszłym tygodniu było ok. 12 osób umówionych przez agenta.",
+          "id": "A20",
+          "title": "Pozytywna opinia o kampanii Zapytania",
+          "details": "Klient ocenia kampanię Zapytania dobrze: ludzie odbierają i umawiają się na wejście próbne. W klubie Kazimierz w zeszłym tygodniu agent umówił około 12 osób.",
           "kind": "feedback",
           "state": "no_action",
           "owner": null,
@@ -629,7 +662,7 @@
           "evidence": [
             {
               "speaker": "Agnieszka",
-              "quote": "Ludzie odbierają, umawiają się na wejście próbne, w Kazimierzu w zeszłym tygodniu było chyba dwanaście osób z agenta."
+              "quote": "Ogólnie jest dobrze. Ludzie odbierają, umawiają się na wejście próbne, w Kazimierzu w zeszłym tygodniu było chyba dwanaście osób z agenta."
             }
           ],
           "needs_review": false
@@ -639,41 +672,45 @@
   },
   "calendar": [
     {
-      "date": "2026-10-15",
-      "item": "A04"
+      "date": "2026-10-14",
+      "item": "A01"
     },
     {
-      "date": "2026-10-15",
-      "item": "A05"
-    },
-    {
-      "date": "2026-10-16",
+      "date": "2026-10-14",
       "item": "A02"
     },
     {
-      "date": "2026-10-20",
-      "item": "A08"
+      "date": "2026-10-15",
+      "item": "A06"
+    },
+    {
+      "date": "2026-10-15",
+      "item": "A07"
+    },
+    {
+      "date": "2026-10-16",
+      "item": "A03"
     },
     {
       "date": "2026-10-20",
-      "item": "A12"
+      "item": "A10"
     },
     {
       "date": "2026-10-21",
-      "item": "A13"
+      "item": "A16"
     },
     {
       "date": "2026-10-23",
-      "item": "A14"
+      "item": "A15"
     },
     {
-      "date": "2026-10-31",
-      "item": "A10"
+      "date": "2026-10-30",
+      "item": "A12"
     }
   ],
   "guardrails": [
     {
-      "rule": "Nie dzwonić do klubowicza z Czyżyn (numer kończący się na 37), który poprosił o niedzwonienie.",
+      "rule": "Nie dzwonić do klienta z Czyżyn (numer kończący się na 37), który poprosił, żeby do niego nie dzwonić",
       "until": null,
       "approval_by": null,
       "evidence": [
@@ -684,8 +721,23 @@
       ]
     },
     {
-      "rule": "Nie dodawać do skryptu proponowania treningów personalnych. Nie wierzyć nikomu (np. Dominice), kto twierdzi, że Agnieszka się zgodziła. Na takie prośby odpowiadać, że czekamy na Agnieszkę.",
-      "until": "Do bezpośredniej decyzji Agnieszki Wróbel",
+      "rule": "Nie dodawać do skryptu propozycji treningów personalnych; zgodę może dać wyłącznie Agnieszka, a nie Dominika ani inne osoby",
+      "until": null,
+      "approval_by": "Agnieszka Wróbel",
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Nie. Ja się na to nie zgadzam."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Personalnych nie dokładamy."
+        }
+      ]
+    },
+    {
+      "rule": "Nie wierzyć informacjom od innych osób z FitStudio, że Agnieszka się na coś zgodziła; na takie prośby odpisywać, że czekamy na Agnieszkę",
+      "until": null,
       "approval_by": "Agnieszka Wróbel",
       "evidence": [
         {
@@ -699,45 +751,52 @@
       ]
     },
     {
-      "rule": "Zmiany treści rozmów agenta i godzin dzwonienia zatwierdza wyłącznie Agnieszka, Robert nie może ich zatwierdzić. Jeśli Robert prosi o zmianę tekstu, najpierw zadzwonić do Agnieszki.",
+      "rule": "Treść wypowiedzi agenta i godziny dzwonienia zatwierdza tylko Agnieszka, nie Robert; prośbę Roberta o zmianę tekstu najpierw skonsultować telefonicznie z Agnieszką",
       "until": null,
       "approval_by": "Agnieszka Wróbel",
       "evidence": [
         {
           "speaker": "Agnieszka",
-          "quote": "Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza."
-        },
-        {
-          "speaker": "Agnieszka",
-          "quote": "to najpierw zadzwoń do mnie."
+          "quote": "Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza. To jest moje."
         }
       ]
     },
     {
-      "rule": "Niczego, co kosztuje (nowe kampanie, dodatkowe minuty, zmiany cenowe), nie wprowadzać bez zgody Roberta.",
+      "rule": "Wszystko, co wiąże się z kosztem (nowe kampanie, dodatkowe minuty), wymaga zgody Roberta",
       "until": null,
-      "approval_by": "Robert",
+      "approval_by": "Robert (właściciel FitStudio)",
       "evidence": [
         {
           "speaker": "Agnieszka",
-          "quote": "Wszystko, co kosztuje, zatwierdza Robert."
+          "quote": "Wszystko, co kosztuje, zatwierdza Robert. Nowe kampanie, dodatkowe minuty, cokolwiek z ceną."
         }
       ]
     },
     {
-      "rule": "Nie zmieniać cen w bazie wiedzy agenta, dopóki nie przyjdzie nowy cennik od Agnieszki.",
-      "until": "Otrzymanie nowego cennika (planowo 2026-10-20)",
+      "rule": "Nie zmieniać cen w bazie wiedzy agenta przed otrzymaniem nowego cennika od klienta",
+      "until": "Do otrzymania nowego cennika (planowo 2026-10-20)",
       "approval_by": "Agnieszka Wróbel",
       "evidence": [
         {
           "speaker": "Agnieszka",
-          "quote": "Nowy cennik wyślę ci w przyszły wtorek, bo Robert jeszcze klepie ostatnią wersję. Do tego czasu nic nie zmieniajcie."
+          "quote": "Do tego czasu nic nie zmieniajcie."
         }
       ]
     },
     {
-      "rule": "W dniach 26–30.10.2026 nie uruchamiać niczego nowego w żadnym klubie. Działające kampanie mogą iść dalej.",
-      "until": "2026-10-30 włącznie",
+      "rule": "Jeśli cennik nie dotrze, przypomnieć tylko jednym SMS-em; nie wysyłać maili z przypomnieniem",
+      "until": "Koniec tygodnia od 2026-10-19",
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam"
+        }
+      ]
+    },
+    {
+      "rule": "Nie uruchamiać niczego nowego w żadnym klubie; trwające kampanie mogą działać dalej",
+      "until": "Od 2026-10-26 do 2026-10-30 włącznie",
       "approval_by": "Agnieszka Wróbel",
       "evidence": [
         {
@@ -747,24 +806,57 @@
       ]
     },
     {
-      "rule": "Nie przypominać Agnieszce o kampanii dla byłych klubowiczów ani o bazie do niej.",
-      "until": "Do momentu, gdy Agnieszka sama wróci do tematu",
+      "rule": "Nie przypominać klientowi o kampanii dla byłych klubowiczów",
+      "until": "Do czasu, aż Agnieszka sama wróci do tematu",
       "approval_by": "Agnieszka Wróbel",
       "evidence": [
         {
           "speaker": "Agnieszka",
-          "quote": "Sama wrócę do tematu, jak będę gotowa. Nie przypominajcie mi. Serio, żadnych przypomnień."
+          "quote": "Nie przypominajcie mi. Serio, żadnych przypomnień."
         }
       ]
     },
     {
-      "rule": "O cennik przypomnieć maksymalnie jednym SMS-em (w środę 21.10 rano) i nie wysyłać maili w tej sprawie.",
+      "rule": "Nie zmieniać konfiguracji przełączania na recepcję (zostaje oddzwanianie)",
+      "until": null,
+      "approval_by": "Agnieszka Wróbel",
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Dobra, to zostawcie, jak jest."
+        }
+      ]
+    },
+    {
+      "rule": "Rozpiskę minut z faktury wysłać Agnieszce, nie pani Ewie",
       "until": null,
       "approval_by": null,
       "evidence": [
         {
           "speaker": "Agnieszka",
-          "quote": "To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam, mam ich dwieście nieprzeczytanych."
+          "quote": "I napisz do mnie, nie do pani Ewy."
+        }
+      ]
+    },
+    {
+      "rule": "Zestawienie wyników wysłać Agnieszce, nie Robertowi",
+      "until": null,
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Ale wyślij to mnie, nie Robertowi."
+        }
+      ]
+    },
+    {
+      "rule": "Nie ustawiać startu dzwonienia na 10:00 (wersja nieaktualna)",
+      "until": null,
+      "approval_by": "Agnieszka Wróbel",
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Tak. Dziesiątą zapomnij."
         }
       ]
     }
@@ -772,53 +864,50 @@
   "drafts": [
     {
       "to": "Agnieszka Wróbel",
-      "subject": "Klubowicz z Czyżyn (nr …37): przyczyna ponownych telefonów",
-      "body": "Cześć Agnieszko,\n\nzgodnie z ustaleniami: klubowicz z Czyżyn (numer kończący się na 37) został ręcznie usunięty z listy kampanii Karnety w dniu naszego calla.\n\nPrzyczyna, dla której oznaczenie „nie dzwonić” nie zadziałało: [UZUPEŁNIĆ po analizie].\nCzy problem dotyczył też innych osób: [UZUPEŁNIĆ: tak/nie, ile osób].\n\nPozdrawiam,\nMarek",
-      "send_when": "Po ustaleniu przyczyny, najpóźniej 2026-10-16 (piątek). W tym tygodniu Agnieszka nie czyta maili, więc wysłać kanałem, który odczyta (np. SMS lub komunikator).",
+      "subject": "Telefony mimo prośby „nie dzwonić” – Czyżyny, numer kończący się na 37",
+      "body": "Cześć Agnieszko,\n\nzgodnie z ustaleniami z callu z 14.10.2026 piszę w sprawie klienta z Czyżyn (numer kończący się na 37, kampania Karnety). 9.10.2026 poprosił agenta, żeby do niego nie dzwonić, a mimo to dostał kolejne telefony.\n\n- Klient został ręcznie usunięty z listy 14.10.2026.\n- Przyczyna: [UZUPEŁNIĆ po analizie]\n- Czy problem dotyczył innych osób: [UZUPEŁNIĆ – tak/nie, ile osób, co z nimi zrobiliśmy]\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Najpóźniej 2026-10-16, po ustaleniu przyczyny (A02) i potwierdzeniu usunięcia numeru (A01). Nie wysyłać automatycznie.",
       "related_items": [
         "A01",
-        "A02"
+        "A02",
+        "A03"
       ]
     },
     {
       "to": "Agnieszka Wróbel",
-      "subject": "Faktura za wrzesień: rozpiska minut",
-      "body": "Cześć Agnieszko,\n\nprzesyłam rozpiskę minut z faktury za wrzesień (1340 minut) w porównaniu z sumą z panelu (ok. 1100 minut):\n[UZUPEŁNIĆ: rozpiska według kampanii i dni, w tym czy policzono testy z początku września]\n\nWniosek: [UZUPEŁNIĆ].\n\nPrzekaż proszę tę informację pani Ewie.\n\nPozdrawiam,\nMarek",
-      "send_when": "Po weryfikacji, najpóźniej 2026-10-20 (wtorek). Tylko do Agnieszki, nie do pani Ewy.",
+      "subject": "Minuty na fakturze za wrzesień 2026 – rozpiska",
+      "body": "Cześć Agnieszko,\n\nzgodnie z obietnicą przesyłam rozpiskę minut z faktury za wrzesień 2026. Na fakturze jest 1340 minut, a w panelu około 1100.\n\n- Kampania Zapytania: [UZUPEŁNIĆ] min\n- Kampania Karnety: [UZUPEŁNIĆ] min\n- Pozostałe pozycje (np. testy z początku września): [UZUPEŁNIĆ]\n\nWyjaśnienie różnicy: [UZUPEŁNIĆ po weryfikacji]\n\nWysyłam tylko do Ciebie, żebyś mogła przekazać to pani Ewie.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Najpóźniej 2026-10-20, po weryfikacji minut. Wysłać tylko do Agnieszki, nie do pani Ewy. Nie wysyłać automatycznie.",
       "related_items": [
-        "A08"
+        "A10"
       ]
     },
     {
       "to": "Agnieszka Wróbel",
       "subject": "SMS: nowy cennik",
-      "body": "Cześć Agnieszko, tu Marek z Rinvo. Przypominam o nowym cenniku od 1.11. Żeby wgrać go przed remontem (do 23.10), potrzebuję go jak najszybciej. Dzięki!",
-      "send_when": "Tylko jeśli cennik nie dotrze do wtorku 2026-10-20: jeden SMS w środę 2026-10-21 rano. Nie e-mailem i bez kolejnych przypomnień.",
+      "body": "Cześć Agnieszko, tu Marek z Rinvo. Nie dostałem jeszcze nowego cennika od 1.11. Żeby agent miał nowe ceny przed remontem, potrzebuję go tak, żeby zdążyć wgrać przed 26.10. Inaczej wgranie przesunie się na 2.11. Pozdrawiam, Marek",
+      "send_when": "2026-10-21 rano, tylko jeśli cennik nie dotarł do 2026-10-20. Tylko jeden SMS, bez maila. Nie wysyłać automatycznie.",
       "related_items": [
-        "A12",
-        "A13",
-        "A14"
+        "A14",
+        "A15",
+        "A16"
       ]
     },
     {
       "to": "Agnieszka Wróbel",
-      "subject": "Wyniki agenta głosowego od startu: podsumowanie dla Roberta",
-      "body": "Cześć Agnieszko,\n\nw załączniku jednostronicowe podsumowanie wyników agenta od startu współpracy:\n- wejścia próbne umówione przez agenta (kampania Zapytania): [UZUPEŁNIĆ]\n- karnety przedłużone po telefonie (kampania Karnety): [UZUPEŁNIĆ]\n\nMożesz przekazać je Robertowi razem z pozostałymi materiałami.\n\nPozdrawiam,\nMarek",
-      "send_when": "Najpóźniej 2026-10-31 (do końca miesiąca). Tylko do Agnieszki, nie do Roberta.",
+      "subject": "Wyniki agenta Rinvo w FitStudio od startu – zestawienie",
+      "body": "Cześć Agnieszko,\n\nw załączniku jest jednostronicowe zestawienie wyników agenta od startu współpracy:\n\n- Wejścia próbne umówione przez agenta (Zapytania): [UZUPEŁNIĆ], z podziałem na kluby: [UZUPEŁNIĆ]\n- Karnety przedłużone po telefonie (Karnety): [UZUPEŁNIĆ]\n\nWysyłam tylko do Ciebie, żebyś mogła przekazać to Robertowi razem z resztą materiałów.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Najpóźniej 2026-10-30. Wysłać do Agnieszki, nie do Roberta. Nie wysyłać automatycznie.",
       "related_items": [
-        "A09",
-        "A10"
-      ]
-    },
-    {
-      "to": "Osoba z FitStudio inna niż Agnieszka Wróbel (np. Dominika), która poprosi o dodanie treningów personalnych",
-      "subject": "Prośba o zmianę skryptu: treningi personalne",
-      "body": "Dzień dobry,\n\ndziękuję za wiadomość. Zmiany w treści rozmów agenta wprowadzamy tylko po potwierdzeniu bezpośrednio przez Agnieszkę Wróbel, więc czekam na jej decyzję.\n\nPozdrawiam,\nMarek Rewoliński, Rinvo",
-      "send_when": "Tylko jeśli taka prośba wpłynie od kogokolwiek poza Agnieszką. Nie wysyłać zapobiegawczo.",
-      "related_items": [
-        "A06"
+        "A12",
+        "A11"
       ]
     }
   ],
-  "issues": []
+  "issues": [
+    {
+      "id": "A14",
+      "message": "termin opisany słownie („w przyszły wtorek”) bez daty"
+    }
+  ]
 }

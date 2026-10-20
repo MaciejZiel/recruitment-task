@@ -1,8 +1,8 @@
 **Do:** Agnieszka Wróbel  
 **Temat:** SMS: nowy cennik  
-**Wysłać:** Tylko jeśli cennik nie dotrze do wtorku 2026-10-20: jeden SMS w środę 2026-10-21 rano. Nie e-mailem i bez kolejnych przypomnień.  
-**Dotyczy:** A12, A13, A14
+**Wysłać:** 2026-10-21 rano, tylko jeśli cennik nie dotarł do 2026-10-20. Tylko jeden SMS, bez maila. Nie wysyłać automatycznie.  
+**Dotyczy:** A14, A15, A16
 
 ---
 
-Cześć Agnieszko, tu Marek z Rinvo. Przypominam o nowym cenniku od 1.11. Żeby wgrać go przed remontem (do 23.10), potrzebuję go jak najszybciej. Dzięki!
+Cześć Agnieszko, tu Marek z Rinvo. Nie dostałem jeszcze nowego cennika od 1.11. Żeby agent miał nowe ceny przed remontem, potrzebuję go tak, żeby zdążyć wgrać przed 26.10. Inaczej wgranie przesunie się na 2.11. Pozdrawiam, Marek

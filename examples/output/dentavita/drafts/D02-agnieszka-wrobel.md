@@ -1,19 +1,15 @@
-**Do:** Agnieszka Wróbel  
-**Temat:** Błędne statusy odwołanych wizyt w Oliwie: wyniki analizy  
-**Wysłać:** Do czwartku 2026-10-15, dopiero po zakończeniu analizy. Bez załączonych nagrań.  
-**Dotyczy:** A01, A03
+**Do:** Agnieszka Wróbel (DentaVita)  
+**Temat:** Naliczanie minut przy poczcie głosowej  
+**Wysłać:** Po ustaleniu odpowiedzi z Michałem  
+**Dotyczy:** A06
 
 ---
 
-Dzień dobry,
+Dzień dobry Pani Agnieszko,
 
-sprawdziliśmy trzy wizyty z poniedziałku 12.10 (8:00, 8:30, 9:00, gabinet dr Kani), które pacjenci odwołali w rozmowie z agentem, a w panelu miały status „potwierdzona”.
+wracam z odpowiedzią na pytanie księgowości z rozmowy z 13 października 2026 r. Pytanie dotyczyło tego, czy płacą Państwo za minutę, gdy agent trafia na pocztę głosową i się rozłącza.
 
-Przyczyna: [UZUPEŁNIĆ po analizie]
-Inne dni: [UZUPEŁNIĆ: czy problem wystąpił też w inne dni i których wizyt dotyczył]
-Dalsze kroki: [UZUPEŁNIĆ]
-
-Nagrania rozmów są dostępne do odsłuchu w panelu.
+[UZUPEŁNIĆ po ustaleniu z Michałem: sposób naliczania minut przy poczcie głosowej]
 
 Pozdrawiam,
 Marek Rewoliński
