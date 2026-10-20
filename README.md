@@ -12,7 +12,7 @@ do zatwierdzenia przez człowieka.
 | Element z zadania | Gdzie w repo |
 |---|---|
 | Prototyp procesu | [`docs/process.md`](docs/process.md): proces docelowy i stany pozycji (Mermaid), skrzynki, bezpieczniki, co jest w demo, a czego nie ma |
-| Demo na załączonej transkrypcji | [`examples/output/auto-tama/report.md`](examples/output/auto-tama/report.md) oraz `outbox.json` (wersja maszynowa), `drafts/` (szkice wiadomości), `extraction.json` (zwalidowany wynik modelu), `raw_response.json` (surowa odpowiedź `claude -p`) |
+| Demo na załączonej transkrypcji | [`examples/output/auto-tama/report.md`](examples/output/auto-tama/report.md) (czytelny bezpośrednio na GitHubie), [`report.html`](examples/output/auto-tama/report.html) (ten sam raport jako strona; GitHub pokazuje źródło HTML, więc plik trzeba pobrać i otworzyć lokalnie w przeglądarce) oraz `outbox.json` (wersja maszynowa), `drafts/` (szkice wiadomości), `extraction.json` (zwalidowany wynik modelu), `raw_response.json` (surowa odpowiedź `claude -p`) |
 | Logi z pracy z AI | [`ai-logs/`](ai-logs/): wyeksportowane rozmowy z Claude Code |
 
 Dodatkowo: druga, fikcyjna rozmowa z innej branży do testów ([`examples/druga-rozmowa.md`](examples/druga-rozmowa.md))
@@ -31,13 +31,15 @@ Diagramy procesu i stanów są w [`docs/process.md`](docs/process.md). W skróci
 3. **`llm.py`**: jedno wywołanie `claude -p` z JSON Schema wygenerowanym z modeli pydantic (`schema.py`), bez
    narzędzi, serwerów MCP, ustawień użytkownika i zapisu sesji.
 4. **`extract.py`**: waliduje odpowiedź względem schematu i odrzuca wynik z inną datą spotkania niż podana.
-4. **`verify.py`**: deterministycznie szuka każdego cytatu w wypowiedziach wskazanego mówcy i sprawdza pola
+5. **`verify.py`**: deterministycznie szuka każdego cytatu w wypowiedziach wskazanego mówcy i sprawdza pola
    (lista niżej).
-5. **`route.py`**: regułami (`kind` + `state` od modelu) przypisuje pozycje do skrzynek: zakazy, zgłoszenia błędów,
+6. **`route.py`**: regułami (`kind` + `state` od modelu) przypisuje pozycje do skrzynek: zakazy, zgłoszenia błędów,
    zmiany konfiguracji, zadania, backlog, czekamy na klienta, ryzyka, wstrzymane, bez działania. Pozycje
    `scheduled` i `waiting_on_client` z datą trafiają do kalendarza.
-6. **`render.py`**: zapisuje `report.md`, `outbox.json` (`requires_approval: true`, `needs_review` przy
+7. **`render.py`**: zapisuje `report.md`, `outbox.json` (`requires_approval: true`, `needs_review` przy
    niezweryfikowanych cytatach) i `drafts/D*.md`.
+8. **`html_report.py`**: zapisuje `report.html`, ten sam raport w tej samej kolejności jako jeden plik HTML
+   (CSS i JS wbudowane, z zewnątrz tylko font z Google Fonts), w stylistyce rinvo.io bez logo i grafik.
 
 ## Uruchomienie
 
@@ -67,6 +69,8 @@ Offline, bez Claude: weryfikacja, routing i raport z zapisanego wyniku modelu.
 uv run callflow examples/transkrypcja-spotkanie.md --out out/demo --from-json examples/output/auto-tama/extraction.json
 ```
 
+`out/demo/report.html` otwiera się w przeglądarce dwuklikiem, bez serwera.
+
 Inna rozmowa: dowolny plik `.md` lub `.txt` z wypowiedziami w liniach `**Imię:** tekst` albo `Imię: tekst`
 (dopuszczalny znacznik czasu, np. `[00:01:02] Imię: tekst`). Jeśli plik ma sekcję `## Transkrypcja` lub
 `## Transcript`, tylko ona jest traktowana jako dialog. Datę spotkania program czyta z nagłówka przed pierwszą
@@ -90,7 +94,8 @@ uv run ruff check src tests
 
 ## Wynik demo
 
-Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto-tama/report.md)):
+Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto-tama/report.md),
+[`report.html`](examples/output/auto-tama/report.html) do otwarcia lokalnie):
 
 - **37 pozycji, 11 zabezpieczeń, 8 szkiców**, cytaty zweryfikowane: **108/108** (każdy z numerem linii i zgodnym
   mówcą), **0 ostrzeżeń walidacji**.
@@ -144,7 +149,7 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
    „Opla nie włączam. Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie” (l. 132). Automat
    wykonujący ustalenia łatwo złamałby takie zastrzeżenie.
 3. **Integracje (issue tracker, CRM, kalendarz, poczta, panel agenta) są stanem docelowym.** W demo zastępują je pliki
-   (`report.md`, `outbox.json`, `drafts/`), bo tak da się pokazać cały proces bez dostępu do systemów Rinvo.
+   (`report.md`, `report.html`, `outbox.json`, `drafts/`), bo tak da się pokazać cały proces bez dostępu do systemów Rinvo.
 4. **Terminy względne są przeliczane od daty spotkania** według kalendarza dołączonego do promptu, a niejasne
    („w tym tygodniu”) model rozstrzyga i zapisuje jako jawne założenie w raporcie, żeby człowiek mógł je poprawić.
 5. **Bez daty spotkania terminy nie są przeliczane**, bo zgadnięta data byłaby gorsza niż jej brak; raport i CLI
@@ -171,9 +176,14 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
 - **Koszt i czas**: około 4–5 minut i 0,7–0,9 USD na 36-minutową rozmowę przy `--effort high`.
 - **Integracje** (issue tracker, CRM, kalendarz, Gmail, panel konfiguracji agenta) oraz UI zatwierdzania są
   w [`docs/process.md`](docs/process.md) jako stan docelowy.
-- **Plan v2.0: Jira.** Pierwsza integracja: zweryfikowane pozycje ze skrzynek „Zgłoszenia błędów” i „Zmiany
-  konfiguracji agenta” jako zadania dla zespołu Rinvo (wewnętrzne, więc bez bramki zatwierdzenia), bez duplikatów
-  przy ponownym uruchomieniu. Prace trwają na gałęzi `v2-jira`; nie są częścią wersji 1.0.
+
+### Wersje
+
+- **v1.0 (to wydanie):** pipeline od transkrypcji do zweryfikowanych pozycji, raport Markdown i HTML, `outbox.json`
+  i szkice; bez integracji z systemami zewnętrznymi.
+- **Plan v2.0:** integracja z Jira: zweryfikowane pozycje ze skrzynek „Zgłoszenia błędów” i „Zmiany konfiguracji
+  agenta” jako zadania dla zespołu Rinvo (wewnętrzne, więc bez bramki zatwierdzenia), bez duplikatów przy ponownym
+  uruchomieniu; prace na gałęzi `v2-jira`. Dalej dopracowanie UI raportu.
 
 ## Praca z AI
 
