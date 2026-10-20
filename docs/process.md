@@ -31,14 +31,13 @@ flowchart TD
         V["verify.py: weryfikacja deterministyczna<br/>cytaty vs wypowiedzi mówcy, terminy, właściciele, odwołania"]
         R["route.py: routing regułami do skrzynek"]
         OUT["render.py: report.md, outbox.json, drafts/*.md"]
-        JIRA["jira.py, flaga --jira: zadania w Jirze<br/>tylko błędy i zmiany konfiguracji agenta,<br/>jira.json chroni przed duplikatami"]
         H["Człowiek czyta raport i sam decyduje,<br/>co zatwierdzić i wykonać"]
     end
 
     subgraph FUTURE_OUT["Docelowo: wyjście"]
         DEDUP["Deduplikacja z pozycjami<br/>z poprzednich spotkań"]
         UI["UI zatwierdzania<br/>zatwierdź, edytuj lub odrzuć każdą pozycję"]
-        INT["Integracje per skrzynka<br/>panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
+        INT["Integracje per skrzynka<br/>issue tracker (np. Jira/Linear),<br/>panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
         FB["Pętla zwrotna<br/>poprawki z UI zasilają prompt i zestaw eval"]
     end
 
@@ -51,7 +50,6 @@ flowchart TD
     P --> V
     V --> R
     R --> OUT
-    R --> JIRA
     OUT --> H
     R -.-> DEDUP
     DEDUP -.-> UI
@@ -63,7 +61,7 @@ flowchart TD
 
     classDef impl fill:#e6f4ea,stroke:#2e7d32,color:#1b1b1b
     classDef future fill:#f2f2f2,stroke:#888888,stroke-dasharray:5 5,color:#555555
-    class T,P,E,J,V,R,OUT,JIRA,H impl
+    class T,P,E,J,V,R,OUT,H impl
     class MEET,MEM,DEDUP,UI,INT,FB future
 ```
 
@@ -90,24 +88,7 @@ a reguły w kodzie wybierają skrzynkę. Reguły są sprawdzane w kolejności z 
 Poza skrzynkami raport zawiera trzy dodatkowe sekcje. Zabezpieczenia (`guardrails`) to stałe zakazy z warunkiem
 zdjęcia i osobą, która może je zdjąć; sprawdza się je przed każdym działaniem. Kalendarz (terminy
 i przypomnienia) powstaje z pozycji `scheduled` i `waiting_on_client` z datą; `on_hold` nigdy do niego nie trafia. Szkice wiadomości mają pole `send_when` i nigdy nie są wysyłane same. Kolumna
-„System docelowy” to w demo etykieta w raporcie. Wyjątek: z flagą `--jira` skrzynki `tickets` i `config_changes`
-naprawdę trafiają do Jiry (niżej). Z pozostałymi systemami integracji jeszcze nie ma.
-
-### Zadania w Jirze (`--jira`)
-
-Z flagą `--jira` (`jira.py`), już po zapisaniu raportu, każda zweryfikowana pozycja ze skrzynek `tickets` (błędy)
-i `config_changes` (zmiany konfiguracji agenta) staje się zadaniem w Jirze przez REST API v2
-(`POST /rest/api/2/issue`). Typ zadania to `Bug` dla błędów i `Task` dla zmian konfiguracji (do zmiany przez
-`JIRA_ISSUE_TYPE_BUG` i `JIRA_ISSUE_TYPE_CONFIG`), etykieta `callflow`, termin (`duedate`), jeśli jest znany.
-Opis zawiera m.in. szczegóły, właściciela, termin, ograniczenia i cytaty z mówcą i numerem linii. Pozycje z niezweryfikowanym cytatem są pomijane i czekają
-na przegląd człowieka. Plik `jira.json` w katalogu wyjściowym mapuje „id · tytuł” na klucz zadania i jest
-zapisywany po każdym utworzonym zadaniu, więc ponowne uruchomienie lub powtórka po błędzie nie tworzy duplikatów.
-Ustawienia pochodzą ze zmiennych środowiska lub `.env`: `JIRA_BASE_URL` (tylko `https://`), `JIRA_EMAIL`,
-`JIRA_API_TOKEN`, `JIRA_PROJECT_KEY`. Token nie trafia do logów ani komunikatów błędów.
-
-Dlaczego to może dziać się automatycznie: to wewnętrzne zadania dla zespołu Rinvo, a nie działania wobec klienta.
-Wszystko, co dotyka klienta (maile, faktyczna zmiana konfiguracji agenta), nadal czeka na zatwierdzenie przez
-człowieka. Zadanie w Jirze dotyczące zmiany konfiguracji niczego w konfiguracji nie zmienia.
+„System docelowy” to tylko etykieta w raporcie: w v1.0 żadna integracja niczego nigdzie nie wysyła.
 
 ## Stany pozycji
 
@@ -158,9 +139,8 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   nie wypowiedział, trafiają do `assumptions`.
 - **Tryb offline.** `--from-json` odtwarza cały proces bez modelu z zapisanego `extraction.json`. Dzięki temu
   wynik można przejrzeć, przetestować i pokazać bez klucza ani logowania.
-- **Bramka zatwierdzenia.** Jedyne działanie wychodzące to tworzenie wewnętrznych zadań w Jirze, i to tylko
-  z flagą `--jira`, którą trzeba jawnie podać. Do klienta nic nie trafia, a konfiguracja agenta się nie zmienia.
-  `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
+- **Bramka zatwierdzenia.** W v1.0 nie ma kodu, który cokolwiek wysyła lub zmienia: do klienta nic nie trafia,
+  do zewnętrznych systemów też nie, a konfiguracja agenta się nie zmienia. `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
   zmienione”.
 
 ## Co jest w demo, a co nie
@@ -170,9 +150,8 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   zweryfikowanych cytatów, bez ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 6 pozycji,
   3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów.
 - **Jest:** weryfikacja i routing w czystym Pythonie, bez modelu, pokryte testami (`tests/`).
-- **Jest (opcjonalnie):** integracja z Jirą (flaga `--jira`) dla błędów i zmian konfiguracji agenta.
-- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z pozostałymi docelowymi systemami. Ich nazwy
-  w raporcie to tylko etykiety. Zatwierdzanie odbywa się przez lekturę raportu, nie w UI.
+- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami. Ich nazwy w raporcie
+  to tylko etykiety. Zatwierdzanie odbywa się przez lekturę raportu, nie w UI.
 - **Nie ma:** pamięci między rozmowami ani deduplikacji. Każda rozmowa jest analizowana osobno, więc stały zakaz
   z poprzedniego spotkania nie przechodzi automatycznie na następne.
 - **Nie ma:** wymuszania ograniczeń w kodzie. Limit „przypomnieć tylko raz” jest zapisany jako `constraints`
@@ -180,3 +159,6 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Częściowo:** `eval/reference.md` to wzorzec odpowiedzi przygotowany przez niezależnego agenta AI (cytaty
   sprawdzone skryptem); porównanie z wynikiem systemu jest ręczne, nie automatyczne. Druga, fikcyjna rozmowa
   z innej branży (`examples/druga-rozmowa.md`) ma wynik w `examples/output/dentavita/`.
+- **Plan v2.0:** pierwsza integracja to Jira dla skrzynek błędów (`tickets`) i zmian konfiguracji agenta
+  (`config_changes`): wewnętrzne zadania dla zespołu, tylko z pozycji ze zweryfikowanymi cytatami, idempotentnie
+  (ponowne uruchomienie nie tworzy duplikatów). Jest przygotowana na gałęzi `v2-jira` i nie wchodzi w skład v1.0.
