@@ -50,10 +50,16 @@ class VerificationReport:
         return [check for check in self.quotes if check.owner_id == owner_id]
 
 
+def same_speaker_label(transcript_label: str, model_label: str) -> bool:
+    """'Kasia' in the transcript and 'Kasia Malinowska' from the model are the same speaker."""
+    a, b = normalize(transcript_label), normalize(model_label)
+    return a == b or a.startswith(b + " ") or b.startswith(a + " ")
+
+
 def check_quote(owner_id: str, evidence: Evidence, transcript: Transcript) -> QuoteCheck:
     needle = normalize(evidence.quote)
     matches = [turn for turn in transcript.turns if needle and needle in normalize(turn.text)]
-    same_speaker = [turn for turn in matches if normalize(turn.speaker) == normalize(evidence.speaker)]
+    same_speaker = [turn for turn in matches if same_speaker_label(turn.speaker, evidence.speaker)]
     best = (same_speaker or matches or [None])[0]
     return QuoteCheck(
         owner_id=owner_id,

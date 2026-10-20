@@ -3,7 +3,7 @@ from datetime import date
 from conftest import make_extraction, make_item
 
 from callflow.schema import Draft, Evidence, State
-from callflow.verify import normalize, verify
+from callflow.verify import normalize, same_speaker_label, verify
 
 
 def messages(report):
@@ -65,3 +65,14 @@ def test_draft_links_are_checked(transcript):
 
     assert ("D01", "szkic nie jest powiązany z żadną pozycją") in found
     assert ("D02", "powiązanie z nieistniejącą pozycją A42") in found
+
+
+def test_full_name_from_model_matches_first_name_label(transcript):
+    item = make_item(evidence=[Evidence(speaker="Anna Nowak", quote="nie zawęża listy")])
+    report = verify(make_extraction(items=[item]), transcript)
+    assert report.issues == []
+
+
+def test_different_speaker_with_shared_prefix_does_not_match():
+    assert not same_speaker_label("Ania", "Anna")
+    assert same_speaker_label("Marek", "Marek Rewoliński")
