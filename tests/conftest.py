@@ -1,9 +1,12 @@
 from datetime import date
+from pathlib import Path
 
 import pytest
 
 from callflow.schema import ActionItem, Draft, Evidence, Guardrail, Kind, MeetingExtraction, State
 from callflow.transcript import parse_transcript
+
+EXTRACTION_FIXTURE = Path(__file__).parent / "fixtures" / "extraction.json"
 
 TRANSCRIPT = """# Klient × Rinvo
 

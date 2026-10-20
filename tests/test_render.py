@@ -8,10 +8,14 @@ from callflow.schema import Draft, Evidence, Kind, State
 from callflow.verify import verify
 
 
+def report_text(extraction, transcript):
+    return render_report(route(extraction), verify(extraction, transcript), "call.md")
+
+
 def test_html_from_model_or_transcript_is_neutralised(transcript):
     item = make_item(title="<script>alert(1)</script>", details="a & b")
     extraction = make_extraction(items=[item])
-    text = render_report(route(extraction), verify(extraction, transcript), "call.md")
+    text = report_text(extraction, transcript)
 
     assert "<script>" not in text
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in text
@@ -20,7 +24,7 @@ def test_html_from_model_or_transcript_is_neutralised(transcript):
 
 def test_guardrails_come_before_work_sections_and_quotes_show_lines(transcript, guardrail):
     extraction = make_extraction(guardrails=[guardrail])
-    text = render_report(route(extraction), verify(extraction, transcript), "call.md")
+    text = report_text(extraction, transcript)
 
     assert text.index("## Zabezpieczenia") < text.index(f"## {Inbox.tickets.value}")
     assert "Anna (l. 9) ✅" in text
@@ -29,7 +33,7 @@ def test_guardrails_come_before_work_sections_and_quotes_show_lines(transcript, 
 def test_unverified_item_is_flagged(transcript):
     item = make_item(evidence=[Evidence(speaker="Anna", quote="zmyślone zdanie")])
     extraction = make_extraction(items=[item])
-    text = render_report(route(extraction), verify(extraction, transcript), "call.md")
+    text = report_text(extraction, transcript)
 
     assert "A01 · Naprawić filtr ⚠️ do sprawdzenia" in text
     assert "brak w transkrypcji" in text
@@ -37,7 +41,7 @@ def test_unverified_item_is_flagged(transcript):
 
 def test_call_without_agreements_says_so(transcript):
     extraction = make_extraction(items=[])
-    text = render_report(route(extraction), verify(extraction, transcript), "call.md")
+    text = report_text(extraction, transcript)
     assert "Brak ustaleń wymagających działania" in text
 
 

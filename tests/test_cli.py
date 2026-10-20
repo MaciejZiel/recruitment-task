@@ -1,15 +1,16 @@
 import shutil
 from pathlib import Path
 
+from conftest import EXTRACTION_FIXTURE
+
 from callflow import cli
 
 ROOT = Path(__file__).resolve().parent.parent
 TRANSCRIPT = ROOT / "examples" / "transkrypcja-spotkanie.md"
-FIXTURE = Path(__file__).parent / "fixtures" / "extraction.json"
 
 
 def test_from_json_runs_offline(tmp_path, capsys):
-    assert cli.main([str(TRANSCRIPT), "--out", str(tmp_path), "--from-json", str(FIXTURE)]) == 0
+    assert cli.main([str(TRANSCRIPT), "--out", str(tmp_path), "--from-json", str(EXTRACTION_FIXTURE)]) == 0
     assert "0 with unverified evidence" in capsys.readouterr().out
     for name in ("report.md", "report.html", "outbox.json"):
         assert (tmp_path / name).is_file()
@@ -31,7 +32,7 @@ def test_transcript_without_turns_is_rejected(tmp_path, capsys):
 
 def test_live_run_writes_raw_response_and_extraction(tmp_path, monkeypatch):
     def fake_extract(text, meeting_date, vendor, **kwargs):
-        extraction = cli.load_extraction(FIXTURE)
+        extraction = cli.load_extraction(EXTRACTION_FIXTURE)
         return extraction, {"total_cost_usd": None, "structured_output": {}}
 
     monkeypatch.setattr(cli, "extract", fake_extract)
@@ -48,7 +49,9 @@ def test_missing_meeting_date_warns_and_still_runs(tmp_path, monkeypatch, capsys
 
     def fake_extract(text, meeting_date, vendor, **kwargs):
         calls.append(meeting_date)
-        extraction = cli.load_extraction(FIXTURE).model_copy(update={"meeting_date": None, "items": []})
+        extraction = cli.load_extraction(EXTRACTION_FIXTURE).model_copy(
+            update={"meeting_date": None, "items": []}
+        )
         return extraction, {"total_cost_usd": 0.0}
 
     monkeypatch.setattr(cli, "extract", fake_extract)
