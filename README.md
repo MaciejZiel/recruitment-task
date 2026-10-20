@@ -33,7 +33,8 @@ Diagramy procesu i stanów są w [`docs/process.md`](docs/process.md). W skróci
    znacznikami jako dane.
 3. **`llm.py`**: jedno wywołanie `claude -p` z JSON Schema wygenerowanym z modeli pydantic (`schema.py`), bez
    narzędzi, serwerów MCP, ustawień użytkownika i zapisu sesji.
-4. **`extract.py`**: waliduje odpowiedź względem schematu i odrzuca wynik z inną datą spotkania niż podana.
+4. **`extract.py`**: waliduje odpowiedź względem schematu; inną datę spotkania niż podana zastępuje datą znaną
+   programowi i zapisuje to w założeniach raportu.
 5. **`verify.py`**: deterministycznie szuka każdego cytatu w wypowiedziach wskazanego mówcy i sprawdza pola
    (lista niżej).
 6. **`route.py`**: regułami (`kind` + `state` od modelu) przypisuje pozycje do skrzynek: zakazy, zgłoszenia błędów,
@@ -126,7 +127,8 @@ Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto
   „Kasia Malinowska” od modelu pasuje do etykiety „Kasia”). Raport podaje numer linii; cytat nieznaleziony lub
   wypowiedziany przez kogoś innego dostaje ostrzeżenie, a w `outbox.json` `needs_review: true`.
 - **Kontrole pól** (`verify.py`, `extract.py`):
-  - wynik niezgodny ze schematem albo z inną datą spotkania jest odrzucany (surowa odpowiedź zostaje zapisana);
+  - wynik niezgodny ze schematem jest odrzucany (surowa odpowiedź zostaje zapisana); inna data spotkania od modelu
+    nie przerywa przebiegu, tylko jest zastępowana znaną datą z adnotacją w założeniach;
   - zduplikowane id, brak cytatu;
   - termin wcześniejszy niż spotkanie albo termin podany mimo nieznanej daty spotkania;
   - `do_now` lub `scheduled` bez właściciela, `scheduled` bez terminu;

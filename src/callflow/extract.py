@@ -37,8 +37,19 @@ def extract(
         extraction = MeetingExtraction.model_validate(response.data)
     except ValidationError as exc:
         raise ExtractionError(f"model output does not match the schema:\n{exc}", response.raw) from exc
-    if extraction.meeting_date != meeting_date:
-        raise ExtractionError(
-            f"model returned meeting_date {extraction.meeting_date}, expected {meeting_date}", response.raw
-        )
-    return extraction, response.raw
+    return _with_known_date(extraction, meeting_date), response.raw
+
+
+def _with_known_date(extraction: MeetingExtraction, meeting_date: date | None) -> MeetingExtraction:
+    """Keep the date the program knows; a differing model date is noted, not fatal after a paid run."""
+    if extraction.meeting_date == meeting_date:
+        return extraction
+    returned = extraction.meeting_date or "brak"
+    if meeting_date is None:
+        kept = "data spotkania pozostaje nieznana"
+    else:
+        kept = f"użyto daty {meeting_date} z transkrypcji lub parametru"
+    note = f"Model zwrócił datę spotkania {returned}; {kept}."
+    return extraction.model_copy(
+        update={"meeting_date": meeting_date, "assumptions": [*extraction.assumptions, note]}
+    )

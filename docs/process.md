@@ -132,7 +132,8 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   dostaje ⚠️ (w `outbox.json`: `needs_review: true`). Na rozmowie z Auto Tama zweryfikowano 108 ze 108 cytatów.
 - **Kontrola pól.** Weryfikacja zgłasza też zduplikowane id, termin wcześniejszy niż spotkanie, pozycję `do_now`
   lub `scheduled` bez właściciela, `scheduled` bez terminu oraz odwołania do nieistniejących pozycji.
-  `extract.py` odrzuca wynik niezgodny ze schematem lub z inną datą spotkania. Prompt każe rozwiązywać względne
+  `extract.py` odrzuca wynik niezgodny ze schematem, a inną datę spotkania od modelu zastępuje znaną datą
+  i zapisuje to w założeniach. Prompt każe rozwiązywać względne
   terminy („do czwartku”) wyłącznie według kalendarza dołączonego do wiadomości.
 - **Ogólny prompt.** Ani prompt systemowy, ani opisy pól w schemacie nie mówią nic o Auto Tama ani o branży
   (przykłady są neutralne, np. „przypomnieć tylko raz”). Prompt opisuje znaczenie każdego stanu i ogólne reguły rozmowy B2B: ostatnia wersja
