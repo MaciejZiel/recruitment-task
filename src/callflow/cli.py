@@ -50,6 +50,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows consoles and pipes default to a legacy code page; the report text is Polish.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     args = build_parser().parse_args(argv)
     try:
         return run(args)
@@ -62,7 +66,10 @@ def run(args: argparse.Namespace) -> int:
     transcript_text = args.transcript.read_text(encoding="utf-8")
     transcript = load_transcript(args.transcript)
     if not transcript.turns:
-        raise ValueError(f"no speaker turns ('**Name:** text') found in {args.transcript}")
+        raise ValueError(
+            f"no speaker turns found in {args.transcript}; "
+            "expected lines like '**Name:** text' or 'Name: text'"
+        )
 
     if args.from_json:
         extraction = load_extraction(args.from_json)
