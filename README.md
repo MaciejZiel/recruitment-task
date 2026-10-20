@@ -15,7 +15,7 @@ przygotowuje raport, dane dla integracji i szkice wiadomości do zatwierdzenia p
 | Aplikacja | `uv run callflow-web`, potem http://127.0.0.1:8000/ ([opis](#aplikacja-webowa)): wklejasz lub wczytujesz transkrypcję, uruchamiasz analizę i przeglądasz wynik (pozycje w skrzynkach z cytatami, zabezpieczenia, terminy, szkice) oraz historię analiz. Alternatywnie CLI: `uv run callflow` ([opis](#cli)) |
 | Prototyp procesu | [`docs/process.md`](docs/process.md): proces docelowy i stany pozycji (Mermaid), skrzynki, bezpieczniki, co jest, a czego nie ma |
 | Demo na załączonej transkrypcji | [`examples/output/auto-tama/report.md`](examples/output/auto-tama/report.md) (czytelny bezpośrednio na GitHubie), [`report.html`](examples/output/auto-tama/report.html) (ten sam raport jako strona; GitHub pokazuje źródło HTML, więc plik trzeba pobrać i otworzyć lokalnie w przeglądarce) oraz `outbox.json` (wersja maszynowa), `drafts/` (szkice wiadomości), `extraction.json` (zwalidowany wynik modelu), `raw_response.json` (surowa odpowiedź `claude -p`) |
-| Logi z pracy z AI | [`ai-logs/`](ai-logs/): wyeksportowane rozmowy z Claude Code |
+| Logi z pracy z AI | przesłane osobno w wiadomości e-mail (eksport rozmów z Claude Code) |
 
 Dodatkowo: druga, fikcyjna rozmowa z innej branży do testów ([`examples/druga-rozmowa.md`](examples/druga-rozmowa.md))
 i jej wynik w [`examples/output/dentavita/`](examples/output/dentavita/report.md), a także niezależny wzorzec
@@ -310,4 +310,4 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
 - **Subagenci** do niezależnych części: analiza transkrypcji, wzorzec eval, dokumentacja, wybrane moduły
   i druga, syntetyczna rozmowa.
 - **Osobne sesje recenzenta tylko do odczytu** i doradców do przeglądu kodu i decyzji projektowych.
-- Eksport rozmów: [`ai-logs/`](ai-logs/).
+- Eksport rozmów: przesłany osobno w wiadomości e-mail.

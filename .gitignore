@@ -66,3 +66,7 @@ out/
 
 # Web app runs (callflow-web)
 runs/
+
+# AI work logs are sent by e-mail, not versioned
+ai-logs/
+claude1.txt
