@@ -61,10 +61,10 @@ main:focus, h1:focus { outline: none; }
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
 .skip {
-  position: absolute; left: 16px; top: -48px; z-index: 50; padding: 8px 14px;
+  position: absolute; left: 16px; top: 8px; z-index: 50; padding: 8px 14px;
   background: var(--surface); border-radius: var(--radius-sm); box-shadow: var(--shadow-md);
 }
-.skip:focus { top: 8px; }
+.skip:not(:focus) { clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; padding: 0; box-shadow: none; }
 .muted { color: var(--text-muted); }
 
 /* Light top bar like the rinvo.io navigation. */
