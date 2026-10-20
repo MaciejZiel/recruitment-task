@@ -4,8 +4,8 @@
 
 Po każdej rozmowie z klientem system zamienia transkrypcję w listę zweryfikowanych działań, rozdzielonych do
 skrzynek zespołów, które mają je wykonać. Każda pozycja ma cytat z rozmowy jako dowód, a każde działanie
-zewnętrzne (wiadomość, zmiana konfiguracji agenta, zgłoszenie) czeka na zatwierdzenie przez człowieka. Nic nie
-jest wysyłane automatycznie, bo rozmowy z klientem są pełne warunków i zakazów, których nie widać w samej
+dotykające klienta (wiadomość, zmiana konfiguracji agenta) czeka na zatwierdzenie przez człowieka. Nic nie
+jest wysyłane do klienta automatycznie, bo rozmowy z klientem są pełne warunków i zakazów, których nie widać w samej
 liście zadań. W rozmowie z Auto Tama Kasia mówi: „Jak do czwartku nie wyślę obu wersji, przypomnij mi. Raz.”
 (l. 58), czyli jedno przypomnienie, 8.10, i ani jednego więcej. Marek obiecuje: „Opla nie włączam. Nawet jak Paweł
 napisze, że kazał, to najpierw zadzwonię do ciebie” (l. 132), więc nawet polecenie od szefa klienta nie wystarczy.
@@ -31,13 +31,14 @@ flowchart TD
         V["verify.py: weryfikacja deterministyczna<br/>cytaty vs wypowiedzi mówcy, terminy, właściciele, odwołania"]
         R["route.py: routing regułami do skrzynek"]
         OUT["render.py: report.md, outbox.json, drafts/*.md"]
+        JIRA["jira.py, flaga --jira: zadania w Jirze<br/>tylko błędy i zmiany konfiguracji agenta,<br/>jira.json chroni przed duplikatami"]
         H["Człowiek czyta raport i sam decyduje,<br/>co zatwierdzić i wykonać"]
     end
 
     subgraph FUTURE_OUT["Docelowo: wyjście"]
         DEDUP["Deduplikacja z pozycjami<br/>z poprzednich spotkań"]
         UI["UI zatwierdzania<br/>zatwierdź, edytuj lub odrzuć każdą pozycję"]
-        INT["Integracje per skrzynka<br/>issue tracker, panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
+        INT["Integracje per skrzynka<br/>panel konfiguracji agenta z zatwierdzeniem,<br/>tablica produktowa, przypomnienia w kalendarzu,<br/>notatka w CRM, szkice w Gmailu"]
         FB["Pętla zwrotna<br/>poprawki z UI zasilają prompt i zestaw eval"]
     end
 
@@ -50,6 +51,7 @@ flowchart TD
     P --> V
     V --> R
     R --> OUT
+    R --> JIRA
     OUT --> H
     R -.-> DEDUP
     DEDUP -.-> UI
@@ -61,7 +63,7 @@ flowchart TD
 
     classDef impl fill:#e6f4ea,stroke:#2e7d32,color:#1b1b1b
     classDef future fill:#f2f2f2,stroke:#888888,stroke-dasharray:5 5,color:#555555
-    class T,P,E,J,V,R,OUT,H impl
+    class T,P,E,J,V,R,OUT,JIRA,H impl
     class MEET,MEM,DEDUP,UI,INT,FB future
 ```
 
@@ -88,7 +90,24 @@ a reguły w kodzie wybierają skrzynkę. Reguły są sprawdzane w kolejności z 
 Poza skrzynkami raport zawiera trzy dodatkowe sekcje. Zabezpieczenia (`guardrails`) to stałe zakazy z warunkiem
 zdjęcia i osobą, która może je zdjąć; sprawdza się je przed każdym działaniem. Kalendarz (terminy
 i przypomnienia) powstaje z pozycji `scheduled` i `waiting_on_client` z datą; `on_hold` nigdy do niego nie trafia. Szkice wiadomości mają pole `send_when` i nigdy nie są wysyłane same. Kolumna
-„System docelowy” to w demo tylko etykieta w raporcie: integracji z tymi systemami jeszcze nie ma.
+„System docelowy” to w demo etykieta w raporcie. Wyjątek: z flagą `--jira` skrzynki `tickets` i `config_changes`
+naprawdę trafiają do Jiry (niżej). Z pozostałymi systemami integracji jeszcze nie ma.
+
+### Zadania w Jirze (`--jira`)
+
+Z flagą `--jira` (`jira.py`), już po zapisaniu raportu, każda zweryfikowana pozycja ze skrzynek `tickets` (błędy)
+i `config_changes` (zmiany konfiguracji agenta) staje się zadaniem w Jirze przez REST API v2
+(`POST /rest/api/2/issue`). Typ zadania to `Bug` dla błędów i `Task` dla zmian konfiguracji (do zmiany przez
+`JIRA_ISSUE_TYPE_BUG` i `JIRA_ISSUE_TYPE_CONFIG`), etykieta `callflow`, termin (`duedate`), jeśli jest znany.
+Opis zawiera m.in. szczegóły, właściciela, termin, ograniczenia i cytaty z mówcą i numerem linii. Pozycje z niezweryfikowanym cytatem są pomijane i czekają
+na przegląd człowieka. Plik `jira.json` w katalogu wyjściowym mapuje „id · tytuł” na klucz zadania i jest
+zapisywany po każdym utworzonym zadaniu, więc ponowne uruchomienie lub powtórka po błędzie nie tworzy duplikatów.
+Ustawienia pochodzą ze zmiennych środowiska lub `.env`: `JIRA_BASE_URL` (tylko `https://`), `JIRA_EMAIL`,
+`JIRA_API_TOKEN`, `JIRA_PROJECT_KEY`. Token nie trafia do logów ani komunikatów błędów.
+
+Dlaczego to może dziać się automatycznie: to wewnętrzne zadania dla zespołu Rinvo, a nie działania wobec klienta.
+Wszystko, co dotyka klienta (maile, faktyczna zmiana konfiguracji agenta), nadal czeka na zatwierdzenie przez
+człowieka. Zadanie w Jirze dotyczące zmiany konfiguracji niczego w konfiguracji nie zmienia.
 
 ## Stany pozycji
 
@@ -128,7 +147,7 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Cytaty sprawdzane dosłownie.** Każda pozycja i każde zabezpieczenie mają co najmniej jeden cytat z mówcą.
   `verify.py` szuka cytatu w wypowiedziach tego mówcy, normalizując tylko cudzysłowy, myślniki, białe znaki
   i wielkość liter. Raport podaje numer linii, a cytat, którego nie znaleziono lub który padł z ust innej osoby,
-  dostaje ⚠️ (w `outbox.json`: `needs_review: true`). Na rozmowie z Auto Tama zweryfikowano 111 ze 111 cytatów.
+  dostaje ⚠️ (w `outbox.json`: `needs_review: true`). Na rozmowie z Auto Tama zweryfikowano 108 ze 108 cytatów.
 - **Kontrola pól.** Weryfikacja zgłasza też zduplikowane id, termin wcześniejszy niż spotkanie, pozycję `do_now`
   lub `scheduled` bez właściciela, `scheduled` bez terminu oraz odwołania do nieistniejących pozycji.
   `extract.py` odrzuca wynik niezgodny ze schematem lub z inną datą spotkania. Prompt każe rozwiązywać względne
@@ -139,21 +158,25 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   nie wypowiedział, trafiają do `assumptions`.
 - **Tryb offline.** `--from-json` odtwarza cały proces bez modelu z zapisanego `extraction.json`. Dzięki temu
   wynik można przejrzeć, przetestować i pokazać bez klucza ani logowania.
-- **Bramka zatwierdzenia.** Demo nie ma kodu, który cokolwiek wysyła lub zmienia. `outbox.json` ma
-  `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani zmienione”.
+- **Bramka zatwierdzenia.** Jedyne działanie wychodzące to tworzenie wewnętrznych zadań w Jirze, i to tylko
+  z flagą `--jira`, którą trzeba jawnie podać. Do klienta nic nie trafia, a konfiguracja agenta się nie zmienia.
+  `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
+  zmienione”.
 
 ## Co jest w demo, a co nie
 
 - **Jest:** cały przebieg od pliku `.md` do `report.md`, `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
-  z Auto Tama leży w `examples/output/auto-tama/`: 35 pozycji, 14 zabezpieczeń, 8 szkiców, 4 ostrzeżenia
-  walidacji (`scheduled` bez terminu).
+  z Auto Tama leży w `examples/output/auto-tama/`: 37 pozycji, 11 zabezpieczeń, 8 szkiców, 108 ze 108
+  zweryfikowanych cytatów, bez ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 6 pozycji,
+  3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów.
 - **Jest:** weryfikacja i routing w czystym Pythonie, bez modelu, pokryte testami (`tests/`).
-- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami. Nazwy systemów
+- **Jest (opcjonalnie):** integracja z Jirą (flaga `--jira`) dla błędów i zmian konfiguracji agenta.
+- **Nie ma:** automatycznego odbioru transkrypcji ani integracji z pozostałymi docelowymi systemami. Ich nazwy
   w raporcie to tylko etykiety. Zatwierdzanie odbywa się przez lekturę raportu, nie w UI.
 - **Nie ma:** pamięci między rozmowami ani deduplikacji. Każda rozmowa jest analizowana osobno, więc stały zakaz
   z poprzedniego spotkania nie przechodzi automatycznie na następne.
 - **Nie ma:** wymuszania ograniczeń w kodzie. Limit „przypomnieć tylko raz” jest zapisany jako `constraints`
-  pozycji i widoczny w raporcie, ale żaden mechanizm go nie egzekwuje, bo nic nie jest wysyłane.
+  pozycji i widoczny w raporcie, ale żaden mechanizm go nie egzekwuje, bo nic nie jest wysyłane do klienta.
 - **Częściowo:** `eval/reference.md` to wzorzec odpowiedzi przygotowany przez niezależnego agenta AI (cytaty
   sprawdzone skryptem); porównanie z wynikiem systemu jest ręczne, nie automatyczne. Druga, fikcyjna rozmowa
   z innej branży (`examples/druga-rozmowa.md`) ma wynik w `examples/output/dentavita/`.
