@@ -36,10 +36,23 @@
       <h1 id="new-title">Po rozmowie z klientem</h1>
       <p class="meta">Wklej transkrypcję rozmowy. callflow wyciągnie ustalenia, sprawdzi każdy cytat w tekście
         i przygotuje działania dla zespołu. Niczego nie wysyła: wszystko czeka na Twoje zatwierdzenie.</p>
+      <div class="demo" id="demo" hidden>
+        <button type="button" class="btn btn-primary btn-demo" id="run-demo">Zobacz demo: Grupa Auto Tama (bez kosztów, natychmiast)</button>
+      </div>
     </div>
   </div>
   <div class="wrap">
-    <form class="panel" id="new-form" novalidate>
+    <section class="how" aria-labelledby="how-title">
+      <h2 class="how-title" id="how-title">Jak to działa</h2>
+      <ol class="how-steps">
+        <li><span class="how-num" aria-hidden="true">1</span><span>Transkrypcja rozmowy</span></li>
+        <li><span class="how-num" aria-hidden="true">2</span><span>Claude wyciąga ustalenia</span></li>
+        <li><span class="how-num" aria-hidden="true">3</span><span>Program sprawdza każdy cytat w tekście</span></li>
+        <li><span class="how-num" aria-hidden="true">4</span><span>Sprawy trafiają do skrzynek zespołów, kalendarza i szkiców</span></li>
+        <li><span class="how-num" aria-hidden="true">5</span><span>Człowiek zatwierdza — nic nie wychodzi do klienta automatycznie</span></li>
+      </ol>
+    </section>
+    <form class="panel panel-after-how" id="new-form" novalidate>
       <div class="field">
         <span class="label" id="examples-label">Przykładowe rozmowy</span>
         <div class="examples" id="examples" role="group" aria-labelledby="examples-label">
@@ -96,7 +109,7 @@
         <button type="submit" class="btn btn-primary" id="run-live">Uruchom analizę (Claude, ~1–5 min)</button>
         <button type="button" class="btn btn-secondary" id="run-example" disabled aria-describedby="example-hint">Pokaż zapisany wynik przykładu</button>
       </div>
-      <p class="hint" id="example-hint">Zapisany wynik działa bez wywołania modelu i jest dostępny po wybraniu przykładu. Ma własną datę spotkania, więc pole daty jest wtedy pomijane.</p>
+      <p class="hint" id="example-hint">Zapisany wynik: bez modelu i bez kosztów. Najpierw wybierz przykład powyżej.</p>
     </form>
   </div>
 </section>
@@ -148,6 +161,18 @@
   <div class="alert" id="global-error" role="alert" hidden></div>
 </div>
 </main>
+<footer class="site-footer">
+  <div class="wrap">
+    <nav aria-label="Dokumentacja projektu">
+      <ul class="footer-links">
+        <li><a href="https://github.com/MaciejZiel/recruitment-task/blob/main/docs/process.md" target="_blank" rel="noopener">Opis procesu (schemat)<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+        <li><a href="https://github.com/MaciejZiel/recruitment-task/blob/main/README.md#założenia" target="_blank" rel="noopener">Założenia<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+        <li><a href="https://github.com/MaciejZiel/recruitment-task/tree/main/ai-logs" target="_blank" rel="noopener">Logi pracy z AI<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+        <li><a href="https://github.com/MaciejZiel/recruitment-task" target="_blank" rel="noopener">Repozytorium<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -19,6 +19,37 @@ const state = {
 };
 
 const $ = (id) => document.getElementById(id);
+const DEMO_EXAMPLE_ID = "auto-tama";
+
+/* ---------- Server messages in Polish ---------- */
+
+// The backend speaks English (shared with the CLI); known messages are shown in Polish by prefix.
+const SERVER_MESSAGES = [
+  ["meeting date not found",
+    "Nie znaleziono daty spotkania w transkrypcji. Terminy względne (np. „do czwartku”) nie zostały zamienione na daty. Uzupełnij pole „Data spotkania” i uruchom ponownie."],
+  ["example mode uses the saved extraction",
+    "Zapisany wynik przykładu ma własną datę spotkania; podana data została pominięta."],
+  ["no speaker turns found",
+    "Nie znaleziono wypowiedzi. Każda wypowiedź powinna zaczynać się od imienia i dwukropka, np. „Kasia: …” lub „**Kasia:** …”."],
+  ["a live analysis is already queued or running", "Trwa już inna analiza. Poczekaj, aż się zakończy (zobacz Historię)."],
+  ["transcript is larger than", "Transkrypcja przekracza 300 kB."],
+  ["interrupted", "Przerwano: serwer został zatrzymany przed końcem analizy."],
+  ["example mode needs the unchanged example transcript",
+    "Zapisany wynik działa tylko dla niezmienionej transkrypcji przykładu. Zmieniony tekst uruchom jako analizę Claude."],
+  ["transcript is required", "Wklej lub wgraj transkrypcję."],
+];
+
+function translateServerMessage(text) {
+  const original = String(text == null ? "" : text).trim();
+  if (!original) return "";
+  const lower = original.toLowerCase();
+  for (const [prefix, polish] of SERVER_MESSAGES) {
+    if (lower.startsWith(prefix)) return polish;
+  }
+  return `Szczegóły techniczne: ${original}`;
+}
+
+window.CallflowI18n = { translate: translateServerMessage };
 
 /* ---------- DOM helpers ---------- */
 
@@ -85,7 +116,7 @@ async function api(path, options = {}) {
     data = null;
   }
   if (!response.ok) {
-    const detail = data && typeof data.error === "string" ? data.error : `HTTP ${response.status}`;
+    const detail = data && typeof data.error === "string" ? translateServerMessage(data.error) : `Błąd serwera (HTTP ${response.status}).`;
     throw new ApiError(detail);
   }
   return data;
@@ -144,6 +175,7 @@ async function loadExamples() {
     box.replaceChildren(el("span", { class: "muted", text: `Nie udało się wczytać przykładów: ${error.message}` }));
     return;
   }
+  $("demo").hidden = !state.examples.some((example) => example.id === DEMO_EXAMPLE_ID);
   if (!state.examples.length) {
     box.replaceChildren(el("span", { class: "muted", text: "Brak przykładów na serwerze." }));
     return;
@@ -169,6 +201,14 @@ function useExample(example) {
   state.sourceName = example.transcript_name || `${example.id}.md`;
   showMessage($("new-error"), "");
   updateFormState();
+}
+
+// One click: load the demo example and show its saved result (no model call, no cost).
+function runDemo() {
+  const example = state.examples.find((item) => item.id === DEMO_EXAMPLE_ID);
+  if (!example) return;
+  useExample(example);
+  submitRun("example");
 }
 
 function readFile(event) {
@@ -238,10 +278,11 @@ async function submitRun(mode) {
     return;
   }
   showMessage(errorBox, "");
-  const buttons = [$("run-live"), $("run-example")];
+  const buttons = [$("run-live"), $("run-example"), $("run-demo")];
   for (const button of buttons) button.setAttribute("aria-busy", "true");
   $("run-live").disabled = true;
   $("run-example").disabled = true;
+  $("run-demo").disabled = true;
   try {
     const created = await api("/api/runs", { method: "POST", body: JSON.stringify(payload) });
     location.hash = `#/run/${encodeURIComponent(created.id)}`;
@@ -250,6 +291,7 @@ async function submitRun(mode) {
   } finally {
     for (const button of buttons) button.removeAttribute("aria-busy");
     $("run-live").disabled = false;
+    $("run-demo").disabled = false;
     updateFormState();
   }
 }
@@ -357,9 +399,9 @@ function renderProgress(run) {
   $("elapsed").textContent = formatDuration(run.elapsed_s);
   $("progress-status").textContent = `Status: ${STATUS_LABELS[run.status] || run.status}`;
   const warnings = Array.isArray(run.warnings) ? run.warnings : [];
-  $("progress-warnings").replaceChildren(...warnings.map((text) => el("li", { text: String(text) })));
+  $("progress-warnings").replaceChildren(...warnings.map((text) => el("li", { text: translateServerMessage(text) })));
   $("progress-warnings").hidden = !warnings.length;
-  showMessage($("progress-error"), failed ? run.error || "Nieznany błąd." : "");
+  showMessage($("progress-error"), failed ? translateServerMessage(run.error) || "Nieznany błąd." : "");
   $("progress-actions").hidden = !failed;
 }
 
@@ -456,7 +498,7 @@ async function openHistory(token) {
 
 function summaryLine(run) {
   const s = run.summary;
-  if (run.status === "error") return run.error ? `Błąd: ${run.error}` : "Błąd analizy.";
+  if (run.status === "error") return run.error ? `Błąd: ${translateServerMessage(run.error)}` : "Błąd analizy.";
   if (!s) return run.status === "done" ? "" : "Analiza jeszcze trwa.";
   const parts = [
     s.meeting_date || "data nieznana",
@@ -501,6 +543,7 @@ function init() {
     submitRun("live");
   });
   $("run-example").addEventListener("click", () => submitRun("example"));
+  $("run-demo").addEventListener("click", runDemo);
   $("file").addEventListener("change", readFile);
   $("transcript").addEventListener("input", onTranscriptInput);
   // The skip link must not change the hash: the router would treat "#main" as a new view.

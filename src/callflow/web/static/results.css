@@ -33,6 +33,7 @@
   color: var(--primary, #0c4587); font-variant-numeric: tabular-nums;
 }
 .rv-tile-label { font-size: .8125rem; line-height: 1.3; font-weight: 600; color: var(--navy-700, #1a2d45); }
+.rv-tile-target { font-size: .75rem; line-height: 1.3; color: var(--text-muted, #5b6b80); }
 .rv-tile--danger { box-shadow: inset 0 4px 0 var(--danger, #a3141c), var(--shadow-md, 0 10px 24px rgba(10, 22, 40, .12)); }
 .rv-tile--danger .rv-tile-count { color: var(--danger, #a3141c); }
 .rv-tile--zero .rv-tile-count { color: var(--text-muted, #5b6b80); }
@@ -223,7 +224,8 @@
 @media (max-width: 560px) {
   .rv-files .btn { flex: 1 1 100%; }
   .rv-dashboard ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .rv-tile { flex-direction: row; align-items: center; gap: 10px; padding: 10px 12px; }
+  .rv-tile { flex-flow: row wrap; align-items: center; gap: 2px 10px; padding: 10px 12px; }
+  .rv-tile-target { flex-basis: 100%; }
   .rv-tile-count { font-size: 1.375rem; }
   .rv-tabs-bar { margin: 20px -16px 0; padding: 8px 16px; }
   .rv-card { padding: 20px 18px; border-radius: 20px; }

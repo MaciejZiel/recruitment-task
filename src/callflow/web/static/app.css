@@ -123,6 +123,35 @@ main:focus, h1:focus { outline: none; }
 }
 #view-new, #view-progress, #view-history { padding-bottom: 80px; }
 
+/* One-click demo in the hero and the "how it works" strip that takes the panel's overlap slot. */
+.demo { margin-top: 24px; }
+.btn-demo { box-shadow: var(--shadow-md); }
+.how {
+  position: relative; margin-top: -72px; background: var(--surface); border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm); box-shadow: var(--shadow-md); padding: 16px 20px;
+}
+.how-title {
+  margin: 0 0 10px; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.how-steps { display: flex; flex-wrap: wrap; gap: 8px 12px; margin: 0; padding: 0; list-style: none; }
+.how-steps li {
+  flex: 1 1 160px; display: flex; align-items: flex-start; gap: 8px;
+  font-size: .875rem; line-height: 1.35; color: var(--navy-800); font-weight: 500;
+}
+.how-num {
+  flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--primary-tint); color: var(--primary); font-size: .75rem; font-weight: 700;
+}
+.how-steps li:last-child .how-num { background: var(--accent); color: #fff; }
+.panel.panel-after-how { margin-top: 16px; }
+
+/* Footer with project documentation links, shown on every view. */
+.site-footer { border-top: 1px solid var(--border); padding: 20px 0 28px; font-size: .875rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; padding: 0; list-style: none; }
+.footer-links a { color: var(--text-muted); }
+.footer-links a:hover { color: var(--primary); }
+
 /* Form */
 .field { display: grid; gap: 6px; margin-bottom: 20px; align-content: start; }
 .label { font-weight: 700; color: var(--navy-950); }
@@ -242,6 +271,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .meta { font-size: 1rem; }
   .panel { padding: 20px 16px; border-radius: 20px; }
   .actions .btn { width: 100%; }
+  .btn-demo { width: 100%; }
+  .how-steps { flex-direction: column; }
+  .how-steps li { flex-basis: auto; }
   .history-row { grid-template-columns: 1fr; }
   .topnav a { padding: 8px 10px; }
 }

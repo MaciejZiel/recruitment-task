@@ -47,6 +47,12 @@
   const padId = (prefix, index) => prefix + String(index + 1).padStart(2, '0');
   const fold = (text) => String(text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+  // Polish text for known backend messages; app.js provides the dictionary (window.CallflowI18n).
+  function translate(text) {
+    const i18n = window.CallflowI18n;
+    return i18n && typeof i18n.translate === 'function' ? i18n.translate(text) : String(text);
+  }
+
   function formatDate(iso, withWeekday) {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
     if (!match) return iso || '';
@@ -375,7 +381,7 @@
       el('ul', { class: 'stats', 'aria-label': 'Statystyki' }, stats.map(([label, value, warn]) =>
         el('li', { class: warn ? 'stat-warn' : null }, [`${label}: `, el('strong', { text: String(value) })]))),
       el('p', { class: 'notice', role: 'note', text: NOTICE }),
-      ...(run.warnings || []).map((text) => el('p', { class: 'note-warn', role: 'note', text: `⚠️ ${text}` })),
+      ...(run.warnings || []).map((text) => el('p', { class: 'note-warn', role: 'note', text: `⚠️ ${translate(text)}` })),
       run.files && el('div', { class: 'rv-files' }, [
         files.report_html && el('a', { class: 'btn btn-light', href: files.report_html, target: '_blank', rel: 'noopener', text: 'Otwórz raport HTML' }),
         files.report_md && el('a', { class: 'btn btn-ghost rv-btn-dark', href: files.report_md, download: 'report.md', text: 'Pobierz report.md' }),
@@ -392,6 +398,7 @@
       }, [
         el('span', { class: 'rv-tile-count', text: String(tile.count) }),
         el('span', { class: 'rv-tile-label', text: tile.label }),
+        tile.target && el('span', { class: 'rv-tile-target', text: tile.target }),
       ])))));
   }
 
@@ -425,12 +432,13 @@
     const sections = [
       { key: 'summary', label: 'Podsumowanie', build: () => summaryPanel(result) },
       { key: 'guardrails', label: 'Zabezpieczenia', count: guardrails.length, build: () => guardrailsPanel(ctx, guardrails) },
-      { key: 'calendar', label: 'Terminy', count: calendar.length, build: () => calendarPanel(ctx, calendar) },
+      { key: 'calendar', label: 'Terminy', count: calendar.length, target: 'kalendarz po zatwierdzeniu', build: () => calendarPanel(ctx, calendar) },
       ...inboxList.map(([name, title]) => ({
         key: `inbox-${name}`, label: shortTitle(title), count: inboxes[name].items.length, danger: name === 'do_not_do',
+        target: inboxes[name].target,
         build: () => inboxPanel(ctx, `inbox-${name}`, title, inboxes[name]),
       })),
-      { key: 'drafts', label: 'Szkice', count: drafts.length, build: () => draftsPanel(ctx, drafts) },
+      { key: 'drafts', label: 'Szkice', count: drafts.length, target: 'poczta po zatwierdzeniu', build: () => draftsPanel(ctx, drafts) },
       issues.length && { key: 'issues', label: 'Ostrzeżenia', count: issues.length, danger: true, build: () => issuesPanel(ctx, issues) },
     ].filter(Boolean);
 
@@ -456,7 +464,7 @@
     ctx.tabsBar = el('div', { class: 'rv-tabs-bar' }, tablist);
 
     const tiles = sections.filter((s) => s.key !== 'summary' && s.key !== 'issues')
-      .map((s) => ({ key: s.key, label: s.label, count: s.count, danger: s.danger && s.count > 0 }));
+      .map((s) => ({ key: s.key, label: s.label, count: s.count, danger: s.danger && s.count > 0, target: s.target }));
     container.replaceChildren(el('div', { class: 'rv' }, [
       hero(run, outbox),
       el('div', { class: 'wrap rv-body' }, [dashboard(ctx, tiles), ctx.tabsBar, panels]),
