@@ -140,7 +140,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .file-pick input:focus-visible + label { outline: 3px solid var(--blue-500); outline-offset: 2px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
 .examples { display: flex; flex-wrap: wrap; gap: 8px; }
-.example-btn[aria-pressed="true"] { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn.example-btn[aria-pressed="true"] { background: var(--primary); color: #fff; border-color: var(--primary); }
 .format { font-size: .9375rem; }
 .format summary { cursor: pointer; color: var(--primary); font-weight: 500; width: fit-content; border-radius: var(--radius-xs); }
 .format pre, .format code { font-family: var(--mono); font-size: .8125rem; }
@@ -215,6 +215,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .status-error { background: var(--danger); color: #fff; }
 
 /* History */
+#history-status { margin-bottom: 12px; }
 .history { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
 .history-row {
   display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px 16px; padding: 16px 20px;

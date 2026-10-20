@@ -120,10 +120,12 @@ function focusHeading(view) {
 }
 
 function route() {
+  const hash = location.hash || "#/new";
+  // In-page anchors (e.g. "#item-A08" inside a result) are not routes; keep the current view.
+  if (!hash.startsWith("#/") && state.routeToken > 0) return;
   stopTimers();
   const token = ++state.routeToken;
-  const hash = location.hash || "#/new";
-  const runMatch = hash.match(/^#\/run\/([^/]+)$/);
+  const runMatch = hash.match(/^#\/runs?\/([^/]+)$/);
   if (runMatch) openRun(decodeURIComponent(runMatch[1]), token);
   else if (hash === "#/history") openHistory(token);
   else {
@@ -457,7 +459,6 @@ function summaryLine(run) {
   if (run.status === "error") return run.error ? `Błąd: ${run.error}` : "Błąd analizy.";
   if (!s) return run.status === "done" ? "" : "Analiza jeszcze trwa.";
   const parts = [
-    s.client,
     s.meeting_date || "data nieznana",
     `pozycji: ${s.items}`,
     `zabezpieczeń: ${s.guardrails}`,
@@ -479,13 +480,13 @@ function historyRow(run) {
     el(
       "div",
       {},
-      el("h2", { text: run.source_name || run.id }),
+      el("h2", { text: (run.summary && run.summary.client) || run.source_name || run.id }),
       el(
         "div",
         { class: "badges" },
         el("span", { class: `badge status-${run.status}`, text: STATUS_LABELS[run.status] || run.status }),
       ),
-      el("p", { text: `${formatTime(run.created_at)} · ${mode}${time}` }),
+      el("p", { text: `${run.source_name || "—"} · ${formatTime(run.created_at)} · ${mode}${time}` }),
       el("p", { text: summaryLine(run) }),
     ),
     el("a", { class: "btn btn-secondary btn-sm", href, text: action, "aria-label": `${action}: ${run.source_name || run.id}` }),
@@ -502,6 +503,11 @@ function init() {
   $("run-example").addEventListener("click", () => submitRun("example"));
   $("file").addEventListener("change", readFile);
   $("transcript").addEventListener("input", onTranscriptInput);
+  // The skip link must not change the hash: the router would treat "#main" as a new view.
+  document.querySelector(".skip").addEventListener("click", (event) => {
+    event.preventDefault();
+    $("main").focus();
+  });
   window.addEventListener("hashchange", route);
   updateFormState();
   loadExamples();
