@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Przypomnienie: dwie wersje wstępu  
 **Wysłać:** Tylko jeśli do końca czwartku 2026-10-08 nie przyjdą obie wersje. Wysłać raz, 2026-10-09.  
 **Dotyczy:** A01, A02

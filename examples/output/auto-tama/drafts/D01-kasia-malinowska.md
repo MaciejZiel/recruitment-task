@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Poprawione: adres we Włocławku i godziny  
 **Wysłać:** Po wprowadzeniu poprawek, planowo 2026-10-06. Bez nagrania testowego.  
 **Dotyczy:** A05, A06, A09

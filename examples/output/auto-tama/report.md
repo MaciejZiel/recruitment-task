@@ -38,6 +38,13 @@ Call statusowy dotyczył walidacji leadów (Peugeot i Citroën, Toruń i Włocł
 - **G11** Nie wysyłać zaproszenia na spotkanie z Pawłem przed potwierdzeniem od Kasi. (do: Potwierdzenie od Kasi · zdejmuje: Kasia Malinowska)
   > Marek (l. 210) ✅: „Czwartek, piętnastego, dziesiąta. Czekam na potwierdzenie od ciebie, zaproszenie wyślę dopiero wtedy.”
 
+## Ostrzeżenia walidacji
+
+- **A07**: termin opisany słownie („zaraz po rozmowie”) bez daty
+- **A11**: pozycja warunkowa oznaczona jako do zrobienia teraz
+- **A21**: termin opisany słownie („zaraz po rozmowie”) bez daty
+- **A23**: pozycja warunkowa oznaczona jako do zrobienia teraz
+
 ## Terminy (kalendarz i przypomnienia)
 
 - **2026-10-06** · A05 Poprawić adres salonu we Włocławku w bazie wiedzy · Nie wysyłać nagrania testowego, Kasia przetestuje sama; Napisać do Kasi, gdy będzie poprawione

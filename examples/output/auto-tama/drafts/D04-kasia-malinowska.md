@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Ponowne połączenia po rozłączeniu: przyczyna i rozliczenie  
 **Wysłać:** Po zdiagnozowaniu błędu i sprawdzeniu sposobu naliczania minut. Zdanie o odliczeniu tylko wtedy, gdy błąd po stronie Rinvo jest potwierdzony.  
 **Dotyczy:** A07, A10, A11

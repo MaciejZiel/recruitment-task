@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Podwójne telefony po rozłączeniu – podsumowanie i korekta faktury  
 **Wysłać:** Dziś, 2026-10-13  
 **Dotyczy:** A03, A04, A05

@@ -19,6 +19,10 @@ Call statusowy z DentaVita. Klientka zgłosiła błąd: w piątek trzy wizyty w 
 - **G03** Nie uznawać informacji, że Agnieszka Wróbel zgodziła się na Gdynię. Ona nie może tego zatwierdzić. (zdejmuje: dr Tomasz Lis)
   > Agnieszka (l. 50) ✅: „I jak ktoś napisze, że ja się zgodziłam na Gdynię, nie wierzcie.”
 
+## Ostrzeżenia walidacji
+
+- **D01**: szkic używa względnej daty („wczorajszym”)
+
 ## Terminy (kalendarz i przypomnienia)
 
 - **2026-10-13** · A02 Skrócić godziny dzwonienia do 17:30 w obu klinikach · Jedno wspólne ustawienie dla obu klinik, bez różnych godzin

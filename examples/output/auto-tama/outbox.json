@@ -1503,5 +1503,22 @@
       ]
     }
   ],
-  "issues": []
+  "issues": [
+    {
+      "id": "A07",
+      "message": "termin opisany słownie („zaraz po rozmowie”) bez daty"
+    },
+    {
+      "id": "A11",
+      "message": "pozycja warunkowa oznaczona jako do zrobienia teraz"
+    },
+    {
+      "id": "A21",
+      "message": "termin opisany słownie („zaraz po rozmowie”) bez daty"
+    },
+    {
+      "id": "A23",
+      "message": "pozycja warunkowa oznaczona jako do zrobienia teraz"
+    }
+  ]
 }

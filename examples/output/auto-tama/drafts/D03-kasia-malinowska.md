@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Plik ze świeżymi leadami  
 **Wysłać:** Tylko jeśli plik nie przyjdzie do końca poniedziałku 2026-10-12. Wysłać jeden raz, 2026-10-13, bez wzoru pliku.  
 **Dotyczy:** A16, A17

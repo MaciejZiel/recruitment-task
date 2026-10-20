@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Przypomnienie: teksty wstępu  
 **Wysłać:** Poniedziałek 2026-10-19, jednorazowo, tylko jeśli teksty nie przyszły wcześniej  
 **Dotyczy:** A09, A10, A11

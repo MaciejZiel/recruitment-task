@@ -1,4 +1,4 @@
-**Do:** Paweł &lt;pawel@autotama.pl&gt;  
+**Do:** Paweł <pawel@autotama.pl>  
 **Temat:** Zaproszenie: spotkanie Grupa Auto Tama × Rinvo – czwartek 15.10, 10:00, Toruń  
 **Wysłać:** Dziś, 2026-10-13  
 **Dotyczy:** A13, A14

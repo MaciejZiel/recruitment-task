@@ -16,6 +16,14 @@ Na callu kontrolnym Kasia potwierdziła, że adres i godziny podawane przez agen
 - **G02** Na spotkaniu z Pawłem pokazywać przykład 208 bez nazwy firmy
   > Marek (l. 58) ✅: „Wyślę dziś. Pokażę tę 208, bez nazwy firmy.”
 
+## Ostrzeżenia walidacji
+
+- **A04**: termin opisany słownie („z faktury za październik”) bez daty
+- **A09**: termin opisany słownie („W tym tygodniu nie zdążę”) bez daty
+- **A15**: pozycja warunkowa oznaczona jako do zrobienia teraz
+- **A16**: termin opisany słownie („już, nie za miesiąc”) bez daty
+- **D01**: szkic używa względnej daty („dzisiejszego”)
+
 ## Terminy (kalendarz i przypomnienia)
 
 - **2026-10-13** · A05 Wysłać Kasi maila o podwójnych telefonach · Adresat: Kasia

@@ -1,4 +1,4 @@
-**Do:** Kasia Malinowska &lt;kasia.malinowska@autotama.pl&gt;  
+**Do:** Kasia Malinowska <kasia.malinowska@autotama.pl>  
 **Temat:** Cena SMS po nieudanych próbach połączenia  
 **Wysłać:** Do piątku 2026-10-09. Tylko cena, bez przykładowej treści.  
 **Dotyczy:** A30, A31

@@ -318,5 +318,10 @@
       ]
     }
   ],
-  "issues": []
+  "issues": [
+    {
+      "id": "D01",
+      "message": "szkic używa względnej daty („wczorajszym”)"
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-**Do:** Ola Nowak &lt;ola.nowak@autotama.pl&gt;  
+**Do:** Ola Nowak <ola.nowak@autotama.pl>  
 **Temat:** Ściąga ze statusami walidacji leadów  
 **Wysłać:** Gdy ściąga będzie gotowa (Marek ma ją prawie gotową)  
 **Dotyczy:** A15
