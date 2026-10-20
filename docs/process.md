@@ -30,7 +30,7 @@ flowchart TD
         J["extraction.json<br/>zapisany wynik modelu"]
         V["verify.py: weryfikacja deterministyczna<br/>cytaty vs wypowiedzi mówcy, terminy, właściciele, odwołania"]
         R["route.py: routing regułami do skrzynek"]
-        OUT["render.py: report.md, outbox.json, drafts/*.md"]
+        OUT["render.py: report.md, outbox.json, drafts/*.md<br/>html_report.py: report.html"]
         H["Człowiek czyta raport i sam decyduje,<br/>co zatwierdzić i wykonać"]
     end
 
@@ -66,7 +66,8 @@ flowchart TD
 ```
 
 Tryb offline: `callflow <transkrypcja> --out <katalog> --from-json extraction.json` pomija model i od razu
-weryfikuje, routuje i renderuje zapisany wynik. Demo da się więc odtworzyć bez dostępu do Claude.
+weryfikuje, routuje i renderuje zapisany wynik (`report.md`, `report.html`, `outbox.json`, `drafts/`). Demo da się
+więc odtworzyć bez dostępu do Claude.
 
 ## Skrzynki
 
@@ -145,7 +146,8 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 
 ## Co jest w demo, a co nie
 
-- **Jest:** cały przebieg od pliku `.md` do `report.md`, `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
+- **Jest:** cały przebieg od pliku `.md` do `report.md`, `report.html` (ten sam raport jako jeden plik HTML do
+  otwarcia lokalnie w przeglądarce, `html_report.py`), `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
   z Auto Tama leży w `examples/output/auto-tama/`: 37 pozycji, 11 zabezpieczeń, 8 szkiców, 108 ze 108
   zweryfikowanych cytatów, bez ostrzeżeń walidacji. Dla DentaVita (`examples/output/dentavita/`): 6 pozycji,
   3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów.

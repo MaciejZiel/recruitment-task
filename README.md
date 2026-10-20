@@ -18,6 +18,9 @@ do zatwierdzenia przez człowieka.
 Dodatkowo: druga, fikcyjna rozmowa z innej branży do testów ([`examples/druga-rozmowa.md`](examples/druga-rozmowa.md))
 i jej wynik w [`examples/output/dentavita/`](examples/output/dentavita/report.md), a także niezależny wzorzec
 odpowiedzi dla rozmowy z Auto Tama ([`eval/reference.md`](eval/reference.md)).
+[`examples/transkrypcja-spotkanie.json`](examples/transkrypcja-spotkanie.json) to załączona transkrypcja
+rozbita na wypowiedzi z mówcą i numerem linii (`uv run python -m callflow.transcript
+examples/transkrypcja-spotkanie.md -o examples/transkrypcja-spotkanie.json`).
 
 ## Jak to działa
 
@@ -57,7 +60,7 @@ uv sync
 
 Uruchomienie na żywo na załączonej transkrypcji. Trwa około 4–5 minut i kosztuje około 0,7–0,9 USD użycia Claude
 (domyślnie `claude-opus-5-5`, `--effort high`; zapisany przebieg demo: 278 s, 0,85 USD). `--effort medium` jest
-szybsze. Krótsza rozmowa DentaVita: 57 s, 0,20 USD.
+szybsze. Krótsza rozmowa DentaVita: 56 s, 0,20 USD.
 
 ```bash
 uv run callflow examples/transkrypcja-spotkanie.md --out out/auto-tama
@@ -183,7 +186,8 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
   i szkice; bez integracji z systemami zewnętrznymi.
 - **Plan v2.0:** integracja z Jira: zweryfikowane pozycje ze skrzynek „Zgłoszenia błędów” i „Zmiany konfiguracji
   agenta” jako zadania dla zespołu Rinvo (wewnętrzne, więc bez bramki zatwierdzenia), bez duplikatów przy ponownym
-  uruchomieniu; prace na gałęzi `v2-jira`. Dalej dopracowanie UI raportu.
+  uruchomieniu. Implementacja (moduł i testy) jest na gałęzi `v2-jira`; na `main` została wycofana na potrzeby
+  wydania 1.0. Dalej dopracowanie UI raportu.
 
 ## Praca z AI
 
