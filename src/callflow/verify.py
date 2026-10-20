@@ -111,13 +111,15 @@ def verify(extraction: MeetingExtraction, transcript: Transcript) -> Verificatio
     return report
 
 
-def _check_item_fields(item, meeting_date: date, known_ids: set[str]) -> list[Issue]:
+def _check_item_fields(item, meeting_date: date | None, known_ids: set[str]) -> list[Issue]:
     issues = []
-    if item.due_date and item.due_date < meeting_date:
+    if item.due_date and meeting_date is None:
+        issues.append(Issue(item.id, f"termin {item.due_date} podany mimo nieznanej daty spotkania"))
+    elif item.due_date and item.due_date < meeting_date:
         issues.append(Issue(item.id, f"termin {item.due_date} jest przed datą spotkania"))
     if item.state in (State.do_now, State.scheduled) and not item.owner:
         issues.append(Issue(item.id, "pozycja do wykonania bez właściciela"))
-    if item.state == State.scheduled and not item.due_date:
+    if item.state == State.scheduled and not item.due_date and meeting_date is not None:
         issues.append(Issue(item.id, "stan 'scheduled' bez terminu"))
     for dependency in item.depends_on:
         if dependency not in known_ids:

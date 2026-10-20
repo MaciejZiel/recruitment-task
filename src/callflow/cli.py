@@ -64,8 +64,10 @@ def run(args: argparse.Namespace) -> int:
             date.fromisoformat(transcript.call_date) if transcript.call_date else None
         )
         if meeting_date is None:
-            raise ValueError(
-                "meeting date not found in the transcript header; pass --meeting-date YYYY-MM-DD"
+            print(
+                "warning: meeting date not found in the transcript; relative deadlines will not be "
+                "resolved (pass --meeting-date YYYY-MM-DD to fix)",
+                file=sys.stderr,
             )
         print(f"Extracting with {args.model} (effort {args.effort}); this takes a few minutes...")
         started = time.monotonic()

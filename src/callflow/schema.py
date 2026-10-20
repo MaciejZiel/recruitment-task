@@ -78,7 +78,7 @@ class Draft(StrictModel):
 
 
 class MeetingExtraction(StrictModel):
-    meeting_date: date
+    meeting_date: date | None = Field(description="MEETING_DATE from the input; null if it is unknown.")
     client: str
     participants: list[str]
     summary: str = Field(description="3-5 sentences in Polish.")

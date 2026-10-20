@@ -20,7 +20,7 @@ class ExtractionError(RuntimeError):
 
 def extract(
     transcript_text: str,
-    meeting_date: date,
+    meeting_date: date | None,
     vendor: str,
     *,
     model: str = llm.DEFAULT_MODEL,

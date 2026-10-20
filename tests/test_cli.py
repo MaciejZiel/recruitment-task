@@ -38,3 +38,21 @@ def test_live_run_writes_raw_response_and_extraction(tmp_path, monkeypatch):
     assert cli.main([str(transcript), "--out", str(tmp_path / "out")]) == 0
     assert (tmp_path / "out" / cli.EXTRACTION_FILE).is_file()
     assert (tmp_path / "out" / cli.RAW_RESPONSE_FILE).is_file()
+
+
+def test_missing_meeting_date_warns_and_still_runs(tmp_path, monkeypatch, capsys):
+    calls = []
+
+    def fake_extract(text, meeting_date, vendor, **kwargs):
+        calls.append(meeting_date)
+        extraction = cli.load_extraction(FIXTURE).model_copy(update={"meeting_date": None, "items": []})
+        return extraction, {"total_cost_usd": 0.0}
+
+    monkeypatch.setattr(cli, "extract", fake_extract)
+    transcript = tmp_path / "call.md"
+    transcript.write_text("Kasia: Filtr nie działa.\nMarek: Sprawdzę.\n", encoding="utf-8")
+
+    assert cli.main([str(transcript), "--out", str(tmp_path / "out")]) == 0
+    assert calls == [None]
+    assert "meeting date not found" in capsys.readouterr().err
+    assert "Data spotkania nieznana" in (tmp_path / "out" / "report.md").read_text(encoding="utf-8")

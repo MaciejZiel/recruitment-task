@@ -13,6 +13,9 @@ from callflow.verify import VerificationReport
 REPORT_FILE = "report.md"
 OUTBOX_FILE = "outbox.json"
 DRAFTS_DIR = "drafts"
+MISSING_DATE_NOTE = (
+    "> ⚠️ Data spotkania nieznana: terminy względne (np. „do czwartku”) nie zostały przeliczone na daty."
+)
 
 
 def md(text: str) -> str:
@@ -65,7 +68,7 @@ def render_report(routed: RoutedMeeting, report: VerificationReport, source_name
     extraction = routed.extraction
     verified = sum(check.verified for check in report.quotes)
     lines = [
-        f"# Po rozmowie: {md(extraction.client)}, {extraction.meeting_date}",
+        f"# Po rozmowie: {md(extraction.client)}, {extraction.meeting_date or 'data nieznana'}",
         "",
         f"Źródło: `{source_name}` · uczestnicy: {md(', '.join(extraction.participants))}  ",
         f"Pozycji: {len(extraction.items)} · zabezpieczeń: {len(extraction.guardrails)} · "
@@ -73,6 +76,10 @@ def render_report(routed: RoutedMeeting, report: VerificationReport, source_name
         "",
         "> Nic nie zostało wysłane ani zmienione. Każde działanie zewnętrzne czeka na zatwierdzenie.",
         "",
+    ]
+    if extraction.meeting_date is None:
+        lines += [MISSING_DATE_NOTE, ""]
+    lines += [
         "## Podsumowanie",
         "",
         md(extraction.summary),
@@ -154,7 +161,7 @@ def render_draft(draft: Draft) -> str:
 def build_outbox(routed: RoutedMeeting, report: VerificationReport) -> dict:
     unverified = report.unverified_ids()
     return {
-        "meeting_date": routed.extraction.meeting_date.isoformat(),
+        "meeting_date": routed.extraction.meeting_date and routed.extraction.meeting_date.isoformat(),
         "client": routed.extraction.client,
         "requires_approval": True,
         "inboxes": {

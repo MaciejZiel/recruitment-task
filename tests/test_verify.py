@@ -76,3 +76,12 @@ def test_full_name_from_model_matches_first_name_label(transcript):
 def test_different_speaker_with_shared_prefix_does_not_match():
     assert not same_speaker_label("Ania", "Anna")
     assert same_speaker_label("Marek", "Marek Rewoliński")
+
+
+def test_due_date_without_known_meeting_date_is_flagged(transcript):
+    extraction = make_extraction(items=[make_item(due_date=date(2026, 10, 15))])
+    extraction.meeting_date = None
+
+    assert messages(verify(extraction, transcript)) == [
+        ("A01", "termin 2026-10-15 podany mimo nieznanej daty spotkania")
+    ]
