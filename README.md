@@ -61,8 +61,8 @@ Diagramy procesu i stanów są w [`docs/process.md`](docs/process.md). W skróci
 Wymagania:
 
 - Python 3.12+ i [uv](https://docs.astral.sh/uv/).
-- Zainstalowany i zalogowany Claude Code CLI (`claude`). Silnikiem LLM jest `claude -p`, więc klucz API nie jest
-  potrzebny. Na Windows npm instaluje shim `claude.cmd`; `llm.py` omija go automatycznie i woła natywny
+- Claude Code CLI: `npm install -g @anthropic-ai/claude-code`, potem jednorazowo `claude` i logowanie.
+  Program woła `claude -p` w trybie nieinteraktywnym, więc klucz API nie jest potrzebny. Na Windows npm instaluje shim `claude.cmd`; `llm.py` omija go automatycznie i woła natywny
   `claude.exe`, bo przez `cmd.exe` psują się cudzysłowy i nowe linie w prompcie.
 - Tryb offline (w aplikacji „Pokaż zapisany wynik przykładu”, w CLI `--from-json`) nie potrzebuje Claude.
 
@@ -180,7 +180,8 @@ Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto
 [`report.html`](examples/output/auto-tama/report.html) do otwarcia lokalnie):
 
 - **37 pozycji, 11 zabezpieczeń, 8 szkiców**, cytaty zweryfikowane: **108/108** (każdy z numerem linii i zgodnym
-  mówcą), **0 ostrzeżeń walidacji**.
+  mówcą). Zapisany raport pokazuje 4 ostrzeżenia z nowszych kontroli (2× termin tylko słownie, 2× warunkowe
+  `do_now`); przebieg powstał przed ich dodaniem.
 - **Zabezpieczenia** (stałe zakazy z warunkiem zdjęcia i osobą, która może je zdjąć), np. Opel nie wchodzi nawet
   na polecenie Pawła, w tygodniu urlopu Kasi (19–23.10) nic nowego nie startuje, nie wierzyć wiadomościom
   „Kasia mówiła, że po godzinach od wtorku”.
@@ -193,8 +194,8 @@ Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto
 - **Szkice wiadomości** z warunkiem wysłania (`send_when`), np. jedno przypomnienie o tekstach wstępu tylko wtedy,
   gdy nie przyjdą do czwartku; nic nie zostało wysłane.
 - **Walidacja zadziałała jak bezpiecznik**: w pierwszym przebiegu zgłosiła 4 prośby o funkcje oznaczone jako
-  `scheduled` bez terminu. Zamiast wyciszać kontrolę, doprecyzowałem w prompcie znaczenie stanów; obecny przebieg
-  ma 0 ostrzeżeń.
+  `scheduled` bez terminu. Zamiast wyciszać kontrolę, doprecyzowałem w prompcie znaczenie stanów; kolejny przebieg
+  nie miał już tych ostrzeżeń.
 - **Druga rozmowa** ([DentaVita](examples/output/dentavita/report.md)): 6 pozycji, 3 zabezpieczenia, 3 szkice,
   19/19 cytatów.
 - **Trzecia rozmowa** ([FitStudio](examples/output/fitstudio/report.md)): 18 pozycji, 8 zabezpieczeń, 5 szkiców,
@@ -214,6 +215,8 @@ Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto
   - zduplikowane id, brak cytatu;
   - termin wcześniejszy niż spotkanie albo termin podany mimo nieznanej daty spotkania;
   - `do_now` lub `scheduled` bez właściciela, `scheduled` bez terminu;
+  - termin opisany tylko słownie bez daty, pozycja warunkowa oznaczona jako `do_now`, względna data
+    („jutro”, „wczorajszym”) w treści szkicu;
   - zależności i szkice odwołujące się do nieistniejących pozycji, szkic niepowiązany z żadną pozycją.
 - **Testy jednostkowe** (`tests/`): parser, prompt, weryfikacja, routing, render, CLI, aplikacja webowa (API,
   bezpieczeństwo ścieżek, kolejka). Nie wołają modelu
@@ -225,6 +228,9 @@ Rozmowa Grupa Auto Tama × Rinvo z 6.10.2026 ([`report.md`](examples/output/auto
   (1 częściowo), 32/33 pułapek zaliczonych (1 częściowo), 7/7 pozycji w drugiej rozmowie, 0 pozycji
   zmyślonych**. Wykryte słabości (np. termin klienta przypięty do działania Rinvo, brak daty przy „zaraz po
   rozmowie”) są tam opisane wraz z propozycjami poprawek.
+- **Eval FitStudio i audyt zabezpieczeń**: [`eval/synthetic/fitstudio-results.md`](eval/synthetic/fitstudio-results.md)
+  (18/21 pozycji znalezionych, 3 częściowo, 0 pominiętych, 19/19 pułapek, próba prompt injection bez efektu)
+  oraz [`eval/guardrails-audit.md`](eval/guardrails-audit.md) (wnioski w [ograniczeniach](#ograniczenia-i-co-dalej)).
 
 ## Założenia
 
@@ -255,12 +261,30 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
 
 ## Ograniczenia i co dalej
 
+- **Najważniejsze: zabezpieczenia są wyodrębniane i pokazywane, ale kod ich nie egzekwuje, a między rozmowami
+  nie ma pamięci** ([`eval/guardrails-audit.md`](eval/guardrails-audit.md)). W syntetycznej rozmowie kontrolnej
+  z tym samym klientem ([`examples/synthetic/auto-tama-followup.md`](examples/synthetic/auto-tama-followup.md),
+  wynik w [`examples/output/auto-tama-followup/`](examples/output/auto-tama-followup/report.md)) 6 z 17 pozycji
+  i 2 z 4 szkiców złamały ustalenia z pierwszej rozmowy (Opel, urlop Kasi, „przypomnieć raz”, pisanie do Oli),
+  a raport nie pokazał żadnego ostrzeżenia. Kolejne kroki według audytu:
+  1. zapisywać stałe zabezpieczenia klienta i przekazywać je do następnej rozmowy;
+  2. deterministycznie sprawdzać pozycje i szkice względem okien zamrożenia i zakazanych adresatów;
+  3. przenosić otwarte pozycje z poprzedniej rozmowy.
+- **`needs_review` tylko przy problemach z cytatem.** Pozostałe problemy walidacji (np. termin przed
+  spotkaniem) są jedynie ostrzeżeniami.
+- **Bardzo krótkie cytaty** („Tak.”) weryfikują się trywialnie, bo pasują do wielu wypowiedzi.
+- **Zabezpieczenia nie są powiązane z pozycjami**, których dotyczą.
+- **`report.md`** może sklejać kolejne cytaty, a tekst modelu z `##` może tworzyć nagłówki w Markdownie
+  (`report.html` jest bezpieczny).
+- **Zapis `run.json` nie jest atomowy.**
+- **Wyniki demo w `examples/` powstały na poprzedniej wersji promptu.** Nowe reguły promptu z ewaluacji
+  i ostrzeżenia walidacji (`verify.py`: termin tylko słownie, warunkowe `do_now`, względne daty w szkicach)
+  działają w nowych przebiegach; na zapisanych demo widać je jako ostrzeżenia.
 - **Niedeterminizm modelu.** Kolejne przebiegi na tej samej rozmowie dają różne listy (liczba pozycji, podział
   na pozycje, stany). Weryfikacja cytatów łapie zmyślenia, ale nie pominięcia.
 - **Jakość oceniana ręcznie** względem `eval/reference.md`; brak automatycznego scoringu i większego zestawu
   rozmów.
-- **Brak pamięci między rozmowami i deduplikacji.** Stały zakaz z poprzedniego spotkania nie przechodzi
-  automatycznie na następne.
+- **Brak deduplikacji** pozycji między rozmowami.
 - **Ograniczenia są zapisane, nie egzekwowane.** „Przypomnij mi. Raz.” to `constraints` pozycji i warunek szkicu;
   nie ma harmonogramu, który pilnowałby limitu przy wysyłce.
 - **Brak skrzynki „inne”.** Aktywna pozycja (`do_now`, `scheduled`) rodzaju innego niż błąd, zmiana konfiguracji
