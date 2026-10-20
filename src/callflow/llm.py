@@ -91,6 +91,8 @@ def complete_json(
     except json.JSONDecodeError as exc:
         detail = stderr or stdout[:500] or "no output"
         raise LLMError(f"claude -p exited with code {completed.returncode}: {detail}") from exc
+    if not isinstance(raw, dict):
+        raise LLMError(f"claude -p returned unexpected JSON: {stdout[:200]}")
 
     if completed.returncode != 0 or raw.get("is_error"):
         detail = raw.get("result") or raw.get("subtype") or stderr or "unknown error"
