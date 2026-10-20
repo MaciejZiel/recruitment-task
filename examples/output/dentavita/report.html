@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Po rozmowie: DentaVita, 2026-10-13 · callflow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&amp;display=swap">
+<style>
+/* Design tokens inspired by rinvo.io: navy surfaces, deep-blue primary, green accent, DM Sans. */
+:root {
+  --navy-950: #050e1a;
+  --navy-900: #0a1628;
+  --navy-700: #1a2d45;
+  --surface: #ffffff;
+  --surface-light: #f7fafd;
+  --surface-mid: #eef3f8;
+  --border: #e3e9f0;
+  --text: #0d1c2b;
+  --text-muted: #51607a;
+  --primary: #0c4587;
+  --primary-dark: #083366;
+  --primary-tint: #e7eef8;
+  --accent: #055138;
+  --accent-tint: #e6f4ed;
+  --warn: #7a4300;
+  --warn-tint: #fff3dc;
+  --warn-border: #f0b44c;
+  --danger: #a3141c;
+  --danger-tint: #fdecec;
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-pill: 9999px;
+  --shadow-sm: 0 4px 12px rgba(10, 22, 40, .08);
+  --font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; font-family: var(--font); font-size: 16px; line-height: 1.55;
+  color: var(--text); background: var(--surface-light); overflow-wrap: anywhere;
+}
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+.hero {
+  color: #fff;
+  background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 60%, var(--primary) 100%);
+  padding: 32px 0 40px;
+}
+.product {
+  display: inline-block; padding: 4px 12px; border-radius: var(--radius-pill);
+  background: #fff; color: var(--navy-950); font-size: .8125rem; font-weight: 600; letter-spacing: .02em;
+}
+.hero h1 { margin: 16px 0 8px; font-size: clamp(1.75rem, 4.5vw, 2.75rem); font-weight: 700;
+  line-height: 1.1; letter-spacing: -.02em; }
+.meta { margin: 0; color: rgba(255, 255, 255, .86); }
+.meta code { font-family: inherit; font-weight: 600; color: #fff; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+.stats li {
+  padding: 6px 14px; border-radius: var(--radius-pill); font-size: .9375rem;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
+}
+.stats strong { font-weight: 700; }
+.stats li.stat-warn { background: var(--warn-tint); color: var(--warn); border-color: var(--warn-border); }
+.notice {
+  margin: 24px 0 0; padding: 14px 18px; border-radius: var(--radius);
+  background: var(--accent-tint); color: var(--accent); font-weight: 600;
+  border-left: 6px solid var(--accent); box-shadow: var(--shadow-sm);
+}
+.note-warn {
+  margin: 12px 0 0; padding: 12px 18px; border-radius: var(--radius);
+  background: var(--warn-tint); color: var(--warn); border-left: 6px solid var(--warn-border);
+}
+
+.nav {
+  position: sticky; top: 0; z-index: 10; background: rgba(255, 255, 255, .96);
+  border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.nav ul { display: flex; flex-wrap: wrap; gap: 0 2px; margin: 0 auto; padding: 6px 12px;
+  list-style: none; max-width: 980px; }
+.nav a {
+  display: block; white-space: nowrap; padding: 3px 8px; border-radius: var(--radius-pill);
+  color: var(--navy-700); text-decoration: none; font-size: .8125rem; font-weight: 500;
+}
+.nav a:hover { background: var(--surface-mid); color: var(--navy-950); }
+
+main { padding: 8px 0 48px; }
+section { margin-top: 40px; scroll-margin-top: 88px; }
+h2 { margin: 0 0 6px; font-size: 1.5rem; font-weight: 700; letter-spacing: -.01em; color: var(--navy-950); }
+.target { margin: 0 0 16px; color: var(--text-muted); font-size: .9375rem; }
+.lead { margin: 12px 0 0; font-size: 1.0625rem; max-width: 72ch; }
+.empty { margin: 16px 0 0; font-weight: 700; }
+
+.cards { display: grid; gap: 14px; margin-top: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); padding: 18px 20px; scroll-margin-top: 88px;
+}
+.card h3 { margin: 0; font-size: 1.125rem; font-weight: 700; line-height: 1.35; color: var(--navy-950); }
+.card-id { color: var(--primary); margin-right: 6px; }
+.card.needs-review { border-left: 6px solid var(--warn-border); }
+/* After needs-review on purpose: a prohibition keeps its red edge even when its evidence is weak. */
+.card.do-not-do { border-left: 6px solid var(--danger); }
+.card p { margin: 10px 0 0; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-pill); font-size: .8125rem;
+  font-weight: 600; border: 1px solid transparent; line-height: 1.6;
+}
+.badge-kind { background: var(--surface); color: var(--navy-700); border-color: #b9c4d3; }
+.state-do_now { background: var(--primary-tint); color: var(--primary); }
+.state-scheduled { background: #ece9fb; color: #3f2c96; }
+.state-waiting_on_client { background: var(--warn-tint); color: var(--warn); }
+.state-on_hold { background: var(--surface-mid); color: #3b4a5f; }
+.state-do_not_do { background: var(--danger); color: #fff; }
+.state-no_action { background: #f1f2f4; color: #4a5160; }
+.flag {
+  display: inline-block; margin-left: 6px; padding: 1px 10px; border-radius: var(--radius-pill);
+  background: var(--warn-tint); color: var(--warn); border: 1px solid var(--warn-border);
+  font-size: .8125rem; font-weight: 700; vertical-align: middle;
+}
+
+.facts { display: grid; grid-template-columns: 9.5rem 1fr; gap: 4px 14px; margin: 14px 0 0;
+  font-size: .9375rem; }
+.facts dt { color: var(--text-muted); font-weight: 600; }
+.facts dd { margin: 0; }
+.facts ul { margin: 0; padding-left: 1.1em; }
+
+.quotes { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.quote {
+  margin: 0; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--surface-light);
+  border-left: 3px solid #b9c4d3; font-size: .9375rem;
+}
+.quote-meta { display: block; font-size: .8125rem; color: var(--text-muted); }
+.quote-meta strong { color: var(--navy-700); }
+.quote.unverified { border-left-color: var(--warn-border); background: var(--warn-tint); }
+.quote.unverified .quote-meta { color: var(--warn); }
+.quote.missing { color: var(--warn); background: var(--warn-tint); border-left-color: var(--warn-border); }
+
+.guard-meta { margin: 8px 0 0; font-size: .9375rem; color: var(--text-muted); }
+.guard-meta strong { color: var(--text); }
+
+.issues { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.issues li { padding: 10px 14px; border-radius: var(--radius-sm); background: var(--warn-tint);
+  color: var(--warn); border: 1px solid var(--warn-border); }
+
+.timeline { margin: 16px 0 0; padding: 0; list-style: none; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.timeline li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 4px 16px; padding: 12px 20px;
+  border-top: 1px solid var(--surface-mid); }
+.timeline li:first-child { border-top: 0; }
+.timeline time { font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+.timeline .limits { display: block; color: var(--text-muted); font-size: .875rem; }
+
+.filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 24px; }
+.filter span { font-weight: 600; margin-right: 4px; }
+.filter button {
+  font: inherit; font-size: .875rem; padding: 4px 12px; border-radius: var(--radius-pill); cursor: pointer;
+  background: var(--surface); color: var(--navy-700); border: 1px solid #b9c4d3;
+}
+.filter button[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.draft-body {
+  margin: 14px 0 0; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--surface-light);
+  border: 1px solid var(--border); white-space: pre-wrap; font-family: inherit; font-size: .9375rem;
+}
+.draft-file { margin: 10px 0 0; font-size: .875rem; }
+
+.assumptions { margin: 16px 0 0; padding-left: 1.2em; }
+.assumptions li { margin-top: 6px; }
+
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px; }
+  /* One swipeable row instead of a nav block that would cover half of a phone screen. */
+  .nav ul { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 8px 16px; }
+  section, .card { scroll-margin-top: 64px; }
+  .card { padding: 16px; }
+  .facts { grid-template-columns: 1fr; gap: 0; }
+  .facts dd { margin-bottom: 8px; }
+  .timeline li { grid-template-columns: 1fr; padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<span class="product">callflow</span>
+<h1>Po rozmowie: DentaVita, 2026-10-13</h1>
+<p class="meta">Źródło: <code>druga-rozmowa.md</code> · uczestnicy: Agnieszka Wróbel (DentaVita, kierowniczka rejestracji), Marek Rewoliński (Rinvo)</p>
+<ul class="stats" aria-label="Statystyki"><li>Pozycji: <strong>6</strong></li><li>Zabezpieczeń: <strong>3</strong></li><li>Szkiców: <strong>3</strong></li><li>Cytaty zweryfikowane: <strong>19/19</strong></li></ul>
+<p class="notice" role="note">Nic nie zostało wysłane ani zmienione. Każde działanie zewnętrzne czeka na zatwierdzenie.</p>
+
+</div>
+</header>
+<nav class="nav" aria-label="Sekcje raportu"><ul><li><a href="#summary">Podsumowanie</a></li><li><a href="#guardrails">Zabezpieczenia (3)</a></li><li><a href="#calendar">Terminy</a></li><li><a href="#inbox-do_not_do">Nie robić (2)</a></li><li><a href="#inbox-tickets">Zgłoszenia błędów (1)</a></li><li><a href="#inbox-config_changes">Zmiany konfiguracji agenta (1)</a></li><li><a href="#inbox-tasks">Zadania zespołu (1)</a></li><li><a href="#inbox-backlog">Backlog produktu (1)</a></li><li><a href="#drafts">Szkice (3)</a></li><li><a href="#assumptions">Założenia</a></li></ul></nav>
+<main class="wrap">
+<section id="summary">
+<h2>Podsumowanie</h2>
+<p class="lead">Call statusowy z DentaVita. Klientka zgłosiła błąd: w piątek trzy wizyty w Oliwie zostały odwołane w rozmowie z agentem, ale w panelu mają status „potwierdzona”. Przez to w poniedziałek trzy fotele stały puste. Marek ma do czwartku 15.10 przekazać diagnozę i sprawdzić, czy problem wystąpił też w inne dni. Godziny dzwonienia ostatecznie skracamy do 17:30 w obu klinikach (wcześniej ustalono 18:00). Obowiązuje bezwzględny zakaz wysyłania nagrań mailem. Prośbę o proponowanie nowego terminu przez agenta wpisujemy do backlogu bez terminu. Gdyni nie włączamy, dopóki dr Lis nie zobaczy wyników za październik i sam nie zdecyduje. Pytanie księgowości o naliczanie minut przy poczcie głosowej Marek wyjaśni z Michałem.</p>
+
+</section>
+<section id="guardrails">
+<h2>Zabezpieczenia (sprawdzić przed każdym działaniem)</h2>
+<div class="cards"><article class="card guardrail" id="G01"><h3><span class="card-id">G01</span>Nie wysyłać nagrań rozmów mailem (dane medyczne), także na pilną prośbę klientki.</h3><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 38) ✅</span>„I nagrań mi nie przesyłajcie mailem, nawet jak poproszę w pośpiechu.”</blockquote></li></ul></article><article class="card guardrail" id="G02"><h3><span class="card-id">G02</span>Nie włączać agenta w klinice w Gdyni bez decyzji dr. Tomasza Lisa.</h3><p class="guard-meta"><strong>do:</strong> Do decyzji dr. Lisa po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza · <strong>zdejmuje:</strong> dr Tomasz Lis</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 50) ✅</span>„Gdyni nie włączamy, dopóki doktor Lis nie zobaczy wyników za październik z Oliwy i Wrzeszcza.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 50) ✅</span>„On o tym zdecyduje, nie ja.”</blockquote></li></ul></article><article class="card guardrail" id="G03"><h3><span class="card-id">G03</span>Nie uznawać informacji, że Agnieszka Wróbel zgodziła się na Gdynię. Ona nie może tego zatwierdzić.</h3><p class="guard-meta"><strong>zdejmuje:</strong> dr Tomasz Lis</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 50) ✅</span>„I jak ktoś napisze, że ja się zgodziłam na Gdynię, nie wierzcie.”</blockquote></li></ul></article></div>
+</section>
+<section id="calendar">
+<h2>Terminy (kalendarz i przypomnienia)</h2>
+<ol class="timeline"><li><time datetime="2026-10-13">2026-10-13</time><div><a href="#A02">A02</a> Skrócić godziny dzwonienia do 17:30 w obu klinikach<span class="limits">Jedno wspólne ustawienie dla obu klinik, bez różnych godzin</span></div></li><li><time datetime="2026-10-15">2026-10-15</time><div><a href="#A01">A01</a> Zdiagnozować błędne statusy odwołanych wizyt w Oliwie<span class="limits">Sprawdzić także inne dni, nie tylko te trzy wizyty</span></div></li></ol>
+</section>
+<div class="filter" role="group" aria-label="Filtr pozycji wg stanu" hidden><span>Stan:</span><button type="button" data-state="" aria-pressed="true">wszystkie</button><button type="button" data-state="do_now" aria-pressed="false">do_now</button><button type="button" data-state="scheduled" aria-pressed="false">scheduled</button><button type="button" data-state="do_not_do" aria-pressed="false">do_not_do</button></div>
+<section class="inbox" id="inbox-do_not_do">
+<h2>Nie robić (zakazy i odrzucone prośby)</h2>
+<p class="target">Cel: lista zabezpieczeń konta klienta</p>
+<div class="cards"><article class="card item do-not-do" id="A03" data-state="do_not_do"><h3><span class="card-id">A03</span>Nie wysyłać nagrań rozmów mailem</h3><div class="badges"><span class="badge badge-kind">info</span><span class="badge state-do_not_do">do_not_do</span></div><p>Nagrania zawierają dane medyczne. Nie wolno ich wysyłać mailem, nawet jeśli klientka poprosi o to w pośpiechu. Klientka odsłuchuje nagrania w panelu.</p><dl class="facts"><dt>Ograniczenia</dt><dd><ul><li>Bez wyjątków, także na pilną prośbę klientki</li><li>Nagrań nie dołączać do żadnych wiadomości</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 38) ✅</span>„I nagrań mi nie przesyłajcie mailem, nawet jak poproszę w pośpiechu.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 40) ✅</span>„Jasne, żadnych nagrań mailem.”</blockquote></li></ul></article><article class="card item do-not-do" id="A05" data-state="do_not_do"><h3><span class="card-id">A05</span>Nie podpinać kliniki w Gdyni</h3><div class="badges"><span class="badge badge-kind">feature_request</span><span class="badge state-do_not_do">do_not_do</span></div><p>Marek zaproponował podpięcie Gdyni w przyszłym tygodniu, ale klientka odmówiła. O Gdyni zdecyduje dr Tomasz Lis po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza. Agnieszka nie może tego zatwierdzić.</p><dl class="facts"><dt>Warunek</dt><dd>Dopiero po decyzji dr. Lisa, podjętej po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza</dd><dt>Zatwierdza</dt><dd>dr Tomasz Lis (nie Agnieszka Wróbel)</dd><dt>Wersja ostateczna</dt><dd>Gdynia pozostaje niepodpięta do decyzji dr. Lisa</dd><dt>Zastępuje</dt><dd>Propozycja Marka: podpięcie Gdyni w przyszłym tygodniu</dd><dt>Ograniczenia</dt><dd><ul><li>Nie uznawać zgody Agnieszki Wróbel, ona nie może zatwierdzić Gdyni</li><li>Nie wierzyć informacjom, że Agnieszka zgodziła się na Gdynię</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 48) ✅</span>„Mogę ją podpiąć nawet w przyszłym tygodniu.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 50) ✅</span>„Gdyni nie włączamy, dopóki doktor Lis nie zobaczy wyników za październik z Oliwy i Wrzeszcza.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 52) ✅</span>„Dobra, Gdynia czeka na doktora Lisa i wyniki za październik.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-tickets">
+<h2>Zgłoszenia błędów (dla zespołu technicznego)</h2>
+<p class="target">Cel: issue tracker (np. Linear/Jira)</p>
+<div class="cards"><article class="card item" id="A01" data-state="scheduled"><h3><span class="card-id">A01</span>Zdiagnozować błędne statusy odwołanych wizyt w Oliwie</h3><div class="badges"><span class="badge badge-kind">bug</span><span class="badge state-scheduled">scheduled</span></div><p>Trzy wizyty z Oliwy (poniedziałek 12.10, godz. 8:00, 8:30 i 9:00, gabinet dr Kani) pacjenci odwołali w piątkowych rozmowach z agentem, a w panelu mają status „potwierdzona”. Rejestracja ich nie przepisała i fotele stały puste. Trzeba ustalić przyczynę i sprawdzić, czy to samo działo się w inne dni, a potem przekazać wynik Agnieszce.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński (Rinvo)</dd><dt>Termin</dt><dd>2026-10-15 („Do czwartku”)</dd><dt>Ograniczenia</dt><dd>Sprawdzić także inne dni, nie tylko te trzy wizyty</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 26) ✅</span>„W piątek trzy osoby z Oliwy odwołały wizytę w rozmowie z agentem, a w panelu mają status „potwierdzona”.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 30) ✅</span>„Wszystkie trzy były na poniedziałek na ósmą, ósmą trzydzieści i dziewiątą, gabinet doktor Kani.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 32) ✅</span>„Do czwartku dam ci znać, co się stało i czy w innych dniach też tak było.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-config_changes">
+<h2>Zmiany konfiguracji agenta</h2>
+<p class="target">Cel: panel konfiguracji agenta (zmiana po zatwierdzeniu)</p>
+<div class="cards"><article class="card item" id="A02" data-state="scheduled"><h3><span class="card-id">A02</span>Skrócić godziny dzwonienia do 17:30 w obu klinikach</h3><div class="badges"><span class="badge badge-kind">config_change</span><span class="badge state-scheduled">scheduled</span></div><p>Agent ma dzwonić najpóźniej do 17:30, zarówno w Oliwie, jak i we Wrzeszczu. Pacjenci oddzwaniają na rejestrację, a rejestracja w Oliwie zamyka się teraz wcześniej. Klientka nie chce dwóch różnych ustawień.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński (Rinvo)</dd><dt>Termin</dt><dd>2026-10-13 („dzisiaj”)</dd><dt>Wersja ostateczna</dt><dd>Dzwonienie do 17:30 w Oliwie i we Wrzeszczu</dd><dt>Zastępuje</dt><dd><ul><li>Obecnie do 19:00</li><li>Do 18:00 (ustalone wcześniej w trakcie rozmowy, potem poprawione przez klientkę)</li></ul></dd><dt>Ograniczenia</dt><dd>Jedno wspólne ustawienie dla obu klinik, bez różnych godzin</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 36) ✅</span>„Dobra, do osiemnastej. Zmienię dzisiaj.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 58) ✅</span>„Nie do osiemnastej, tylko do siedemnastej trzydzieści, bo rejestracja w Oliwie zamyka się teraz wcześniej, a nie chcę dwóch różnych ustawień.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 60) ✅</span>„Czyli dzwonimy do siedemnastej trzydzieści, w obu klinikach.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-tasks">
+<h2>Zadania zespołu</h2>
+<p class="target">Cel: lista zadań właściciela</p>
+<div class="cards"><article class="card item" id="A06" data-state="do_now"><h3><span class="card-id">A06</span>Wyjaśnić naliczanie minut przy poczcie głosowej i odpisać księgowości</h3><div class="badges"><span class="badge badge-kind">task</span><span class="badge state-do_now">do_now</span></div><p>Księgowość DentaVita pyta, czy płaci za minutę, gdy agent trafia na pocztę głosową i się rozłącza. Marek nie zna odpowiedzi. Sprawdzi to z Michałem i odpisze klientce.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński (Rinvo)</dd><dt>Ograniczenia</dt><dd>Nie odpowiadać przed sprawdzeniem z Michałem</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 54) ✅</span>„Jak agent trafia na pocztę głosową i się rozłącza, to płacimy za to minutę?”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 56) ✅</span>„Nie jestem pewien, jak to liczymy przy poczcie głosowej. Sprawdzę z Michałem i odpiszę.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-backlog">
+<h2>Backlog produktu (prośby o funkcje)</h2>
+<p class="target">Cel: tablica produktowa</p>
+<div class="cards"><article class="card item" id="A04" data-state="do_now"><h3><span class="card-id">A04</span>Zapisać w backlogu prośbę o proponowanie nowego terminu przy odwołaniu</h3><div class="badges"><span class="badge badge-kind">feature_request</span><span class="badge state-do_now">do_now</span></div><p>Klientka chce, żeby agent po odwołaniu wizyty od razu proponował pacjentowi nowy termin z grafiku. Wymagałoby to integracji z grafikiem kliniki, której dziś nie ma. Prośba trafia do backlogu bez terminu.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński (Rinvo)</dd><dt>Ograniczenia</dt><dd>Nie podawać klientowi terminu realizacji</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 42) ✅</span>„Chciałabym, żeby od razu proponował nowy termin z grafiku.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 44) ✅</span>„Zapisuję jako prośbę, ale terminu nie podam.”</blockquote></li></ul></article></div>
+</section>
+<section id="drafts">
+<h2>Szkice wiadomości (do zatwierdzenia)</h2>
+<div class="cards"><article class="card draft" id="D01"><h3><span class="card-id">D01</span>Godziny dzwonienia zmienione na 17:30</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Godziny dzwonienia zmienione na 17:30</dd><dt>Wysłać</dt><dd>Po faktycznym wprowadzeniu zmiany godzin w konfiguracji (A02). Nie wysyłać automatycznie.</dd><dt>Dotyczy</dt><dd><a href="#A02">A02</a>, <a href="#A01">A01</a></dd></dl><div class="draft-body">Dzień dobry,
+
+potwierdzam zmianę ustaloną na wczorajszym callu: od teraz agent dzwoni do pacjentów najpóźniej do 17:30, zarówno w Oliwie, jak i we Wrzeszczu.
+
+Do czwartku 15.10 wrócę z informacją o przyczynie błędnych statusów wizyt w Oliwie. Napiszę też, czy problem wystąpił w inne dni.
+
+Pozdrawiam,
+Marek Rewoliński
+Rinvo</div><p class="draft-file">Plik: <a href="drafts/D01-agnieszka-wrobel.md">drafts/D01-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D02"><h3><span class="card-id">D02</span>Błędne statusy odwołanych wizyt w Oliwie: wyniki analizy</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Błędne statusy odwołanych wizyt w Oliwie: wyniki analizy</dd><dt>Wysłać</dt><dd>Do czwartku 2026-10-15, dopiero po zakończeniu analizy. Bez załączonych nagrań.</dd><dt>Dotyczy</dt><dd><a href="#A01">A01</a>, <a href="#A03">A03</a></dd></dl><div class="draft-body">Dzień dobry,
+
+sprawdziliśmy trzy wizyty z poniedziałku 12.10 (8:00, 8:30, 9:00, gabinet dr Kani), które pacjenci odwołali w rozmowie z agentem, a w panelu miały status „potwierdzona”.
+
+Przyczyna: [UZUPEŁNIĆ po analizie]
+Inne dni: [UZUPEŁNIĆ: czy problem wystąpił też w inne dni i których wizyt dotyczył]
+Dalsze kroki: [UZUPEŁNIĆ]
+
+Nagrania rozmów są dostępne do odsłuchu w panelu.
+
+Pozdrawiam,
+Marek Rewoliński
+Rinvo</div><p class="draft-file">Plik: <a href="drafts/D02-agnieszka-wrobel.md">drafts/D02-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D03"><h3><span class="card-id">D03</span>Naliczanie minut przy poczcie głosowej</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Naliczanie minut przy poczcie głosowej</dd><dt>Wysłać</dt><dd>Dopiero po ustaleniu odpowiedzi z Michałem. Bez zgadywania.</dd><dt>Dotyczy</dt><dd><a href="#A06">A06</a></dd></dl><div class="draft-body">Dzień dobry,
+
+w nawiązaniu do pytania księgowości: sprawdziłem z Michałem, jak naliczamy minuty, gdy agent trafia na pocztę głosową i się rozłącza.
+
+[UZUPEŁNIĆ odpowiedź po ustaleniu z Michałem]
+
+Pozdrawiam,
+Marek Rewoliński
+Rinvo</div><p class="draft-file">Plik: <a href="drafts/D03-agnieszka-wrobel.md">drafts/D03-agnieszka-wrobel.md</a></p></article></div>
+</section>
+<section id="assumptions">
+<h2>Założenia przyjęte przy analizie</h2>
+<ul class="assumptions"><li>„Do czwartku” odczytano jako czwartek 2026-10-15, czyli najbliższy czwartek po callu.</li><li>„Zmienię dzisiaj” padło przy wersji 18:00. Przyjęto, że termin 2026-10-13 dotyczy też ostatecznej wersji (17:30).</li><li>„W obu klinikach” odczytano jako Oliwę i Wrzeszcz, bo tylko te dwie kliniki mają włączonego agenta.</li><li>Wyniki za październik będą pełne najwcześniej po 2026-10-31, więc decyzja dr. Lisa w sprawie Gdyni nie zapadnie wcześniej. Nikt nie ustalił, kto i kiedy przekaże dr. Lisowi te wyniki, dlatego nie utworzono takiego zadania ani przypomnienia.</li><li>Prośbę o proponowanie nowego terminu wpisano do backlogu bez terminu, bo Marek wprost odmówił jego podania.</li><li>Pytanie o pocztę głosową nie ma terminu odpowiedzi. Przyjęto, że Marek odpisze po ustaleniu tego z Michałem.</li></ul>
+</section>
+</main>
+<script>
+const bar = document.querySelector('.filter');
+if (bar) {
+  bar.hidden = false;
+  bar.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-state]');
+    if (!button) return;
+    const state = button.dataset.state;
+    bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('article.item').forEach((card) => {
+      card.hidden = state !== '' && card.dataset.state !== state;
+    });
+    document.querySelectorAll('section.inbox').forEach((section) => {
+      section.hidden = !section.querySelector('article.item:not([hidden])');
+    });
+  });
+}
+</script>
+</body>
+</html>
