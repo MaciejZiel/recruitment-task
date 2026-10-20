@@ -14,7 +14,8 @@ działania, a decyzję o wykonaniu podejmuje człowiek.
 
 ## Proces docelowy
 
-Zielone elementy działają w demo (`src/callflow`). Szare, przerywane to elementy docelowe, jeszcze niezbudowane.
+Zielone elementy działają w aplikacji (`src/callflow`). Szare, przerywane to elementy docelowe, jeszcze
+niezbudowane. Aplikacja webowa i CLI korzystają z tego samego pipeline'u.
 
 ```mermaid
 flowchart TD
@@ -23,15 +24,18 @@ flowchart TD
         MEM["Pamięć ustaleń klienta między rozmowami<br/>stałe zakazy, aktualne godziny i adresy"]
     end
 
-    subgraph DEMO["Demo: zaimplementowane"]
-        T["Plik transkrypcji .md"]
+    subgraph DEMO["Zaimplementowane"]
+        WIN["Przeglądarka, ekran Nowa analiza<br/>wklejony tekst, plik .md/.txt lub przykład"]
+        WQ["web/server.py + web/runs.py<br/>walidacja, kolejka przebiegów, zapis w runs/id/"]
+        T["CLI: plik transkrypcji .md/.txt"]
         P["transcript.py: parsowanie<br/>wypowiedzi z numerami linii, data spotkania"]
         E["extract.py + llm.py: ekstrakcja przez claude -p<br/>JSON Schema z modeli pydantic, kalendarz od daty spotkania"]
         J["extraction.json<br/>zapisany wynik modelu"]
         V["verify.py: weryfikacja deterministyczna<br/>cytaty vs wypowiedzi mówcy, terminy, właściciele, odwołania"]
         R["route.py: routing regułami do skrzynek"]
         OUT["render.py: report.md, outbox.json, drafts/*.md<br/>html_report.py: report.html"]
-        H["Człowiek czyta raport i sam decyduje,<br/>co zatwierdzić i wykonać"]
+        WR["Widok wyniku w przeglądarce<br/>skrzynki, cytaty ze statusem, szkice, historia"]
+        H["Człowiek czyta wynik i sam decyduje,<br/>co zatwierdzić i wykonać"]
     end
 
     subgraph FUTURE_OUT["Docelowo: wyjście"]
@@ -42,6 +46,8 @@ flowchart TD
     end
 
     MEET -.-> T
+    WIN --> WQ
+    WQ --> P
     T --> P
     P --> E
     MEM -.-> E
@@ -50,7 +56,9 @@ flowchart TD
     P --> V
     V --> R
     R --> OUT
+    OUT --> WR
     OUT --> H
+    WR --> H
     R -.-> DEDUP
     DEDUP -.-> UI
     OUT -.-> UI
@@ -61,13 +69,13 @@ flowchart TD
 
     classDef impl fill:#e6f4ea,stroke:#2e7d32,color:#1b1b1b
     classDef future fill:#f2f2f2,stroke:#888888,stroke-dasharray:5 5,color:#555555
-    class T,P,E,J,V,R,OUT,H impl
+    class WIN,WQ,T,P,E,J,V,R,OUT,WR,H impl
     class MEET,MEM,DEDUP,UI,INT,FB future
 ```
 
-Tryb offline: `callflow <transkrypcja> --out <katalog> --from-json extraction.json` pomija model i od razu
-weryfikuje, routuje i renderuje zapisany wynik (`report.md`, `report.html`, `outbox.json`, `drafts/`). Demo da się
-więc odtworzyć bez dostępu do Claude.
+Tryb offline: w aplikacji „Pokaż zapisany wynik przykładu”, w CLI `callflow <transkrypcja> --out <katalog>
+--from-json extraction.json`. Oba pomijają model i od razu weryfikują, routują i renderują zapisany wynik
+(`report.md`, `report.html`, `outbox.json`, `drafts/`). Demo da się więc odtworzyć bez dostępu do Claude.
 
 ## Skrzynki
 
@@ -89,7 +97,8 @@ a reguły w kodzie wybierają skrzynkę. Reguły są sprawdzane w kolejności z 
 Poza skrzynkami raport zawiera trzy dodatkowe sekcje. Zabezpieczenia (`guardrails`) to stałe zakazy z warunkiem
 zdjęcia i osobą, która może je zdjąć; sprawdza się je przed każdym działaniem. Kalendarz (terminy
 i przypomnienia) powstaje z pozycji `scheduled` i `waiting_on_client` z datą; `on_hold` nigdy do niego nie trafia. Szkice wiadomości mają pole `send_when` i nigdy nie są wysyłane same. Kolumna
-„System docelowy” to tylko etykieta w raporcie: w v1.0 żadna integracja niczego nigdzie nie wysyła.
+„System docelowy” to tylko etykieta w raporcie: aplikacja nie wysyła niczego do tych systemów (w trakcie: Jira,
+patrz niżej). <!-- TODO lead: jira -->
 
 ## Stany pozycji
 
@@ -141,12 +150,20 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   nie wypowiedział, trafiają do `assumptions`.
 - **Tryb offline.** `--from-json` odtwarza cały proces bez modelu z zapisanego `extraction.json`. Dzięki temu
   wynik można przejrzeć, przetestować i pokazać bez klucza ani logowania.
-- **Bramka zatwierdzenia.** W v1.0 nie ma kodu, który cokolwiek wysyła lub zmienia: do klienta nic nie trafia,
-  do zewnętrznych systemów też nie, a konfiguracja agenta się nie zmienia. `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
-  zmienione”.
+- **Bramka zatwierdzenia.** Aplikacja nie ma kodu, który wysyła coś do klienta albo zmienia konfigurację agenta.
+  `outbox.json` ma `requires_approval: true`, a raport zaczyna się zdaniem: „Nic nie zostało wysłane ani
+  zmienione”. <!-- TODO lead: jira --> Wyjątek w trakcie: zgłoszenia błędów i zmiany konfiguracji mogą trafiać
+  do Jiry (konfiguracja w `.env`).
+- **Aplikacja webowa tylko lokalnie.** Domyślnie słucha na adresie pętli zwrotnej, odrzuca obcy nagłówek `Host`
+  (DNS rebinding) i `POST` z obcym `Origin`, a pliki serwuje tylko z katalogu `static/` i katalogu danego
+  przebiegu. Nie ma uwierzytelniania, więc `--allow-remote` nadaje się tylko do zaufanej sieci.
 
-## Co jest w demo, a co nie
+## Co jest, a czego nie ma
 
+- **Jest:** lokalna aplikacja webowa (`callflow-web`): transkrypcja wklejona, wczytana z pliku albo wybrana
+  z przykładów, przebieg na żywo (`claude -p`, jedna analiza naraz) lub z zapisanego wyniku przykładu, podgląd
+  etapów, wynik w zakładkach per skrzynka z cytatami i statusem weryfikacji, szkice do skopiowania, historia
+  analiz zapisana w `runs/` i zachowana po restarcie. To samo z wiersza poleceń daje CLI `callflow`.
 - **Jest:** cały przebieg od pliku `.md` do `report.md`, `report.html` (ten sam raport jako jeden plik HTML do
   otwarcia lokalnie w przeglądarce, `html_report.py`), `outbox.json` i `drafts/*.md`. Wynik dla rozmowy
   z Auto Tama leży w `examples/output/auto-tama/`: 37 pozycji, 11 zabezpieczeń, 8 szkiców, 108 ze 108
@@ -154,7 +171,8 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
   3 zabezpieczenia, 3 szkice, 19 ze 19 cytatów.
 - **Jest:** weryfikacja i routing w czystym Pythonie, bez modelu, pokryte testami (`tests/`).
 - **Nie ma:** automatycznego odbioru transkrypcji ani integracji z docelowymi systemami. Ich nazwy w raporcie
-  to tylko etykiety. Zatwierdzanie odbywa się przez lekturę raportu, nie w UI.
+  to tylko etykiety. Aplikacja pokazuje wynik, ale nie ma w niej zatwierdzania, edycji ani odrzucania pozycji:
+  decyzję człowiek podejmuje i wykonuje poza nią.
 - **Nie ma:** pamięci między rozmowami ani deduplikacji. Każda rozmowa jest analizowana osobno, więc stały zakaz
   z poprzedniego spotkania nie przechodzi automatycznie na następne.
 - **Nie ma:** wymuszania ograniczeń w kodzie. Limit „przypomnieć tylko raz” jest zapisany jako `constraints`
@@ -162,6 +180,5 @@ przypomnienia ani w prompcie, ani w kodzie (`route.py`).
 - **Częściowo:** `eval/reference.md` to wzorzec odpowiedzi przygotowany przez niezależnego agenta AI (cytaty
   sprawdzone skryptem); porównanie z wynikiem systemu jest ręczne, nie automatyczne. Druga, fikcyjna rozmowa
   z innej branży (`examples/druga-rozmowa.md`) ma wynik w `examples/output/dentavita/`.
-- **Plan v2.0:** pierwsza integracja to Jira dla skrzynek błędów (`tickets`) i zmian konfiguracji agenta
-  (`config_changes`): wewnętrzne zadania dla zespołu, tylko z pozycji ze zweryfikowanymi cytatami, idempotentnie
-  (ponowne uruchomienie nie tworzy duplikatów). Jest przygotowana na gałęzi `v2-jira` i nie wchodzi w skład v1.0.
+- **W trakcie:** <!-- TODO lead: jira --> integracja z Jirą: zgłoszenia błędów i zmiany konfiguracji mogą trafiać
+  do Jiry (konfiguracja w `.env`).
