@@ -13,7 +13,6 @@ from pydantic import ValidationError
 
 from callflow import llm
 from callflow.extract import ExtractionError, extract
-from callflow.jira import JiraConfig, JiraError, load_dotenv, push_to_jira
 from callflow.render import REPORT_FILE, write_outputs
 from callflow.route import route
 from callflow.schema import MeetingExtraction
@@ -22,7 +21,6 @@ from callflow.verify import verify
 
 EXTRACTION_FILE = "extraction.json"
 RAW_RESPONSE_FILE = "raw_response.json"
-DOTENV_FILE = Path(".env")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -41,11 +39,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--vendor", default="Rinvo", help="company on whose behalf actions are prepared")
     parser.add_argument("--model", default=llm.DEFAULT_MODEL)
     parser.add_argument("--effort", default=llm.DEFAULT_EFFORT, choices=["low", "medium", "high", "xhigh"])
-    parser.add_argument(
-        "--jira",
-        action="store_true",
-        help="create Jira issues for verified bugs and agent config changes (settings in .env)",
-    )
     return parser
 
 
@@ -57,7 +50,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return run(args)
-    except (llm.LLMError, ExtractionError, JiraError, ValueError, OSError) as exc:
+    except (llm.LLMError, ExtractionError, ValueError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
@@ -107,17 +100,8 @@ def run(args: argparse.Namespace) -> int:
     )
     for issue in report.issues:
         print(f"  [{issue.owner_id}] {issue.message}")
-    routed = route(extraction)
-    write_outputs(routed, report, args.out, args.transcript.name)
+    write_outputs(route(extraction), report, args.out, args.transcript.name)
     print(f"Report: {args.out / REPORT_FILE}")
-
-    if args.jira:
-        load_dotenv(DOTENV_FILE)
-        result = push_to_jira(routed, report, args.out, JiraConfig.from_env())
-        for item_id, key in result.created.items():
-            print(f"Jira: created {key} for {item_id}")
-        for item_id, reason in result.skipped:
-            print(f"Jira: skipped {item_id} ({reason})")
     return 0
 
 
