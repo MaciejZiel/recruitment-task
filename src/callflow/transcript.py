@@ -27,7 +27,10 @@ POLISH_MONTHS_GENITIVE = {
 
 DATE_RE = re.compile(r"\b(\d{1,2})\s+(" + "|".join(POLISH_MONTHS_GENITIVE) + r")\s+(\d{4})\b", re.IGNORECASE)
 ISO_DATE_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
+DOTTED_DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 TURN_RE = re.compile(r"^\*\*(?P<speaker>[^*]+?):\*\*\s*(?P<text>.+)$")
+# Fallback for transcripts without bold labels: "Kasia: ..." or "[00:01:02] Speaker 1: ...".
+PLAIN_TURN_RE = re.compile(r"^(?:\[[\d:.]+\]\s*)?(?P<speaker>[A-ZĄĆĘŁŃÓŚŹŻ][^:*\[\]]{0,39}):\s+(?P<text>.+)$")
 STAGE_RE = re.compile(r"^\*(?P<text>\[.+)\*$")
 PARTICIPANT_RE = re.compile(r"^-\s+\*\*(?P<name>[^*]+)\*\*,\s*(?P<rest>.+)$")
 
@@ -64,12 +67,18 @@ class Transcript:
 
 
 def parse_call_date(text: str) -> date | None:
-    if match := ISO_DATE_RE.search(text):
-        year, month, day = map(int, match.groups())
-        return date(year, month, day)
-    if match := DATE_RE.search(text):
-        day, month_name, year = match.groups()
-        return date(int(year), POLISH_MONTHS_GENITIVE[month_name.lower()], int(day))
+    try:
+        if match := ISO_DATE_RE.search(text):
+            year, month, day = map(int, match.groups())
+            return date(year, month, day)
+        if match := DATE_RE.search(text):
+            day, month_name, year = match.groups()
+            return date(int(year), POLISH_MONTHS_GENITIVE[month_name.lower()], int(day))
+        if match := DOTTED_DATE_RE.search(text):
+            day, month, year = map(int, match.groups())
+            return date(year, month, day)
+    except ValueError:
+        return None
     return None
 
 
@@ -86,6 +95,7 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
     participants: list[Participant] = []
     turns: list[Turn] = []
     stage_directions: list[StageDirection] = []
+    plain_turns: list[Turn] = []
     current_section: str | None = None
     # Bold "**Label:**" lines also appear in context sections (e.g. a glossary), so when the
     # file has a dedicated transcript section, only lines inside it count as speaker turns.
@@ -107,6 +117,8 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
         if in_dialogue and (match := TURN_RE.match(line)):
             turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
             continue
+        if in_dialogue and (match := PLAIN_TURN_RE.match(line)):
+            plain_turns.append(Turn(number, match["speaker"].strip(), match["text"].strip()))
         if match := STAGE_RE.match(line):
             stage_directions.append(StageDirection(number, match["text"].strip()))
             continue
@@ -128,7 +140,7 @@ def parse_transcript(text: str, source: str = "<string>") -> Transcript:
         header_lines=header_lines,
         sections=sections,
         participants=participants,
-        turns=turns,
+        turns=turns or plain_turns,
         stage_directions=stage_directions,
     )
 

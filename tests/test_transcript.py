@@ -73,3 +73,24 @@ def test_example_transcripts_parse():
     second = load_transcript(EXAMPLES / "druga-rozmowa.md")
     assert second.call_date == "2026-10-13"
     assert second.turns
+
+
+def test_parses_dotted_date_and_rejects_impossible_dates():
+    assert parse_call_date("Spotkanie 06.10.2026, Teams") == date(2026, 10, 6)
+    assert parse_call_date("32.13.2026") is None
+
+
+def test_plain_speaker_labels_are_used_when_no_bold_turns():
+    text = "Rozmowa 06.10.2026\n\n[00:00:05] Kasia: Filtr nie działa.\nMarek: Sprawdzę to.\n"
+    transcript = parse_transcript(text)
+
+    assert transcript.call_date == "2026-10-06"
+    assert [(t.line, t.speaker, t.text) for t in transcript.turns] == [
+        (3, "Kasia", "Filtr nie działa."),
+        (4, "Marek", "Sprawdzę to."),
+    ]
+
+
+def test_bold_turns_take_precedence_over_plain_labels():
+    transcript = parse_transcript("**Kasia:** Cześć.\nUwaga: to nie jest wypowiedź.\n")
+    assert [t.speaker for t in transcript.turns] == ["Kasia"]
