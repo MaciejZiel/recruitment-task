@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from html import escape
 from pathlib import Path
 
 from callflow.route import INBOX_ORDER, TARGET_SYSTEM, RoutedMeeting
@@ -20,7 +21,7 @@ MISSING_DATE_NOTE = (
 
 def md(text: str) -> str:
     """Neutralise HTML in model/transcript text; GitHub would otherwise render raw tags."""
-    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return escape(text, quote=False)
 
 
 def render_evidence(owner_id: str, evidence: list[Evidence], report: VerificationReport) -> list[str]:
@@ -184,8 +185,7 @@ def build_outbox(routed: RoutedMeeting, report: VerificationReport) -> dict:
 def write_outputs(routed: RoutedMeeting, report: VerificationReport, out_dir: Path, source_name: str) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / REPORT_FILE).write_text(render_report(routed, report, source_name), encoding="utf-8")
-    outbox = json.dumps(build_outbox(routed, report), ensure_ascii=False, indent=2) + "\n"
-    (out_dir / OUTBOX_FILE).write_text(outbox, encoding="utf-8")
+    write_json(out_dir / OUTBOX_FILE, build_outbox(routed, report))
 
     drafts_dir = out_dir / DRAFTS_DIR
     drafts_dir.mkdir(exist_ok=True)
@@ -193,3 +193,7 @@ def write_outputs(routed: RoutedMeeting, report: VerificationReport, out_dir: Pa
         stale.unlink()
     for draft, relative in zip(routed.extraction.drafts, draft_paths(routed.extraction.drafts), strict=True):
         (out_dir / relative).write_text(render_draft(draft), encoding="utf-8")
+
+
+def write_json(path: Path, data: object) -> None:
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

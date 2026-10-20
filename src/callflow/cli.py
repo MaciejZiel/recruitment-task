@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import time
 from datetime import date
@@ -14,7 +13,7 @@ from pydantic import ValidationError
 from callflow import llm
 from callflow.extract import ExtractionError, extract
 from callflow.html_report import render_html
-from callflow.render import REPORT_FILE, write_outputs
+from callflow.render import REPORT_FILE, write_json, write_outputs
 from callflow.route import route
 from callflow.schema import MeetingExtraction
 from callflow.transcript import parse_transcript
@@ -69,31 +68,7 @@ def run(args: argparse.Namespace) -> int:
     if args.from_json:
         extraction = load_extraction(args.from_json)
     else:
-        meeting_date = args.meeting_date or (
-            date.fromisoformat(transcript.call_date) if transcript.call_date else None
-        )
-        if meeting_date is None:
-            print(
-                "warning: meeting date not found in the transcript; relative deadlines will not be "
-                "resolved (pass --meeting-date YYYY-MM-DD to fix)",
-                file=sys.stderr,
-            )
-        print(f"Extracting with {args.model} (effort {args.effort}); this takes a few minutes...")
-        started = time.monotonic()
-        args.out.mkdir(parents=True, exist_ok=True)
-        try:
-            extraction, raw = extract(
-                transcript_text, meeting_date, args.vendor, model=args.model, effort=args.effort
-            )
-        except ExtractionError as exc:
-            if exc.raw is not None:
-                write_json(args.out / RAW_RESPONSE_FILE, exc.raw)
-            raise
-        write_json(args.out / RAW_RESPONSE_FILE, raw)
-        write_json(args.out / EXTRACTION_FILE, extraction.model_dump(mode="json"))
-        cost = raw.get("total_cost_usd")
-        cost_text = f"${cost:.2f}" if isinstance(cost, int | float) else "unknown"
-        print(f"Done in {time.monotonic() - started:.0f} s, cost {cost_text}")
+        extraction = extract_and_save(args, transcript_text, transcript.call_date)
 
     report = verify(extraction, transcript)
     unverified = report.unverified_ids()
@@ -112,15 +87,41 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
+def extract_and_save(
+    args: argparse.Namespace, transcript_text: str, call_date: str | None
+) -> MeetingExtraction:
+    """Run the model and save its raw response (also when validation fails) and the extraction."""
+    meeting_date = args.meeting_date or (date.fromisoformat(call_date) if call_date else None)
+    if meeting_date is None:
+        print(
+            "warning: meeting date not found in the transcript; relative deadlines will not be "
+            "resolved (pass --meeting-date YYYY-MM-DD to fix)",
+            file=sys.stderr,
+        )
+    print(f"Extracting with {args.model} (effort {args.effort}); this takes a few minutes...")
+    started = time.monotonic()
+    args.out.mkdir(parents=True, exist_ok=True)
+    try:
+        extraction, raw = extract(
+            transcript_text, meeting_date, args.vendor, model=args.model, effort=args.effort
+        )
+    except ExtractionError as exc:
+        if exc.raw is not None:
+            write_json(args.out / RAW_RESPONSE_FILE, exc.raw)
+        raise
+    write_json(args.out / RAW_RESPONSE_FILE, raw)
+    write_json(args.out / EXTRACTION_FILE, extraction.model_dump(mode="json"))
+    cost = raw.get("total_cost_usd")
+    cost_text = f"${cost:.2f}" if isinstance(cost, int | float) else "unknown"
+    print(f"Done in {time.monotonic() - started:.0f} s, cost {cost_text}")
+    return extraction
+
+
 def load_extraction(path: Path) -> MeetingExtraction:
     try:
         return MeetingExtraction.model_validate_json(path.read_text(encoding="utf-8"))
     except ValidationError as exc:
         raise ValueError(f"{path} is not a valid extraction: {exc}") from exc
-
-
-def write_json(path: Path, data: object) -> None:
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
