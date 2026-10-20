@@ -18,6 +18,7 @@ from callflow.web.server import CallflowServer
 EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
 AUTO_TAMA_TRANSCRIPT = (EXAMPLES / "transkrypcja-spotkanie.md").read_text(encoding="utf-8-sig")
 AUTO_TAMA_EXTRACTION = EXAMPLES / "output" / "auto-tama" / "extraction.json"
+AUTO_TAMA_OUTBOX = EXAMPLES / "output" / "auto-tama" / "outbox.json"
 UNKNOWN_RUN = "20260101-000000-abcd"
 
 
@@ -121,7 +122,8 @@ def test_example_run_completes_with_auto_tama_numbers(client, tmp_path):
         "drafts": 8,
         "quotes_verified": 108,
         "quotes_total": 108,
-        "issues": 0,
+        # The committed demo is regenerated with the current verify(), so its warnings are the reference.
+        "issues": len(json.loads(AUTO_TAMA_OUTBOX.read_text(encoding="utf-8"))["issues"]),
         "cost_usd": None,
         "duration_s": None,
     }
@@ -286,9 +288,52 @@ def test_path_traversal_is_blocked(client):
         "/static/app.js%00",
         f"/runs/{run_id}/report.md%00.html",
         f"/runs/{run_id}/report.md::$DATA",
+        # UNC and absolute paths: on Windows `root / "//host/share/x"` would open an SMB connection.
+        "/static//127.0.0.1/share/x",
+        f"/runs/{run_id}//127.0.0.1/share/x",
+        f"/runs/{run_id}/%2f%2f127.0.0.1/share/x",
+        f"/runs/{run_id}/%2fpyproject.toml",
+        f"/runs/{run_id}/drafts//D01.md",
+        f"/runs/{run_id}/./report.md",
+        f"/runs/{run_id}/drafts/./D01.md",
+        f"/runs/{run_id}/report.md/",
+        f"/runs/{run_id}/%5c%5c127.0.0.1%5cshare%5cx",
     ]
     for path in paths:
-        assert client.request("GET", path)[0] in (400, 404), path
+        status, _, payload = client.request("GET", path)
+        assert status in (400, 404), path
+        assert "error" in json.loads(payload), path
+
+
+def test_safe_path_rejects_unc_and_dot_segments_before_touching_the_filesystem(tmp_path, monkeypatch):
+    def no_filesystem(*args, **kwargs):
+        raise AssertionError("safe_path touched the filesystem")
+
+    monkeypatch.setattr(Path, "resolve", no_filesystem)
+    for relative in [
+        "//host/share/x",
+        "/etc/passwd",
+        "a//b",
+        "./a",
+        "a/.",
+        "a/../b",
+        "a/",
+        "\\\\host\\share",
+        "",
+    ]:
+        assert server.safe_path(tmp_path, relative) is None, relative
+
+
+def test_responses_forbid_framing(client):
+    for path in ("/", "/api/runs"):
+        connection = http.client.HTTPConnection("127.0.0.1", client.port, timeout=10)
+        connection.request("GET", path)
+        response = connection.getresponse()
+        response.read()
+        connection.close()
+        assert response.status == 200, path
+        assert response.getheader("X-Frame-Options") == "DENY", path
+        assert response.getheader("Content-Security-Policy") == "frame-ancestors 'none'", path
 
 
 def test_foreign_host_and_cross_origin_post_are_refused(client):

@@ -231,6 +231,12 @@ class Handler(BaseHTTPRequestHandler):
     def _send_error(self, status: HTTPStatus, message: str) -> None:
         self._send_json({"error": message}, status)
 
+    def end_headers(self) -> None:
+        # No page of this app may be framed: a framed page could be clickjacked into a paid live run.
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Content-Security-Policy", "frame-ancestors 'none'")
+        super().end_headers()
+
     def log_request(self, code: int | str = "-", size: int | str = "-") -> None:
         # The frontend polls run status every second; log only writes and failures.
         if self.command != "GET" or not isinstance(code, int) or code >= 400:
@@ -239,8 +245,12 @@ class Handler(BaseHTTPRequestHandler):
 
 def safe_path(base: Path, relative: str) -> Path | None:
     """The file `relative` inside `base`, or None if it is missing or escapes `base`."""
-    # ':' would reach drive letters and NTFS alternate data streams (report.md::$DATA) on Windows.
-    if not relative or any(char in relative for char in "\\\x00:") or ".." in relative.split("/"):
+    # ':' would reach drive letters and NTFS alternate data streams (report.md::$DATA) on Windows;
+    # a leading '/' or '//' would make `root / relative` absolute or a UNC path (SMB to any host).
+    # Checked before any filesystem call, so resolve() never touches such a path.
+    if not relative or any(char in relative for char in "\\\x00:"):
+        return None
+    if any(segment in ("", ".", "..") for segment in relative.split("/")):
         return None
     try:
         root = base.resolve()
