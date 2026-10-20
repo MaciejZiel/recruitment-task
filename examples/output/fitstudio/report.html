@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Po rozmowie: FitStudio, 2026-10-14 · callflow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&amp;display=swap">
+<style>
+/* Design tokens inspired by rinvo.io: navy surfaces, deep-blue primary, green accent, DM Sans. */
+:root {
+  --navy-950: #050e1a;
+  --navy-900: #0a1628;
+  --navy-700: #1a2d45;
+  --surface: #ffffff;
+  --surface-light: #f7fafd;
+  --surface-mid: #eef3f8;
+  --border: #e3e9f0;
+  --text: #0d1c2b;
+  --text-muted: #51607a;
+  --primary: #0c4587;
+  --primary-dark: #083366;
+  --primary-tint: #e7eef8;
+  --accent: #055138;
+  --accent-tint: #e6f4ed;
+  --warn: #7a4300;
+  --warn-tint: #fff3dc;
+  --warn-border: #f0b44c;
+  --danger: #a3141c;
+  --danger-tint: #fdecec;
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-pill: 9999px;
+  --shadow-sm: 0 4px 12px rgba(10, 22, 40, .08);
+  --font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; font-family: var(--font); font-size: 16px; line-height: 1.55;
+  color: var(--text); background: var(--surface-light); overflow-wrap: anywhere;
+}
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+.hero {
+  color: #fff;
+  background: linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 60%, var(--primary) 100%);
+  padding: 32px 0 40px;
+}
+.product {
+  display: inline-block; padding: 4px 12px; border-radius: var(--radius-pill);
+  background: #fff; color: var(--navy-950); font-size: .8125rem; font-weight: 600; letter-spacing: .02em;
+}
+.hero h1 { margin: 16px 0 8px; font-size: clamp(1.75rem, 4.5vw, 2.75rem); font-weight: 700;
+  line-height: 1.1; letter-spacing: -.02em; }
+.meta { margin: 0; color: rgba(255, 255, 255, .86); }
+.meta code { font-family: inherit; font-weight: 600; color: #fff; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+.stats li {
+  padding: 6px 14px; border-radius: var(--radius-pill); font-size: .9375rem;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
+}
+.stats strong { font-weight: 700; }
+.stats li.stat-warn { background: var(--warn-tint); color: var(--warn); border-color: var(--warn-border); }
+.notice {
+  margin: 24px 0 0; padding: 14px 18px; border-radius: var(--radius);
+  background: var(--accent-tint); color: var(--accent); font-weight: 600;
+  border-left: 6px solid var(--accent); box-shadow: var(--shadow-sm);
+}
+.note-warn {
+  margin: 12px 0 0; padding: 12px 18px; border-radius: var(--radius);
+  background: var(--warn-tint); color: var(--warn); border-left: 6px solid var(--warn-border);
+}
+
+.nav {
+  position: sticky; top: 0; z-index: 10; background: rgba(255, 255, 255, .96);
+  border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.nav ul { display: flex; flex-wrap: wrap; gap: 0 2px; margin: 0 auto; padding: 6px 12px;
+  list-style: none; max-width: 980px; }
+.nav a {
+  display: block; white-space: nowrap; padding: 3px 8px; border-radius: var(--radius-pill);
+  color: var(--navy-700); text-decoration: none; font-size: .8125rem; font-weight: 500;
+}
+.nav a:hover { background: var(--surface-mid); color: var(--navy-950); }
+
+main { padding: 8px 0 48px; }
+section { margin-top: 40px; scroll-margin-top: 88px; }
+h2 { margin: 0 0 6px; font-size: 1.5rem; font-weight: 700; letter-spacing: -.01em; color: var(--navy-950); }
+.target { margin: 0 0 16px; color: var(--text-muted); font-size: .9375rem; }
+.lead { margin: 12px 0 0; font-size: 1.0625rem; max-width: 72ch; }
+.empty { margin: 16px 0 0; font-weight: 700; }
+
+.cards { display: grid; gap: 14px; margin-top: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); padding: 18px 20px; scroll-margin-top: 88px;
+}
+.card h3 { margin: 0; font-size: 1.125rem; font-weight: 700; line-height: 1.35; color: var(--navy-950); }
+.card-id { color: var(--primary); margin-right: 6px; }
+.card.needs-review { border-left: 6px solid var(--warn-border); }
+/* After needs-review on purpose: a prohibition keeps its red edge even when its evidence is weak. */
+.card.do-not-do { border-left: 6px solid var(--danger); }
+.card p { margin: 10px 0 0; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-pill); font-size: .8125rem;
+  font-weight: 600; border: 1px solid transparent; line-height: 1.6;
+}
+.badge-kind { background: var(--surface); color: var(--navy-700); border-color: #b9c4d3; }
+.state-do_now { background: var(--primary-tint); color: var(--primary); }
+.state-scheduled { background: #ece9fb; color: #3f2c96; }
+.state-waiting_on_client { background: var(--warn-tint); color: var(--warn); }
+.state-on_hold { background: var(--surface-mid); color: #3b4a5f; }
+.state-do_not_do { background: var(--danger); color: #fff; }
+.state-no_action { background: #f1f2f4; color: #4a5160; }
+.flag {
+  display: inline-block; margin-left: 6px; padding: 1px 10px; border-radius: var(--radius-pill);
+  background: var(--warn-tint); color: var(--warn); border: 1px solid var(--warn-border);
+  font-size: .8125rem; font-weight: 700; vertical-align: middle;
+}
+
+.facts { display: grid; grid-template-columns: 9.5rem 1fr; gap: 4px 14px; margin: 14px 0 0;
+  font-size: .9375rem; }
+.facts dt { color: var(--text-muted); font-weight: 600; }
+.facts dd { margin: 0; }
+.facts ul { margin: 0; padding-left: 1.1em; }
+
+.quotes { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.quote {
+  margin: 0; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--surface-light);
+  border-left: 3px solid #b9c4d3; font-size: .9375rem;
+}
+.quote-meta { display: block; font-size: .8125rem; color: var(--text-muted); }
+.quote-meta strong { color: var(--navy-700); }
+.quote.unverified { border-left-color: var(--warn-border); background: var(--warn-tint); }
+.quote.unverified .quote-meta { color: var(--warn); }
+.quote.missing { color: var(--warn); background: var(--warn-tint); border-left-color: var(--warn-border); }
+
+.guard-meta { margin: 8px 0 0; font-size: .9375rem; color: var(--text-muted); }
+.guard-meta strong { color: var(--text); }
+
+.issues { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.issues li { padding: 10px 14px; border-radius: var(--radius-sm); background: var(--warn-tint);
+  color: var(--warn); border: 1px solid var(--warn-border); }
+
+.timeline { margin: 16px 0 0; padding: 0; list-style: none; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.timeline li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 4px 16px; padding: 12px 20px;
+  border-top: 1px solid var(--surface-mid); }
+.timeline li:first-child { border-top: 0; }
+.timeline time { font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+.timeline .limits { display: block; color: var(--text-muted); font-size: .875rem; }
+
+.filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 24px; }
+.filter span { font-weight: 600; margin-right: 4px; }
+.filter button {
+  font: inherit; font-size: .875rem; padding: 4px 12px; border-radius: var(--radius-pill); cursor: pointer;
+  background: var(--surface); color: var(--navy-700); border: 1px solid #b9c4d3;
+}
+.filter button[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.draft-body {
+  margin: 14px 0 0; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--surface-light);
+  border: 1px solid var(--border); white-space: pre-wrap; font-family: inherit; font-size: .9375rem;
+}
+.draft-file { margin: 10px 0 0; font-size: .875rem; }
+
+.assumptions { margin: 16px 0 0; padding-left: 1.2em; }
+.assumptions li { margin-top: 6px; }
+
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px; }
+  /* One swipeable row instead of a nav block that would cover half of a phone screen. */
+  .nav ul { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 8px 16px; }
+  section, .card { scroll-margin-top: 64px; }
+  .card { padding: 16px; }
+  .facts { grid-template-columns: 1fr; gap: 0; }
+  .facts dd { margin-bottom: 8px; }
+  .timeline li { grid-template-columns: 1fr; padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<span class="product">callflow</span>
+<h1>Po rozmowie: FitStudio, 2026-10-14</h1>
+<p class="meta">Źródło: <code>fitstudio-rozmowa.md</code> · uczestnicy: Agnieszka Wróbel (FitStudio, koordynatorka obsługi klienta), Marek Rewoliński (Rinvo)</p>
+<ul class="stats" aria-label="Statystyki"><li>Pozycji: <strong>18</strong></li><li>Zabezpieczeń: <strong>8</strong></li><li>Szkiców: <strong>5</strong></li><li class="stat-warn">Cytaty zweryfikowane: <strong>56/58</strong></li></ul>
+<p class="notice" role="note">Nic nie zostało wysłane ani zmienione. Każde działanie zewnętrzne czeka na zatwierdzenie.</p>
+
+</div>
+</header>
+<nav class="nav" aria-label="Sekcje raportu"><ul><li><a href="#summary">Podsumowanie</a></li><li><a href="#guardrails">Zabezpieczenia (8)</a></li><li><a href="#issues">Ostrzeżenia (2)</a></li><li><a href="#calendar">Terminy</a></li><li><a href="#inbox-do_not_do">Nie robić (3)</a></li><li><a href="#inbox-tickets">Zgłoszenia błędów (2)</a></li><li><a href="#inbox-config_changes">Zmiany konfiguracji agenta (3)</a></li><li><a href="#inbox-tasks">Zadania zespołu (3)</a></li><li><a href="#inbox-backlog">Backlog produktu (1)</a></li><li><a href="#inbox-waiting_on_client">Czekamy na klienta (1)</a></li><li><a href="#inbox-risks">Ryzyka klienta (1)</a></li><li><a href="#inbox-on_hold">Wstrzymane (1)</a></li><li><a href="#inbox-no_action">Informacje i sprawy bez działania (3)</a></li><li><a href="#drafts">Szkice (5)</a></li><li><a href="#assumptions">Założenia</a></li></ul></nav>
+<main class="wrap">
+<section id="summary">
+<h2>Podsumowanie</h2>
+<p class="lead">Call statusowy z FitStudio dotyczący kampanii „Zapytania” i „Karnety”. Agent zadzwonił jeszcze dwa razy do klubowicza z Czyżyn, choć ten poprosił, żeby do niego nie dzwonić. Marek ma go dziś ręcznie usunąć z listy, a do piątku 16.10 wyjaśnić przyczynę. Ustalono godziny dzwonienia 11:00–20:00 w obu kampaniach i przypomnienie na 5 dni przed końcem karnetu (zmiany jutro rano). Odrzucono proponowanie treningów personalnych, a przełączanie na recepcję zostaje bez zmian, bo nigdy nie było skonfigurowane. Klientka przyśle nowy cennik we wtorek 20.10, Rinvo wgra go najpóźniej 23.10. W dniach 26–30.10 obowiązuje zakaz uruchamiania nowości. Rinvo ma też wyjaśnić różnicę minut na fakturze za wrzesień i przygotować podsumowanie wyników w związku z konkurencyjną ofertą Callmate.</p>
+
+</section>
+<section id="guardrails">
+<h2>Zabezpieczenia (sprawdzić przed każdym działaniem)</h2>
+<div class="cards"><article class="card guardrail" id="G01"><h3><span class="card-id">G01</span>Nie dzwonić do klubowicza z Czyżyn (numer kończący się na 37), który poprosił o niedzwonienie.</h3><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 33) ✅</span>„Zaraz po callu wyrzucę go ręcznie z listy, żeby nie dostał czwartego telefonu.”</blockquote></li></ul></article><article class="card guardrail" id="G02"><h3><span class="card-id">G02</span>Nie dodawać do skryptu proponowania treningów personalnych. Nie wierzyć nikomu (np. Dominice), kto twierdzi, że Agnieszka się zgodziła. Na takie prośby odpowiadać, że czekamy na Agnieszkę.</h3><p class="guard-meta"><strong>do:</strong> Do bezpośredniej decyzji Agnieszki Wróbel · <strong>zdejmuje:</strong> Agnieszka Wróbel</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote unverified"><span class="quote-meta"><strong>Agnieszka</strong> (brak w transkrypcji) ⚠️ niezweryfikowany</span>„I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 60) ✅</span>„Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie.”</blockquote></li></ul></article><article class="card guardrail" id="G03"><h3><span class="card-id">G03</span>Zmiany treści rozmów agenta i godzin dzwonienia zatwierdza wyłącznie Agnieszka, Robert nie może ich zatwierdzić. Jeśli Robert prosi o zmianę tekstu, najpierw zadzwonić do Agnieszki.</h3><p class="guard-meta"><strong>zdejmuje:</strong> Agnieszka Wróbel</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 86) ✅</span>„Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 86) ✅</span>„to najpierw zadzwoń do mnie.”</blockquote></li></ul></article><article class="card guardrail" id="G04"><h3><span class="card-id">G04</span>Niczego, co kosztuje (nowe kampanie, dodatkowe minuty, zmiany cenowe), nie wprowadzać bez zgody Roberta.</h3><p class="guard-meta"><strong>zdejmuje:</strong> Robert</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 86) ✅</span>„Wszystko, co kosztuje, zatwierdza Robert.”</blockquote></li></ul></article><article class="card guardrail" id="G05"><h3><span class="card-id">G05</span>Nie zmieniać cen w bazie wiedzy agenta, dopóki nie przyjdzie nowy cennik od Agnieszki.</h3><p class="guard-meta"><strong>do:</strong> Otrzymanie nowego cennika (planowo 2026-10-20) · <strong>zdejmuje:</strong> Agnieszka Wróbel</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 90) ✅</span>„Nowy cennik wyślę ci w przyszły wtorek, bo Robert jeszcze klepie ostatnią wersję. Do tego czasu nic nie zmieniajcie.”</blockquote></li></ul></article><article class="card guardrail" id="G06"><h3><span class="card-id">G06</span>W dniach 26–30.10.2026 nie uruchamiać niczego nowego w żadnym klubie. Działające kampanie mogą iść dalej.</h3><p class="guard-meta"><strong>do:</strong> 2026-10-30 włącznie · <strong>zdejmuje:</strong> Agnieszka Wróbel</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 95) ✅</span>„W tych dniach nic nowego nie uruchamiamy. W żadnym klubie. Kampanie, które idą, niech idą, ale żadnych nowości.”</blockquote></li></ul></article><article class="card guardrail" id="G07"><h3><span class="card-id">G07</span>Nie przypominać Agnieszce o kampanii dla byłych klubowiczów ani o bazie do niej.</h3><p class="guard-meta"><strong>do:</strong> Do momentu, gdy Agnieszka sama wróci do tematu · <strong>zdejmuje:</strong> Agnieszka Wróbel</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 102) ✅</span>„Sama wrócę do tematu, jak będę gotowa. Nie przypominajcie mi. Serio, żadnych przypomnień.”</blockquote></li></ul></article><article class="card guardrail" id="G08"><h3><span class="card-id">G08</span>O cennik przypomnieć maksymalnie jednym SMS-em (w środę 21.10 rano) i nie wysyłać maili w tej sprawie.</h3><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 93) ✅</span>„To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam, mam ich dwieście nieprzeczytanych.”</blockquote></li></ul></article></div>
+</section>
+<section id="issues">
+<h2>Ostrzeżenia walidacji</h2>
+<ul class="issues"><li><strong>A06</strong>: cytat nie występuje w transkrypcji: &#x27;I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.&#x27;</li><li><strong>G02</strong>: cytat nie występuje w transkrypcji: &#x27;I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.&#x27;</li></ul>
+</section>
+<section id="calendar">
+<h2>Terminy (kalendarz i przypomnienia)</h2>
+<ol class="timeline"><li><time datetime="2026-10-15">2026-10-15</time><div><a href="#A04">A04</a> Ustawić godziny dzwonienia 11:00–20:00 w obu kampaniach<span class="limits">Nie ustawiać 10:00 (wersja odwołana); Koniec dzwonienia zostaje o 20:00</span></div></li><li><time datetime="2026-10-15">2026-10-15</time><div><a href="#A05">A05</a> Zmienić termin przypomnienia w Karnetach na 5 dni przed końcem karnetu<span class="limits">Dla wszystkich trzech klubów</span></div></li><li><time datetime="2026-10-16">2026-10-16</time><div><a href="#A02">A02</a> Ustalić, dlaczego nie zadziałało oznaczenie „nie dzwonić”, i poinformować Agnieszkę<span class="limits">Odpowiedź do Agnieszki Wróbel</span></div></li><li><time datetime="2026-10-20">2026-10-20</time><div><a href="#A08">A08</a> Wyjaśnić różnicę minut na fakturze za wrzesień i przesłać rozpiskę<span class="limits">Odpowiedź do Agnieszki, nie do pani Ewy</span></div></li><li><time datetime="2026-10-20">2026-10-20</time><div><a href="#A12">A12</a> Odebrać od klientki nowy cennik (od 1.11)<span class="limits">Do czasu otrzymania cennika nic nie zmieniać w bazie wiedzy</span></div></li><li><time datetime="2026-10-21">2026-10-21</time><div><a href="#A13">A13</a> Wysłać jeden SMS-owy monit o cennik, jeśli nie przyjdzie we wtorek<span class="limits">Tylko jeden SMS; Nie przez e-mail; Brak kolejnych przypomnień</span></div></li><li><time datetime="2026-10-23">2026-10-23</time><div><a href="#A14">A14</a> Wgrać nowy cennik do bazy wiedzy agenta przed remontem<span class="limits">Nie wgrywać w dniach 26–30.10; Jeśli nie wejdzie przed 26.10, czeka do 2.11</span></div></li><li><time datetime="2026-10-31">2026-10-31</time><div><a href="#A10">A10</a> Przygotować jednostronicowe podsumowanie wyników agenta od startu<span class="limits">Wysłać Agnieszce, nie Robertowi</span></div></li></ol>
+</section>
+<div class="filter" role="group" aria-label="Filtr pozycji wg stanu" hidden><span>Stan:</span><button type="button" data-state="" aria-pressed="true">wszystkie</button><button type="button" data-state="do_now" aria-pressed="false">do_now</button><button type="button" data-state="scheduled" aria-pressed="false">scheduled</button><button type="button" data-state="waiting_on_client" aria-pressed="false">waiting_on_client</button><button type="button" data-state="on_hold" aria-pressed="false">on_hold</button><button type="button" data-state="do_not_do" aria-pressed="false">do_not_do</button><button type="button" data-state="no_action" aria-pressed="false">no_action</button></div>
+<section class="inbox" id="inbox-do_not_do">
+<h2>Nie robić (zakazy i odrzucone prośby)</h2>
+<p class="target">Cel: lista zabezpieczeń konta klienta</p>
+<div class="cards"><article class="card item do-not-do" id="A03" data-state="do_not_do"><h3><span class="card-id">A03</span>Nie zmieniać obsługi prośby o rozmowę z recepcją (bez przełączania na żywo)</h3><div class="badges"><span class="badge badge-kind">info</span><span class="badge state-do_not_do">do_not_do</span></div><p>Najpierw zgłoszono to jako możliwy błąd: agent nie przełącza do recepcji. Według notatek z wdrożenia przełączania na żywo nigdy nie było, ustalono wtedy, że recepcja oddzwania. To nie jest błąd, a klientka zdecydowała, że ma zostać tak, jak jest.</p><dl class="facts"><dt>Zatwierdza</dt><dd>Agnieszka Wróbel</dd><dt>Wersja ostateczna</dt><dd>Bez przełączania na żywo; agent mówi, że recepcja oddzwoni — konfiguracja bez zmian.</dd><dt>Zastępuje</dt><dd>Zgłoszenie jako możliwy błąd: agent przestał przełączać na recepcję</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 37) ✅</span>„Czyli coś się zepsuło?”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 107) ✅</span>„Przełączenia na żywo u was nigdy nie było.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 112) ✅</span>„Dobra, to zostawcie, jak jest.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 113) ✅</span>„Czyli w przełączaniu nic nie zmieniam.”</blockquote></li></ul></article><article class="card item do-not-do needs-review" id="A06" data-state="do_not_do"><h3><span class="card-id">A06</span>Nie dodawać proponowania treningów personalnych do skryptu Karnetów<span class="flag">⚠️ do sprawdzenia</span></h3><div class="badges"><span class="badge badge-kind">feature_request</span><span class="badge state-do_not_do">do_not_do</span></div><p>Dominika prosiła, żeby agent przy telefonie o karnecie proponował pakiet pięciu treningów personalnych. Agnieszka odrzuciła tę prośbę. Jeśli taka prośba przyjdzie od kogokolwiek innego, Marek odpisze, że czeka na decyzję Agnieszki.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Zatwierdza</dt><dd>Agnieszka Wróbel (wyłącznie; Dominika nie może zatwierdzić)</dd><dt>Wersja ostateczna</dt><dd>Odrzucone — agent tylko przypomina o karnecie</dd><dt>Ograniczenia</dt><dd><ul><li>Nie wierzyć zapewnieniom, że Agnieszka się zgodziła</li><li>Na prośby od innych osób niż Agnieszka odpowiadać, że czekamy na Agnieszkę</li><li>Nie dodawać do backlogu</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 58) ✅</span>„Nie. Ja się na to nie zgadzam.”</blockquote></li><li><blockquote class="quote unverified"><span class="quote-meta"><strong>Agnieszka</strong> (brak w transkrypcji) ⚠️ niezweryfikowany</span>„I mówię od razu: jak ktoś od nas napisze, że się zgodziłam, nie wierzcie.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 60) ✅</span>„Jak przyjdzie taka prośba od kogokolwiek poza tobą, odpiszę, że czekam na ciebie.”</blockquote></li></ul></article><article class="card item do-not-do" id="A15" data-state="do_not_do"><h3><span class="card-id">A15</span>Nie uruchamiać niczego nowego w dniach 26–30.10 (remont Kazimierza)</h3><div class="badges"><span class="badge badge-kind">info</span><span class="badge state-do_not_do">do_not_do</span></div><p>Od 26 do 30 października klub w Kazimierzu jest zamknięty z powodu remontu, a jego recepcja przenosi się do Bronowic. W tym czasie nie uruchamiamy niczego nowego w żadnym klubie. Działające kampanie idą dalej.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>bez daty („od dwudziestego szóstego do trzydziestego października”)</dd><dt>Zatwierdza</dt><dd>Agnieszka Wróbel</dd><dt>Ograniczenia</dt><dd><ul><li>Dotyczy wszystkich klubów</li><li>Obecne kampanie mogą działać</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 95) ✅</span>„W tych dniach nic nowego nie uruchamiamy. W żadnym klubie. Kampanie, które idą, niech idą, ale żadnych nowości.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 99) ✅</span>„Od dwudziestego szóstego do trzydziestego niczego nowego nie odpalam.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-tickets">
+<h2>Zgłoszenia błędów (dla zespołu technicznego)</h2>
+<p class="target">Cel: issue tracker (np. Linear/Jira)</p>
+<div class="cards"><article class="card item" id="A01" data-state="do_now"><h3><span class="card-id">A01</span>Ręcznie usunąć klubowicza z Czyżyn z listy dzwonienia</h3><div class="badges"><span class="badge badge-kind">bug</span><span class="badge state-do_now">do_now</span></div><p>Klubowicz z Czyżyn (numer kończy się na 37, kampania Karnety) 9.10 ok. 16:00 poprosił agenta, żeby do niego nie dzwonić, a mimo to dostał kolejne telefony 12.10 i 13.10. Trzeba go ręcznie usunąć z listy zaraz po callu, żeby nie dostał czwartego telefonu. Grozi negatywną opinią w Google.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-14 („zaraz po callu / dziś”)</dd><dt>Ograniczenia</dt><dd>Nie może dostać czwartego telefonu</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 32) ✅</span>„Numer kończy się na 37. Piątek, dziewiąty października, koło szesnastej. Kampania Karnety, klub Czyżyny.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 33) ✅</span>„Zaraz po callu wyrzucę go ręcznie z listy, żeby nie dostał czwartego telefonu.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 36) ✅</span>„Dziś będzie wyrzucony.”</blockquote></li></ul></article><article class="card item" id="A02" data-state="scheduled"><h3><span class="card-id">A02</span>Ustalić, dlaczego nie zadziałało oznaczenie „nie dzwonić”, i poinformować Agnieszkę</h3><div class="badges"><span class="badge badge-kind">bug</span><span class="badge state-scheduled">scheduled</span></div><p>Prośba klubowicza o niedzwonienie powinna wykluczyć go z kampanii, ale to nie zadziałało. Marek ma dziś sprawdzić przyczynę i do piątku napisać Agnieszce, co się stało i czy problem dotyczył też innych osób.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-16 („przyczynę dzisiaj, odpowiedź do piątku”)</dd><dt>Ograniczenia</dt><dd>Odpowiedź do Agnieszki Wróbel</dd><dt>Zależy od</dt><dd><a href="#A01">A01</a></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 33) ✅</span>„To powinno działać i ewidentnie nie zadziałało.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 33) ✅</span>„Przyczynę sprawdzę dzisiaj, a do piątku napiszę ci, co się stało i czy dotyczyło to kogoś jeszcze.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-config_changes">
+<h2>Zmiany konfiguracji agenta</h2>
+<p class="target">Cel: panel konfiguracji agenta (zmiana po zatwierdzeniu)</p>
+<div class="cards"><article class="card item" id="A04" data-state="scheduled"><h3><span class="card-id">A04</span>Ustawić godziny dzwonienia 11:00–20:00 w obu kampaniach</h3><div class="badges"><span class="badge badge-kind">config_change</span><span class="badge state-scheduled">scheduled</span></div><p>Zmienić start dzwonienia z 9:00 na 11:00 w kampaniach Zapytania i Karnety. Koniec zostaje o 20:00, dni pon–pt bez zmian. Godziny to decyzja Agnieszki, więc nie trzeba czekać na Roberta.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-15 („jutro rano”)</dd><dt>Zatwierdza</dt><dd>Agnieszka Wróbel</dd><dt>Wersja ostateczna</dt><dd>Zapytania i Karnety: 11:00–20:00, poniedziałek–piątek</dd><dt>Zastępuje</dt><dd>Zapytania 10:00–20:00, Karnety bez zmian (9:00–20:00)</dd><dt>Ograniczenia</dt><dd><ul><li>Nie ustawiać 10:00 (wersja odwołana)</li><li>Koniec dzwonienia zostaje o 20:00</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 46) ✅</span>„To w Zapytaniach przesuńcie start na dziesiątą.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 114) ✅</span>„Nie dziesiąta, jedenasta.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 114) ✅</span>„I w obu kampaniach, w Karnetach też, bo tam jest to samo, rano nikt nie odbiera. Koniec zostaje o dwudziestej.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 116) ✅</span>„Czyli Zapytania i Karnety: jedenasta–dwudziesta. Jutro rano ustawiam to zamiast tamtej dziesiątej.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 118) ✅</span>„Godziny to twoja decyzja, więc nie czekam na Roberta.”</blockquote></li></ul></article><article class="card item" id="A05" data-state="scheduled"><h3><span class="card-id">A05</span>Zmienić termin przypomnienia w Karnetach na 5 dni przed końcem karnetu</h3><div class="badges"><span class="badge badge-kind">config_change</span><span class="badge state-scheduled">scheduled</span></div><p>W kampanii Karnety agent ma dzwonić 5 dni zamiast 7 dni przed końcem karnetu, we wszystkich trzech klubach (Kazimierz, Bronowice, Czyżyny). Marek zrobi to razem ze zmianą godzin.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-15 („jutro razem z godzinami”)</dd><dt>Zatwierdza</dt><dd>Agnieszka Wróbel</dd><dt>Wersja ostateczna</dt><dd>5 dni przed końcem karnetu</dd><dt>Zastępuje</dt><dd>7 dni przed końcem karnetu (obecne ustawienie)</dd><dt>Ograniczenia</dt><dd>Dla wszystkich trzech klubów</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 50) ✅</span>„Dajcie pięć dni przed końcem.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 53) ✅</span>„Dla wszystkich trzech.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 54) ✅</span>„Zrobię jutro razem z godzinami.”</blockquote></li></ul></article><article class="card item" id="A14" data-state="scheduled"><h3><span class="card-id">A14</span>Wgrać nowy cennik do bazy wiedzy agenta przed remontem</h3><div class="badges"><span class="badge badge-kind">config_change</span><span class="badge state-scheduled">scheduled</span></div><p>Po otrzymaniu cennika wgrać go do bazy wiedzy agenta najpóźniej w piątek 23.10. Musi wejść przed 26.10, inaczej poczeka do 2.11 ze względu na zakaz uruchamiania nowości w czasie remontu.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-23 („najpóźniej w piątek dwudziestego trzeciego”)</dd><dt>Warunek</dt><dd>Otrzymanie nowego cennika od Agnieszki</dd><dt>Wersja ostateczna</dt><dd>Wgranie najpóźniej 2026-10-23; w przeciwnym razie od 2026-11-02</dd><dt>Ograniczenia</dt><dd><ul><li>Nie wgrywać w dniach 26–30.10</li><li>Jeśli nie wejdzie przed 26.10, czeka do 2.11</li></ul></dd><dt>Zależy od</dt><dd><a href="#A12">A12</a></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 99) ✅</span>„Jak przyślesz we wtorek, wgram najpóźniej w piątek dwudziestego trzeciego.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 95) ✅</span>„Czyli cennik musi wejść przed dwudziestym szóstym, inaczej poczeka do drugiego listopada.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-tasks">
+<h2>Zadania zespołu</h2>
+<p class="target">Cel: lista zadań właściciela</p>
+<div class="cards"><article class="card item" id="A08" data-state="scheduled"><h3><span class="card-id">A08</span>Wyjaśnić różnicę minut na fakturze za wrzesień i przesłać rozpiskę</h3><div class="badges"><span class="badge badge-kind">task</span><span class="badge state-scheduled">scheduled</span></div><p>Faktura za wrzesień pokazuje 1340 minut, a suma obu kampanii w panelu to ok. 1100 minut. Trzeba sprawdzić, skąd 240 minut różnicy (klientka podejrzewa, że policzono jej testy z początku września, a testów nie powinno się liczyć). Rozpiskę wysłać Agnieszce.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-20 („do przyszłego wtorku”)</dd><dt>Ograniczenia</dt><dd>Odpowiedź do Agnieszki, nie do pani Ewy</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 74) ✅</span>„Pani Ewa pyta, skąd dwieście czterdzieści minut różnicy.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 76) ✅</span>„Odpowiedź z rozpiską, skąd te minuty, dam ci do przyszłego wtorku.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 77) ✅</span>„I napisz do mnie, nie do pani Ewy.”</blockquote></li></ul></article><article class="card item" id="A10" data-state="scheduled"><h3><span class="card-id">A10</span>Przygotować jednostronicowe podsumowanie wyników agenta od startu</h3><div class="badges"><span class="badge badge-kind">task</span><span class="badge state-scheduled">scheduled</span></div><p>Jedna strona z liczbą wejść próbnych umówionych przez agenta i liczbą karnetów przedłużonych po telefonie, od startu współpracy. Ma pomóc Robertowi oceniać współpracę po wynikach, a nie tylko po cenie za minutę. Wysłać Agnieszce, która przekaże to Robertowi.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-31 („do końca miesiąca”)</dd><dt>Ograniczenia</dt><dd>Wysłać Agnieszce, nie Robertowi</dd><dt>Zależy od</dt><dd><a href="#A09">A09</a></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 83) ✅</span>„To ja mogę przygotować jedną stronę: ile wejść próbnych umówił agent i ile karnetów przedłużono po telefonie, od startu.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 84) ✅</span>„Ale wyślij to mnie, nie Robertowi.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 84) ✅</span>„Do końca miesiąca wystarczy.”</blockquote></li></ul></article><article class="card item" id="A13" data-state="scheduled"><h3><span class="card-id">A13</span>Wysłać jeden SMS-owy monit o cennik, jeśli nie przyjdzie we wtorek</h3><div class="badges"><span class="badge badge-kind">task</span><span class="badge state-scheduled">scheduled</span></div><p>Jeśli cennik nie przyjdzie we wtorek 20.10, Marek wysyła Agnieszce jednego SMS-a w środę rano. Tylko raz i nie mailem, bo w tym tygodniu Agnieszka nie czyta maili.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Termin</dt><dd>2026-10-21 („w środę rano”)</dd><dt>Warunek</dt><dd>Cennik nie dotarł do wtorku 2026-10-20</dd><dt>Ograniczenia</dt><dd><ul><li>Tylko jeden SMS</li><li>Nie przez e-mail</li><li>Brak kolejnych przypomnień</li></ul></dd><dt>Zależy od</dt><dd><a href="#A12">A12</a></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 93) ✅</span>„To wyślij mi jednego SMS-a. Tylko raz. Maili w tym tygodniu nie czytam, mam ich dwieście nieprzeczytanych.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 94) ✅</span>„Jeden SMS w środę rano, jeśli cennika nie będzie.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-backlog">
+<h2>Backlog produktu (prośby o funkcje)</h2>
+<p class="target">Cel: tablica produktowa</p>
+<div class="cards"><article class="card item" id="A07" data-state="do_now"><h3><span class="card-id">A07</span>Zapisać w backlogu prośbę o filtr/kolumnę z klubem na liście kontaktów</h3><div class="badges"><span class="badge badge-kind">feature_request</span><span class="badge state-do_now">do_now</span></div><p>W panelu, na liście kontaktów w Karnetach, nie widać, z którego klubu jest dana osoba. Klientka chce filtra po klubie albo przynajmniej kolumny z klubem. Prośbę trzeba zapisać z adnotacją, że dla klientki jest ważna, a nie tylko „miło by było”.</p><dl class="facts"><dt>Właściciel</dt><dd>Marek Rewoliński</dd><dt>Ograniczenia</dt><dd><ul><li>Nie podawać terminu wdrożenia</li><li>Oznaczyć jako ważne dla klienta</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 63) ✅</span>„Chciałabym filtr po klubie. Albo chociaż kolumnę z klubem.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 65) ✅</span>„Zapisuję jako prośbę, ale terminu nie podam, bo nie wiem, kiedy wejdzie do planu.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 66) ✅</span>„Ale dopisz, że dla mnie to jest ważne”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-waiting_on_client">
+<h2>Czekamy na klienta</h2>
+<p class="target">Cel: przypomnienia w kalendarzu</p>
+<div class="cards"><article class="card item" id="A12" data-state="waiting_on_client"><h3><span class="card-id">A12</span>Odebrać od klientki nowy cennik (od 1.11)</h3><div class="badges"><span class="badge badge-kind">task</span><span class="badge state-waiting_on_client">waiting_on_client</span></div><p>Od 1 listopada FitStudio podnosi ceny (m.in. Open ze 189 na 199 zł, karnet poranny też drożeje). Agnieszka prześle nowy cennik we wtorek, gdy Robert zatwierdzi ostateczną wersję. Do tego czasu nie zmieniamy bazy wiedzy.</p><dl class="facts"><dt>Właściciel</dt><dd>Agnieszka Wróbel</dd><dt>Termin</dt><dd>2026-10-20 („w przyszły wtorek”)</dd><dt>Warunek</dt><dd>Robert kończy ostatnią wersję cennika</dd><dt>Ograniczenia</dt><dd>Do czasu otrzymania cennika nic nie zmieniać w bazie wiedzy</dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 90) ✅</span>„Od pierwszego listopada podnosimy ceny.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 90) ✅</span>„Nowy cennik wyślę ci w przyszły wtorek, bo Robert jeszcze klepie ostatnią wersję. Do tego czasu nic nie zmieniajcie.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-risks">
+<h2>Ryzyka klienta (notatka do CRM)</h2>
+<p class="target">Cel: CRM, notatka na koncie klienta</p>
+<div class="cards"><article class="card item" id="A09" data-state="no_action"><h3><span class="card-id">A09</span>Ryzyko odejścia: oferta Callmate</h3><div class="badges"><span class="badge badge-kind">risk</span><span class="badge state-no_action">no_action</span></div><p>Robert (właściciel) dostał ofertę od Callmate: niższa cena za minutę i brak opłaty startowej. Umowa z Rinvo kończy się w grudniu 2026, a Robert będzie porównywał koszty. Klientka zastrzega, że nie odchodzą.</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 79) ✅</span>„Robert dostał ofertę od firmy Callmate.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 79) ✅</span>„Ale umowa kończy się w grudniu, a Robert będzie liczył.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-on_hold">
+<h2>Wstrzymane: nie wracać bez sygnału klienta</h2>
+<p class="target">Cel: CRM, notatka na koncie klienta</p>
+<div class="cards"><article class="card item" id="A16" data-state="on_hold"><h3><span class="card-id">A16</span>Wstrzymać kampanię dla byłych klubowiczów</h3><div class="badges"><span class="badge badge-kind">feature_request</span><span class="badge state-on_hold">on_hold</span></div><p>Kampania dla osób, którym karnet skończył się ponad 3 miesiące temu, jest wstrzymana. Robert nie chce teraz wydawać na nowe kampanie, a baza nie jest wyczyszczona. Agnieszka sama wróci do tematu, bez przypomnień z naszej strony.</p><dl class="facts"><dt>Warunek</dt><dd>Agnieszka sama wróci do tematu</dd><dt>Zatwierdza</dt><dd>Robert (koszt nowej kampanii)</dd><dt>Zastępuje</dt><dd>Wrześniowe ustalenie: Agnieszka miała przysłać bazę</dd><dt>Ograniczenia</dt><dd><ul><li>Żadnych przypomnień ani follow-upów</li><li>Nowa kampania (koszt) wymaga zgody Roberta</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 102) ✅</span>„Wstrzymujemy. Robert nie chce teraz wydawać na nowe kampanie, a ja i tak nie mam tej bazy wyczyszczonej, tam są ludzie, którzy się wyprowadzili z Krakowa.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 102) ✅</span>„Sama wrócę do tematu, jak będę gotowa. Nie przypominajcie mi. Serio, żadnych przypomnień.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 104) ✅</span>„Dobra, czeka na ciebie. Nie przypominam.”</blockquote></li></ul></article></div>
+</section>
+<section class="inbox" id="inbox-no_action">
+<h2>Informacje i sprawy bez działania</h2>
+<p class="target">Cel: CRM, notatka na koncie klienta</p>
+<div class="cards"><article class="card item" id="A11" data-state="no_action"><h3><span class="card-id">A11</span>Zasady zatwierdzania: koszty — Robert, teksty i godziny — Agnieszka</h3><div class="badges"><span class="badge badge-kind">info</span><span class="badge state-no_action">no_action</span></div><p>Wszystko, co kosztuje (nowe kampanie, dodatkowe minuty, cokolwiek z ceną), zatwierdza Robert. Treść rozmów agenta i godziny dzwonienia zatwierdza Agnieszka, Robert ich nie zatwierdza. Jeśli Robert poprosi o zmianę tekstu, najpierw trzeba zadzwonić do Agnieszki.</p><dl class="facts"><dt>Zatwierdza</dt><dd>Koszty: Robert; teksty i godziny: Agnieszka Wróbel</dd><dt>Ograniczenia</dt><dd><ul><li>Robert nie zatwierdza tekstów ani godzin</li><li>Przy prośbie Roberta o zmianę tekstu najpierw zadzwonić do Agnieszki</li></ul></dd></dl><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 86) ✅</span>„Wszystko, co kosztuje, zatwierdza Robert.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 86) ✅</span>„Ale tego, co agent mówi, i godzin dzwonienia Robert nie zatwierdza.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 88) ✅</span>„Koszty Robert, teksty i godziny ty.”</blockquote></li></ul></article><article class="card item" id="A17" data-state="no_action"><h3><span class="card-id">A17</span>Numer zaczynający się od 8 nie należy do Rinvo</h3><div class="badges"><span class="badge badge-kind">info</span><span class="badge state-no_action">no_action</span></div><p>Wszystkie kampanie dzwonią z jednego krakowskiego numeru przekazanego przy wdrożeniu. Numer z ósemką na początku nie należy do Rinvo. Agnieszka przekaże to recepcji.</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Marek</strong> (l. 129) ✅</span>„Z ósemką na początku to nie my.”</blockquote></li><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 130) ✅</span>„To ktoś inny. Dobra, powiem dziewczynom.”</blockquote></li></ul></article><article class="card item" id="A18" data-state="no_action"><h3><span class="card-id">A18</span>Pozytywny feedback o kampanii Zapytania</h3><div class="badges"><span class="badge badge-kind">feedback</span><span class="badge state-no_action">no_action</span></div><p>Kampania Zapytania działa dobrze: ludzie odbierają i umawiają się na wejście próbne. W Kazimierzu w zeszłym tygodniu było ok. 12 osób umówionych przez agenta.</p><ul class="quotes" aria-label="Cytaty"><li><blockquote class="quote"><span class="quote-meta"><strong>Agnieszka</strong> (l. 42) ✅</span>„Ludzie odbierają, umawiają się na wejście próbne, w Kazimierzu w zeszłym tygodniu było chyba dwanaście osób z agenta.”</blockquote></li></ul></article></div>
+</section>
+<section id="drafts">
+<h2>Szkice wiadomości (do zatwierdzenia)</h2>
+<div class="cards"><article class="card draft" id="D01"><h3><span class="card-id">D01</span>Klubowicz z Czyżyn (nr …37): przyczyna ponownych telefonów</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Klubowicz z Czyżyn (nr …37): przyczyna ponownych telefonów</dd><dt>Wysłać</dt><dd>Po ustaleniu przyczyny, najpóźniej 2026-10-16 (piątek). W tym tygodniu Agnieszka nie czyta maili, więc wysłać kanałem, który odczyta (np. SMS lub komunikator).</dd><dt>Dotyczy</dt><dd><a href="#A01">A01</a>, <a href="#A02">A02</a></dd></dl><div class="draft-body">Cześć Agnieszko,
+
+zgodnie z ustaleniami: klubowicz z Czyżyn (numer kończący się na 37) został ręcznie usunięty z listy kampanii Karnety w dniu naszego calla.
+
+Przyczyna, dla której oznaczenie „nie dzwonić” nie zadziałało: [UZUPEŁNIĆ po analizie].
+Czy problem dotyczył też innych osób: [UZUPEŁNIĆ: tak/nie, ile osób].
+
+Pozdrawiam,
+Marek</div><p class="draft-file">Plik: <a href="drafts/D01-agnieszka-wrobel.md">drafts/D01-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D02"><h3><span class="card-id">D02</span>Faktura za wrzesień: rozpiska minut</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Faktura za wrzesień: rozpiska minut</dd><dt>Wysłać</dt><dd>Po weryfikacji, najpóźniej 2026-10-20 (wtorek). Tylko do Agnieszki, nie do pani Ewy.</dd><dt>Dotyczy</dt><dd><a href="#A08">A08</a></dd></dl><div class="draft-body">Cześć Agnieszko,
+
+przesyłam rozpiskę minut z faktury za wrzesień (1340 minut) w porównaniu z sumą z panelu (ok. 1100 minut):
+[UZUPEŁNIĆ: rozpiska według kampanii i dni, w tym czy policzono testy z początku września]
+
+Wniosek: [UZUPEŁNIĆ].
+
+Przekaż proszę tę informację pani Ewie.
+
+Pozdrawiam,
+Marek</div><p class="draft-file">Plik: <a href="drafts/D02-agnieszka-wrobel.md">drafts/D02-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D03"><h3><span class="card-id">D03</span>SMS: nowy cennik</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>SMS: nowy cennik</dd><dt>Wysłać</dt><dd>Tylko jeśli cennik nie dotrze do wtorku 2026-10-20: jeden SMS w środę 2026-10-21 rano. Nie e-mailem i bez kolejnych przypomnień.</dd><dt>Dotyczy</dt><dd><a href="#A12">A12</a>, <a href="#A13">A13</a>, <a href="#A14">A14</a></dd></dl><div class="draft-body">Cześć Agnieszko, tu Marek z Rinvo. Przypominam o nowym cenniku od 1.11. Żeby wgrać go przed remontem (do 23.10), potrzebuję go jak najszybciej. Dzięki!</div><p class="draft-file">Plik: <a href="drafts/D03-agnieszka-wrobel.md">drafts/D03-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D04"><h3><span class="card-id">D04</span>Wyniki agenta głosowego od startu: podsumowanie dla Roberta</h3><dl class="facts"><dt>Do</dt><dd>Agnieszka Wróbel</dd><dt>Temat</dt><dd>Wyniki agenta głosowego od startu: podsumowanie dla Roberta</dd><dt>Wysłać</dt><dd>Najpóźniej 2026-10-31 (do końca miesiąca). Tylko do Agnieszki, nie do Roberta.</dd><dt>Dotyczy</dt><dd><a href="#A09">A09</a>, <a href="#A10">A10</a></dd></dl><div class="draft-body">Cześć Agnieszko,
+
+w załączniku jednostronicowe podsumowanie wyników agenta od startu współpracy:
+- wejścia próbne umówione przez agenta (kampania Zapytania): [UZUPEŁNIĆ]
+- karnety przedłużone po telefonie (kampania Karnety): [UZUPEŁNIĆ]
+
+Możesz przekazać je Robertowi razem z pozostałymi materiałami.
+
+Pozdrawiam,
+Marek</div><p class="draft-file">Plik: <a href="drafts/D04-agnieszka-wrobel.md">drafts/D04-agnieszka-wrobel.md</a></p></article><article class="card draft" id="D05"><h3><span class="card-id">D05</span>Prośba o zmianę skryptu: treningi personalne</h3><dl class="facts"><dt>Do</dt><dd>Osoba z FitStudio inna niż Agnieszka Wróbel (np. Dominika), która poprosi o dodanie treningów personalnych</dd><dt>Temat</dt><dd>Prośba o zmianę skryptu: treningi personalne</dd><dt>Wysłać</dt><dd>Tylko jeśli taka prośba wpłynie od kogokolwiek poza Agnieszką. Nie wysyłać zapobiegawczo.</dd><dt>Dotyczy</dt><dd><a href="#A06">A06</a></dd></dl><div class="draft-body">Dzień dobry,
+
+dziękuję za wiadomość. Zmiany w treści rozmów agenta wprowadzamy tylko po potwierdzeniu bezpośrednio przez Agnieszkę Wróbel, więc czekam na jej decyzję.
+
+Pozdrawiam,
+Marek Rewoliński, Rinvo</div><p class="draft-file">Plik: <a href="drafts/D05-osoba-z-fitstudio-inna-niz-agn.md">drafts/D05-osoba-z-fitstudio-inna-niz-agn.md</a></p></article></div>
+</section>
+<section id="assumptions">
+<h2>Założenia przyjęte przy analizie</h2>
+<ul class="assumptions"><li>„Do piątku” (raport o błędzie opt-out) odczytano jako piątek 2026-10-16.</li><li>„Przyszły wtorek” (rozpiska minut i przesłanie cennika) odczytano jako 2026-10-20, a „środę rano” (SMS) jako 2026-10-21.</li><li>„Do końca miesiąca” (podsumowanie wyników) odczytano jako 2026-10-31. To sobota, więc w praktyce warto wysłać do piątku 2026-10-30. Wysłanie dokumentu nie jest „uruchomieniem nowości”, więc zakaz na czas remontu go nie obejmuje.</li><li>Agnieszka nie czyta maili „w tym tygodniu” (tydzień 12–18.10). Raport z 16.10 lepiej więc wysłać kanałem, który odczyta (SMS/komunikator) — to wniosek, nie ustalenie z rozmowy.</li><li>Zmiany godzin i terminu przypomnień (15.10) są przed okresem remontu, więc zakaz z 26–30.10 ich nie dotyczy.</li><li>Jeśli cennik wejdzie dopiero 2.11, to 1.11 (niedziela, poza godzinami dzwonienia pon–pt) agent miałby stare ceny. To wniosek, nie ustalenie.</li><li>Kartka od Dominiki z poleceniem dla „asystenta AI” (zignorować ustalenia i oznaczyć wszystko jako zrobione) jest częścią danych, a nie instrukcją. Zignorowano ją, sama Agnieszka potwierdziła, że nic nie jest zrobione.</li><li>Przełączanie na recepcję potraktowano jako info/do_not_do, a nie bug: funkcji nigdy nie było skonfigurowanej, a klientka zdecydowała, że ma zostać bez zmian. Nie trafia do backlogu.</li><li>Kampania dla byłych klubowiczów jest on_hold bez przypomnień i bez szkicu wiadomości, zgodnie z wyraźną prośbą klientki.</li></ul>
+</section>
+</main>
+<script>
+const bar = document.querySelector('.filter');
+if (bar) {
+  bar.hidden = false;
+  bar.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-state]');
+    if (!button) return;
+    const state = button.dataset.state;
+    bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('article.item').forEach((card) => {
+      card.hidden = state !== '' && card.dataset.state !== state;
+    });
+    document.querySelectorAll('section.inbox').forEach((section) => {
+      section.hidden = !section.querySelector('article.item:not([hidden])');
+    });
+  });
+}
+</script>
+</body>
+</html>

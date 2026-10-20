@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Po rozmowie z klientem · callflow</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&amp;display=swap">
+<link rel="stylesheet" href="/static/app.css">
+<link rel="stylesheet" href="/static/results.css">
+<script src="/static/results.js" defer></script>
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Przejdź do treści</a>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#/new"><span class="product">callflow</span></a>
+    <nav aria-label="Główna nawigacja">
+      <ul class="topnav">
+        <li><a href="#/new" data-nav="new">Nowa analiza</a></li>
+        <li><a href="#/history" data-nav="history">Historia</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- 1. New analysis -->
+<section class="view" id="view-new" aria-labelledby="new-title">
+  <div class="hero">
+    <div class="wrap">
+      <h1 id="new-title">Po rozmowie z klientem</h1>
+      <p class="meta">Wklej transkrypcję rozmowy. callflow wyciągnie ustalenia, sprawdzi każdy cytat w tekście
+        i przygotuje działania dla zespołu. Niczego nie wysyła: wszystko czeka na Twoje zatwierdzenie.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <form class="panel" id="new-form" novalidate>
+      <div class="field">
+        <span class="label" id="examples-label">Przykładowe rozmowy</span>
+        <div class="examples" id="examples" role="group" aria-labelledby="examples-label">
+          <span class="muted" id="examples-status">Ładowanie przykładów…</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label class="label" for="transcript">Transkrypcja</label>
+          <span class="file-pick">
+            <input type="file" id="file" class="visually-hidden" accept=".md,.txt,text/markdown,text/plain">
+            <label for="file" class="btn btn-ghost btn-sm">Wczytaj plik (.md, .txt)</label>
+          </span>
+        </div>
+        <textarea id="transcript" name="transcript" rows="14" spellcheck="false" aria-describedby="source-info format-help"
+          placeholder="Kasia: Dzień dobry, zacznijmy od limitu prób…&#10;Marek: Jasne, limit zostaje na pięć."></textarea>
+        <p class="hint" id="source-info" aria-live="polite"></p>
+        <details class="format" id="format-help">
+          <summary>Jaki format transkrypcji?</summary>
+          <p>Każda wypowiedź w osobnej linii, zaczynająca się od imienia mówcy i dwukropka:</p>
+          <pre>Kasia: Zostaw pięć prób.
+**Marek:** Dobrze, limitu nie ruszam.</pre>
+          <p>Działają oba warianty: <code>Imię: tekst</code> oraz <code>**Imię:** tekst</code>.
+            Numery linii służą potem do weryfikacji cytatów.</p>
+        </details>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label class="label" for="meeting-date">Data spotkania <span class="opt">(opcjonalnie)</span></label>
+          <input type="date" id="meeting-date" aria-describedby="date-hint">
+          <p class="hint" id="date-hint">Puste pole: data z transkrypcji, jeśli tam jest.</p>
+        </div>
+        <div class="field">
+          <label class="label" for="vendor">Firma</label>
+          <input type="text" id="vendor" value="Rinvo" autocomplete="organization">
+          <p class="hint">W czyim imieniu przygotowujemy działania.</p>
+        </div>
+        <div class="field">
+          <label class="label" for="effort">Dokładność</label>
+          <select id="effort">
+            <option value="low">Niska (najszybciej)</option>
+            <option value="medium">Średnia</option>
+            <option value="high" selected>Wysoka (zalecana)</option>
+          </select>
+          <p class="hint">Wyższa dokładność trwa dłużej i kosztuje więcej.</p>
+        </div>
+      </div>
+
+      <div class="alert" id="new-error" role="alert" hidden></div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" id="run-live">Uruchom analizę (Claude, ~1–5 min)</button>
+        <button type="button" class="btn btn-secondary" id="run-example" disabled aria-describedby="example-hint">Pokaż zapisany wynik przykładu</button>
+      </div>
+      <p class="hint" id="example-hint">Zapisany wynik działa bez wywołania modelu; dostępny po wybraniu przykładu.</p>
+    </form>
+  </div>
+</section>
+
+<!-- 2. Progress -->
+<section class="view" id="view-progress" aria-labelledby="progress-title" hidden>
+  <div class="hero">
+    <div class="wrap">
+      <h1 id="progress-title" tabindex="-1">Analiza w toku</h1>
+      <p class="meta" id="progress-source"></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="panel">
+      <ol class="steps" id="steps" aria-label="Etapy analizy"></ol>
+      <p class="elapsed">Czas: <strong id="elapsed">0:00</strong></p>
+      <p class="hint" id="progress-status" aria-live="polite"></p>
+      <ul class="warnings" id="progress-warnings" hidden></ul>
+      <div class="alert" id="progress-error" role="alert" hidden></div>
+      <div class="actions" id="progress-actions" hidden>
+        <a class="btn btn-secondary" href="#/new">Wróć do formularza</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Result: rendered by /static/results.js (window.CallflowResults.render) -->
+<section class="view" id="view-result" aria-label="Wynik analizy" hidden>
+  <div id="result-container"></div>
+</section>
+
+<!-- 4. History -->
+<section class="view" id="view-history" aria-labelledby="history-title" hidden>
+  <div class="hero">
+    <div class="wrap">
+      <h1 id="history-title" tabindex="-1">Historia analiz</h1>
+      <p class="meta">Analizy uruchomione od startu serwera. Kliknij, aby otworzyć wynik lub przebieg.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="panel">
+      <p class="hint" id="history-status" aria-live="polite"></p>
+      <ul class="history" id="history-list"></ul>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="alert" id="global-error" role="alert" hidden></div>
+</div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

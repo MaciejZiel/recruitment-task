@@ -63,3 +63,6 @@ desktop.ini
 
 # Local callflow runs (committed demo lives in examples/output/)
 out/
+
+# Web app runs (callflow-web)
+runs/
