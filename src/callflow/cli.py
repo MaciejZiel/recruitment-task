@@ -13,6 +13,7 @@ from pydantic import ValidationError
 from callflow import llm
 from callflow.extract import ExtractionError, extract
 from callflow.html_report import render_html
+from callflow.jira import JiraConfig, JiraError, check_connection, load_dotenv, push_to_jira
 from callflow.render import REPORT_FILE, write_json, write_outputs
 from callflow.route import route
 from callflow.schema import MeetingExtraction
@@ -22,6 +23,7 @@ from callflow.verify import verify
 EXTRACTION_FILE = "extraction.json"
 RAW_RESPONSE_FILE = "raw_response.json"
 HTML_REPORT_FILE = "report.html"
+DOTENV_FILE = Path(".env")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,6 +42,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--vendor", default="Rinvo", help="company on whose behalf actions are prepared")
     parser.add_argument("--model", default=llm.DEFAULT_MODEL)
     parser.add_argument("--effort", default=llm.DEFAULT_EFFORT, choices=["low", "medium", "high", "xhigh"])
+    parser.add_argument(
+        "--jira",
+        action="store_true",
+        help="create Jira issues for verified bugs and agent config changes (settings in .env)",
+    )
+    parser.add_argument(
+        "--jira-check",
+        action="store_true",
+        help="before the run, check Jira login, project and issue types (creates nothing)",
+    )
     return parser
 
 
@@ -51,7 +63,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return run(args)
-    except (llm.LLMError, ExtractionError, ValueError, OSError) as exc:
+    except (llm.LLMError, ExtractionError, JiraError, ValueError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
@@ -64,6 +76,14 @@ def run(args: argparse.Namespace) -> int:
             f"no speaker turns found in {args.transcript}; "
             "expected lines like '**Name:** text' or 'Name: text'"
         )
+
+    # Jira settings are read before the model call so a mistake there costs nothing.
+    jira_config = None
+    if args.jira or args.jira_check:
+        load_dotenv(DOTENV_FILE)
+        jira_config = JiraConfig.from_env()
+    if args.jira_check and jira_config and not report_jira_check(jira_config):
+        return 1
 
     if args.from_json:
         extraction = load_extraction(args.from_json)
@@ -84,7 +104,27 @@ def run(args: argparse.Namespace) -> int:
     html = render_html(routed, report, args.transcript.name)
     (args.out / HTML_REPORT_FILE).write_text(html, encoding="utf-8")
     print(f"Report: {args.out / REPORT_FILE} and {args.out / HTML_REPORT_FILE}")
+
+    if args.jira and jira_config:
+        result = push_to_jira(routed, report, args.out, jira_config)
+        for item_id, key in result.created.items():
+            print(f"Jira: created {key} for {item_id} ({jira_config.base_url}/browse/{key})")
+        for item_id, reason in result.skipped:
+            print(f"Jira: skipped {item_id} ({reason})")
+        print(f"Jira: {len(result.created)} created, {len(result.skipped)} skipped")
     return 0
+
+
+def report_jira_check(config: JiraConfig) -> bool:
+    check = check_connection(config)
+    print(f"Jira: authenticated as {check.user} at {config.base_url}")
+    print(f"Jira: project {check.project} found; issue types: {', '.join(check.issue_types) or 'none'}")
+    for label, name in (("bugs", config.issue_type_bug), ("config changes", config.issue_type_config)):
+        status = "OK" if name in check.issue_types else "MISSING"
+        print(f"Jira: issue type for {label}: {name} {status}")
+    for problem in check.problems:
+        print(f"Jira problem: {problem}", file=sys.stderr)
+    return not check.problems
 
 
 def extract_and_save(
