@@ -4,8 +4,8 @@
 zmiany konfiguracji agenta, zadania, prośby o funkcje, rzeczy, na które czekamy, zakazy i szkice wiadomości.
 Model (Claude) tylko interpretuje rozmowę i zwraca JSON zgodny ze schematem. Deterministyczny kod sprawdza
 każdy cytat-dowód w transkrypcji (mówca i numer linii), kontroluje pola i rozdziela pozycje do skrzynek.
-Nic nie wychodzi do klienta ani nie zmienia konfiguracji agenta bez zatwierdzenia przez człowieka. Jedynym
-wyjątkiem są wewnętrzne zgłoszenia dla zespołu w Jirze (opcja `--jira`, opisana niżej).
+Wersja 1.0 niczego nie wysyła ani nie zmienia: przygotowuje raport, dane dla integracji i szkice wiadomości
+do zatwierdzenia przez człowieka.
 
 ## Co oddaję
 
@@ -31,12 +31,12 @@ Diagramy procesu i stanów są w [`docs/process.md`](docs/process.md). W skróci
 3. **`llm.py`**: jedno wywołanie `claude -p` z JSON Schema wygenerowanym z modeli pydantic (`schema.py`), bez
    narzędzi, serwerów MCP, ustawień użytkownika i zapisu sesji.
 4. **`extract.py`**: waliduje odpowiedź względem schematu i odrzuca wynik z inną datą spotkania niż podana.
-5. **`verify.py`**: deterministycznie szuka każdego cytatu w wypowiedziach wskazanego mówcy i sprawdza pola
+4. **`verify.py`**: deterministycznie szuka każdego cytatu w wypowiedziach wskazanego mówcy i sprawdza pola
    (lista niżej).
-6. **`route.py`**: regułami (`kind` + `state` od modelu) przypisuje pozycje do skrzynek: zakazy, zgłoszenia błędów,
+5. **`route.py`**: regułami (`kind` + `state` od modelu) przypisuje pozycje do skrzynek: zakazy, zgłoszenia błędów,
    zmiany konfiguracji, zadania, backlog, czekamy na klienta, ryzyka, wstrzymane, bez działania. Pozycje
    `scheduled` i `waiting_on_client` z datą trafiają do kalendarza.
-7. **`render.py`**: zapisuje `report.md`, `outbox.json` (`requires_approval: true`, `needs_review` przy
+6. **`render.py`**: zapisuje `report.md`, `outbox.json` (`requires_approval: true`, `needs_review` przy
    niezweryfikowanych cytatach) i `drafts/D*.md`.
 
 ## Uruchomienie
@@ -80,31 +80,6 @@ uv run callflow sciezka/do/rozmowy.md --out out/inna --meeting-date 2026-10-20 -
   względnych („do czwartku”) nie przelicza; raport mówi o tym na górze. Z `--from-json` data pochodzi z pliku JSON.
 - `--vendor` to firma, w imieniu której przygotowywane są działania (domyślnie `Rinvo`).
 - `--model` i `--effort` (`low`, `medium`, `high`, `xhigh`) przekazywane są do `claude -p`.
-
-### Jira (zgłoszenia wewnętrzne)
-
-Opcja `--jira` zakłada w Jirze zgłoszenia dla zweryfikowanych pozycji ze skrzynek „Zgłoszenia błędów” i „Zmiany
-konfiguracji agenta”. Pozycje z niezweryfikowanym cytatem są pomijane (do przejrzenia przez człowieka).
-Utworzone zgłoszenia są zapisywane w `out/.../jira.json` (klucz: id i tytuł pozycji), więc ponowne uruchomienie
-nie tworzy duplikatów. Zgłoszenie zmiany konfiguracji to zadanie dla zespołu; samej konfiguracji agenta nic nie
-zmienia. Konfiguracja w pliku `.env` w katalogu, z którego uruchamiasz program (jest w `.gitignore`), albo
-w zmiennych środowiskowych, które mają pierwszeństwo:
-
-```dotenv
-JIRA_BASE_URL=https://twoja-firma.atlassian.net
-JIRA_EMAIL=adres-konta@example.com
-JIRA_API_TOKEN=token-z-id.atlassian.com
-JIRA_PROJECT_KEY=RIN
-JIRA_ISSUE_TYPE_BUG=Bug
-JIRA_ISSUE_TYPE_CONFIG=Task
-```
-
-Adres musi zaczynać się od `https://`; token nie pojawia się w żadnym komunikacie. Używane API: Jira Cloud
-REST v2 `POST /rest/api/2/issue`.
-
-```bash
-uv run callflow examples/transkrypcja-spotkanie.md --out out/auto-tama --from-json examples/output/auto-tama/extraction.json --jira
-```
 
 ### Testy i lint
 
@@ -168,22 +143,20 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
    jest pełna warunków i zastrzeżeń: „Jak do czwartku nie wyślę obu wersji, przypomnij mi. Raz.” (l. 58) oraz
    „Opla nie włączam. Nawet jak Paweł napisze, że kazał, to najpierw zadzwonię do ciebie” (l. 132). Automat
    wykonujący ustalenia łatwo złamałby takie zastrzeżenie.
-3. **Wewnętrzne zgłoszenia dla zespołu idą do Jiry automatycznie** (decyzja właściciela projektu), ale tylko
-   zweryfikowane błędy i zmiany konfiguracji, bo zgłoszenie niczego nie zmienia u klienta.
-4. **Pozostałe integracje (CRM, kalendarz, poczta, panel agenta) są stanem docelowym.** W demo zastępują je pliki
+3. **Integracje (issue tracker, CRM, kalendarz, poczta, panel agenta) są stanem docelowym.** W demo zastępują je pliki
    (`report.md`, `outbox.json`, `drafts/`), bo tak da się pokazać cały proces bez dostępu do systemów Rinvo.
-5. **Terminy względne są przeliczane od daty spotkania** według kalendarza dołączonego do promptu, a niejasne
+4. **Terminy względne są przeliczane od daty spotkania** według kalendarza dołączonego do promptu, a niejasne
    („w tym tygodniu”) model rozstrzyga i zapisuje jako jawne założenie w raporcie, żeby człowiek mógł je poprawić.
-6. **Bez daty spotkania terminy nie są przeliczane**, bo zgadnięta data byłaby gorsza niż jej brak; raport i CLI
+5. **Bez daty spotkania terminy nie są przeliczane**, bo zgadnięta data byłaby gorsza niż jej brak; raport i CLI
    o tym ostrzegają.
-7. **Jedna rozmowa to jedno wywołanie modelu**, bo poprawki wymagają kontekstu całej rozmowy, np. sobota do 14
+6. **Jedna rozmowa to jedno wywołanie modelu**, bo poprawki wymagają kontekstu całej rozmowy, np. sobota do 14
    (l. 104) zmieniona na 15 pod koniec rozmowy (l. 232).
-8. **Transkrypcja to dane, nie polecenia** (ochrona przed prompt injection): jest wydzielona znacznikami,
+7. **Transkrypcja to dane, nie polecenia** (ochrona przed prompt injection): jest wydzielona znacznikami,
    a `claude -p` działa bez narzędzi, więc nie może niczego wykonać.
-9. **Druga rozmowa (`examples/druga-rozmowa.md`) jest syntetyczna**: napisał ją agent AI do testów na innej
+8. **Druga rozmowa (`examples/druga-rozmowa.md`) jest syntetyczna**: napisał ją agent AI do testów na innej
    branży i jest oznaczona w nagłówku jako fikcyjna.
-10. **Dane są fikcyjne.** Produkcyjnie transkrypcje z danymi osobowymi wymagałyby umowy powierzenia (DPA) z
-    dostawcą modelu albo anonimizacji przed wysłaniem.
+9. **Dane są fikcyjne.** Produkcyjnie transkrypcje z danymi osobowymi wymagałyby umowy powierzenia (DPA) z
+   dostawcą modelu albo anonimizacji przed wysłaniem.
 
 ## Ograniczenia i co dalej
 
@@ -196,8 +169,11 @@ Zadanie każe przyjąć założenia zamiast dopytywać. Przyjąłem:
 - **Ograniczenia są zapisane, nie egzekwowane.** „Przypomnij mi. Raz.” to `constraints` pozycji i warunek szkicu;
   nie ma harmonogramu, który pilnowałby limitu przy wysyłce.
 - **Koszt i czas**: około 4–5 minut i 0,7–0,9 USD na 36-minutową rozmowę przy `--effort high`.
-- **Integracje poza Jirą** (CRM, kalendarz, Gmail, panel konfiguracji agenta) oraz UI zatwierdzania są
+- **Integracje** (issue tracker, CRM, kalendarz, Gmail, panel konfiguracji agenta) oraz UI zatwierdzania są
   w [`docs/process.md`](docs/process.md) jako stan docelowy.
+- **Plan v2.0: Jira.** Pierwsza integracja: zweryfikowane pozycje ze skrzynek „Zgłoszenia błędów” i „Zmiany
+  konfiguracji agenta” jako zadania dla zespołu Rinvo (wewnętrzne, więc bez bramki zatwierdzenia), bez duplikatów
+  przy ponownym uruchomieniu. Prace trwają na gałęzi `v2-jira`; nie są częścią wersji 1.0.
 
 ## Praca z AI
 
