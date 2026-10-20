@@ -36,7 +36,7 @@ class StrictModel(BaseModel):
 
 
 class Evidence(StrictModel):
-    speaker: str = Field(description="Speaker label exactly as in the transcript, e.g. 'Kasia'.")
+    speaker: str = Field(description="Speaker label exactly as in the transcript, e.g. 'Anna'.")
     quote: str = Field(
         description="Verbatim fragment of ONE utterance of that speaker, copied character by character."
     )

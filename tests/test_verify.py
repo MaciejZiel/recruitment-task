@@ -94,3 +94,50 @@ def test_item_without_any_evidence_counts_as_unverified(transcript):
 
 def test_ellipsis_and_single_quotes_are_normalized():
     assert normalize("Czekam… ‚tak‘") == normalize("Czekam... 'tak'")
+
+
+def test_due_text_without_due_date_is_flagged(transcript):
+    item = make_item(due_text="zaraz po rozmowie")
+    found = messages(verify(make_extraction(items=[item]), transcript))
+
+    assert found == [("A01", "termin opisany słownie („zaraz po rozmowie”) bez daty")]
+
+
+def test_vague_due_text_on_inactive_item_is_not_flagged(transcript):
+    items = [
+        make_item(id="A01", due_text="może za pół roku", state=State.on_hold),
+        make_item(id="A02", due_text="nie w tym miesiącu", state=State.do_not_do),
+        make_item(id="A03", due_text="kiedyś", state=State.no_action),
+        make_item(id="A04", due_text="do czwartku", state=State.waiting_on_client),
+    ]
+    found = messages(verify(make_extraction(items=items), transcript))
+
+    assert found == [("A04", "termin opisany słownie („do czwartku”) bez daty")]
+
+
+def test_due_text_without_date_is_not_flagged_when_meeting_date_unknown(transcript):
+    extraction = make_extraction(items=[make_item(due_text="do czwartku")])
+    extraction.meeting_date = None
+
+    assert messages(verify(extraction, transcript)) == []
+
+
+def test_conditional_item_marked_do_now_is_flagged(transcript):
+    items = [
+        make_item(id="A01", condition="po otrzymaniu tekstów"),
+        make_item(id="A02", condition="po otrzymaniu tekstów", state=State.waiting_on_client),
+    ]
+    found = messages(verify(make_extraction(items=items), transcript))
+
+    assert found == [("A01", "pozycja warunkowa oznaczona jako do zrobienia teraz")]
+
+
+def test_relative_day_word_in_draft_body_is_flagged(transcript):
+    bodies = ["Jak ustaliliśmy na Wczorajszym callu.", "Wyślę to JUTRO.", "Jutrzenka. Wtorek 13.10 o 10:00."]
+    drafts = [Draft(to="Anna", subject="x", body=b, send_when="z", related_items=["A01"]) for b in bodies]
+    found = messages(verify(make_extraction(drafts=drafts), transcript))
+
+    assert found == [
+        ("D01", "szkic używa względnej daty („Wczorajszym”)"),
+        ("D02", "szkic używa względnej daty („JUTRO”)"),
+    ]

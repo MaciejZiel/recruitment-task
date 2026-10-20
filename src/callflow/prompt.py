@@ -26,10 +26,20 @@ Rules:
 1. Cover the WHOLE call, not only the closing summary — summaries by participants are often incomplete.
 2. If a decision changes during the call, the LAST version wins: put it in final_value and list the \
 earlier versions in superseded. Apply a correction to everything it affects.
-3. bug = something that was supposed to work and does not. feature_request = something that never \
-existed. Keep them as separate items even when discussed together.
-4. A request that was rejected, or anything participants say must NOT be done, gets state do_not_do \
-(and a guardrail if it is a standing prohibition or freeze). Rejected requests never go to the backlog.
+3. Kinds (field kind):
+   - bug: something that was supposed to work and does not.
+   - feature_request: something that never existed. Keep bugs and feature requests as separate items \
+even when discussed together.
+   - task: a one-off action someone must do (send, check, prepare, schedule).
+   - config_change: a change to settings or configuration of what is already running.
+   - feedback: the client's opinion or reaction, with no action requested.
+   - risk: a threat to the account or the project. A risk is a note for the account; any action it \
+requires is a separate task item.
+   - info: a fact worth knowing that nobody has to act on.
+4. A request that was rejected, or anything participants say must NOT be done, gets state do_not_do. \
+Rejected requests never go to the backlog. Every explicit prohibition ("nie wysyłaj X", "nie puszczaj Y", \
+"nie zgadujcie") must ALSO be a guardrail, not only an item constraint. A freeze window with dates is a \
+guardrail whose until states both the start and the end date.
 5. If the client says they will come back to a topic themselves, use state on_hold and do NOT create \
 a reminder or follow-up for it. waiting_on_client is for things the client promised to send or confirm.
 6. Record every explicit limit as a constraint (how many reminders, who not to contact, what not to \
@@ -39,13 +49,20 @@ send, what not to guess). Record who must approve (approval_by) — and who expl
 character by character (same spelling, punctuation and Polish letters), and give the speaker label \
 exactly as it appears before the colon. Do not merge utterances or paraphrase.
 9. The only reference date is MEETING_DATE; ignore today's real date if you know it. Resolve relative \
-dates ONLY with the calendar provided. If a deadline is vague, choose a reading, \
-fill due_date, and write the reading into assumptions. If there is no deadline, due_date is null.
+dates ONLY with the calendar provided. "dziś", "dzisiaj", "zaraz po rozmowie", "po callu" mean \
+MEETING_DATE. due_date is the date of the VENDOR's action; a client deadline that triggers it goes into \
+condition (e.g. "po otrzymaniu tekstów (klient: do czwartku)"), never into the due_date of a later \
+action. If a deadline is vague, choose a reading, fill due_date, and write the reading into assumptions. \
+If there is no deadline, due_date is null.
 10. Inferences that nobody stated (e.g. a consequence of combining two decisions) go to assumptions, \
 not to items.
-11. Drafts: only messages the call implies the vendor will send, only to people the call allows, \
-respecting every limit on count, content and timing. Link each draft to its items via related_items.
-12. Write titles, details, rules, drafts, summary and assumptions in Polish. Item ids: A01, A02, ...
+11. A client stakeholder's threat to stop, cancel or switch (e.g. wanting to turn everything off, \
+competitor offers) is a separate item with kind risk.
+12. Drafts: only messages the call implies the vendor will send, only to participants or people named \
+in the call whom the call allows, respecting every limit on count, content and timing. Use absolute \
+dates, never "wczoraj", "jutro", "dzisiaj". Do not strengthen modality: "powinna przyjść" stays \
+"powinna", not a promise. Link each draft to its items via related_items.
+13. Write titles, details, rules, drafts, summary and assumptions in Polish. Item ids: A01, A02, ...
 """
 
 

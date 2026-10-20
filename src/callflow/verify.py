@@ -27,6 +27,10 @@ _CHAR_MAP = str.maketrans(
     }
 )
 _WHITESPACE_RE = re.compile(r"\s+")
+_ACTIVE_STATES = (State.do_now, State.scheduled, State.waiting_on_client)
+_RELATIVE_DAY_RE = re.compile(
+    r"\b(?:wczoraj\w*|jutr(?:o|zejsz\w*)|dzi(?:siaj|ś|siejsz\w*)|pojutrze)\b", re.IGNORECASE
+)
 
 
 def normalize(text: str) -> str:
@@ -124,6 +128,9 @@ def verify(extraction: MeetingExtraction, transcript: Transcript) -> Verificatio
         for related in draft.related_items:
             if related not in known_ids:
                 report.issues.append(Issue(draft_id, f"powiązanie z nieistniejącą pozycją {related}"))
+        relative_day = _RELATIVE_DAY_RE.search(draft.body)
+        if relative_day:
+            report.issues.append(Issue(draft_id, f"szkic używa względnej daty („{relative_day.group(0)}”)"))
 
     return report
 
@@ -139,6 +146,10 @@ def _check_item_fields(item: ActionItem, meeting_date: date | None, known_ids: s
         issues.append(Issue(item.id, "pozycja do wykonania bez właściciela"))
     if item.state == State.scheduled and not item.due_date and meeting_date is not None:
         issues.append(Issue(item.id, "stan 'scheduled' bez terminu"))
+    if item.due_text and not item.due_date and meeting_date is not None and item.state in _ACTIVE_STATES:
+        issues.append(Issue(item.id, f"termin opisany słownie („{item.due_text}”) bez daty"))
+    if item.condition and item.state == State.do_now:
+        issues.append(Issue(item.id, "pozycja warunkowa oznaczona jako do zrobienia teraz"))
     for dependency in item.depends_on:
         if dependency not in known_ids:
             issues.append(Issue(item.id, f"zależność od nieistniejącej pozycji {dependency}"))
