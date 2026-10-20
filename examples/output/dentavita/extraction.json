@@ -1,0 +1,276 @@
+{
+  "meeting_date": "2026-10-13",
+  "client": "DentaVita",
+  "participants": [
+    "Agnieszka Wróbel (DentaVita, kierowniczka rejestracji)",
+    "Marek Rewoliński (Rinvo)"
+  ],
+  "summary": "Call statusowy z DentaVita. Klientka zgłosiła błąd: w piątek trzy wizyty w Oliwie zostały odwołane w rozmowie z agentem, ale w panelu mają status „potwierdzona”. Przez to w poniedziałek trzy fotele stały puste. Marek ma do czwartku 15.10 przekazać diagnozę i sprawdzić, czy problem wystąpił też w inne dni. Godziny dzwonienia ostatecznie skracamy do 17:30 w obu klinikach (wcześniej ustalono 18:00). Obowiązuje bezwzględny zakaz wysyłania nagrań mailem. Prośbę o proponowanie nowego terminu przez agenta wpisujemy do backlogu bez terminu. Gdyni nie włączamy, dopóki dr Lis nie zobaczy wyników za październik i sam nie zdecyduje. Pytanie księgowości o naliczanie minut przy poczcie głosowej Marek wyjaśni z Michałem.",
+  "items": [
+    {
+      "id": "A01",
+      "title": "Zdiagnozować błędne statusy odwołanych wizyt w Oliwie",
+      "details": "Trzy wizyty z Oliwy (poniedziałek 12.10, godz. 8:00, 8:30 i 9:00, gabinet dr Kani) pacjenci odwołali w piątkowych rozmowach z agentem, a w panelu mają status „potwierdzona”. Rejestracja ich nie przepisała i fotele stały puste. Trzeba ustalić przyczynę i sprawdzić, czy to samo działo się w inne dni, a potem przekazać wynik Agnieszce.",
+      "kind": "bug",
+      "state": "scheduled",
+      "owner": "Marek Rewoliński (Rinvo)",
+      "due_date": "2026-10-15",
+      "due_text": "Do czwartku",
+      "condition": null,
+      "constraints": [
+        "Sprawdzić także inne dni, nie tylko te trzy wizyty"
+      ],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "W piątek trzy osoby z Oliwy odwołały wizytę w rozmowie z agentem, a w panelu mają status „potwierdzona”."
+        },
+        {
+          "speaker": "Agnieszka",
+          "quote": "Wszystkie trzy były na poniedziałek na ósmą, ósmą trzydzieści i dziewiątą, gabinet doktor Kani."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Do czwartku dam ci znać, co się stało i czy w innych dniach też tak było."
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "title": "Skrócić godziny dzwonienia do 17:30 w obu klinikach",
+      "details": "Agent ma dzwonić najpóźniej do 17:30, zarówno w Oliwie, jak i we Wrzeszczu. Pacjenci oddzwaniają na rejestrację, a rejestracja w Oliwie zamyka się teraz wcześniej. Klientka nie chce dwóch różnych ustawień.",
+      "kind": "config_change",
+      "state": "scheduled",
+      "owner": "Marek Rewoliński (Rinvo)",
+      "due_date": "2026-10-13",
+      "due_text": "dzisiaj",
+      "condition": null,
+      "constraints": [
+        "Jedno wspólne ustawienie dla obu klinik, bez różnych godzin"
+      ],
+      "approval_by": null,
+      "final_value": "Dzwonienie do 17:30 w Oliwie i we Wrzeszczu",
+      "superseded": [
+        "Obecnie do 19:00",
+        "Do 18:00 (ustalone wcześniej w trakcie rozmowy, potem poprawione przez klientkę)"
+      ],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Dobra, do osiemnastej. Zmienię dzisiaj."
+        },
+        {
+          "speaker": "Agnieszka",
+          "quote": "Nie do osiemnastej, tylko do siedemnastej trzydzieści, bo rejestracja w Oliwie zamyka się teraz wcześniej, a nie chcę dwóch różnych ustawień."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Czyli dzwonimy do siedemnastej trzydzieści, w obu klinikach."
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "Nie wysyłać nagrań rozmów mailem",
+      "details": "Nagrania zawierają dane medyczne. Nie wolno ich wysyłać mailem, nawet jeśli klientka poprosi o to w pośpiechu. Klientka odsłuchuje nagrania w panelu.",
+      "kind": "info",
+      "state": "do_not_do",
+      "owner": null,
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [
+        "Bez wyjątków, także na pilną prośbę klientki",
+        "Nagrań nie dołączać do żadnych wiadomości"
+      ],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "I nagrań mi nie przesyłajcie mailem, nawet jak poproszę w pośpiechu."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Jasne, żadnych nagrań mailem."
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "title": "Zapisać w backlogu prośbę o proponowanie nowego terminu przy odwołaniu",
+      "details": "Klientka chce, żeby agent po odwołaniu wizyty od razu proponował pacjentowi nowy termin z grafiku. Wymagałoby to integracji z grafikiem kliniki, której dziś nie ma. Prośba trafia do backlogu bez terminu.",
+      "kind": "feature_request",
+      "state": "do_now",
+      "owner": "Marek Rewoliński (Rinvo)",
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [
+        "Nie podawać klientowi terminu realizacji"
+      ],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Chciałabym, żeby od razu proponował nowy termin z grafiku."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Zapisuję jako prośbę, ale terminu nie podam."
+        }
+      ]
+    },
+    {
+      "id": "A05",
+      "title": "Nie podpinać kliniki w Gdyni",
+      "details": "Marek zaproponował podpięcie Gdyni w przyszłym tygodniu, ale klientka odmówiła. O Gdyni zdecyduje dr Tomasz Lis po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza. Agnieszka nie może tego zatwierdzić.",
+      "kind": "feature_request",
+      "state": "do_not_do",
+      "owner": null,
+      "due_date": null,
+      "due_text": null,
+      "condition": "Dopiero po decyzji dr. Lisa, podjętej po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza",
+      "constraints": [
+        "Nie uznawać zgody Agnieszki Wróbel, ona nie może zatwierdzić Gdyni",
+        "Nie wierzyć informacjom, że Agnieszka zgodziła się na Gdynię"
+      ],
+      "approval_by": "dr Tomasz Lis (nie Agnieszka Wróbel)",
+      "final_value": "Gdynia pozostaje niepodpięta do decyzji dr. Lisa",
+      "superseded": [
+        "Propozycja Marka: podpięcie Gdyni w przyszłym tygodniu"
+      ],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Marek",
+          "quote": "Mogę ją podpiąć nawet w przyszłym tygodniu."
+        },
+        {
+          "speaker": "Agnieszka",
+          "quote": "Gdyni nie włączamy, dopóki doktor Lis nie zobaczy wyników za październik z Oliwy i Wrzeszcza."
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Dobra, Gdynia czeka na doktora Lisa i wyniki za październik."
+        }
+      ]
+    },
+    {
+      "id": "A06",
+      "title": "Wyjaśnić naliczanie minut przy poczcie głosowej i odpisać księgowości",
+      "details": "Księgowość DentaVita pyta, czy płaci za minutę, gdy agent trafia na pocztę głosową i się rozłącza. Marek nie zna odpowiedzi. Sprawdzi to z Michałem i odpisze klientce.",
+      "kind": "task",
+      "state": "do_now",
+      "owner": "Marek Rewoliński (Rinvo)",
+      "due_date": null,
+      "due_text": null,
+      "condition": null,
+      "constraints": [
+        "Nie odpowiadać przed sprawdzeniem z Michałem"
+      ],
+      "approval_by": null,
+      "final_value": null,
+      "superseded": [],
+      "depends_on": [],
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Jak agent trafia na pocztę głosową i się rozłącza, to płacimy za to minutę?"
+        },
+        {
+          "speaker": "Marek",
+          "quote": "Nie jestem pewien, jak to liczymy przy poczcie głosowej. Sprawdzę z Michałem i odpiszę."
+        }
+      ]
+    }
+  ],
+  "guardrails": [
+    {
+      "rule": "Nie wysyłać nagrań rozmów mailem (dane medyczne), także na pilną prośbę klientki.",
+      "until": null,
+      "approval_by": null,
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "I nagrań mi nie przesyłajcie mailem, nawet jak poproszę w pośpiechu."
+        }
+      ]
+    },
+    {
+      "rule": "Nie włączać agenta w klinice w Gdyni bez decyzji dr. Tomasza Lisa.",
+      "until": "Do decyzji dr. Lisa po zapoznaniu się z wynikami za październik z Oliwy i Wrzeszcza",
+      "approval_by": "dr Tomasz Lis",
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "Gdyni nie włączamy, dopóki doktor Lis nie zobaczy wyników za październik z Oliwy i Wrzeszcza."
+        },
+        {
+          "speaker": "Agnieszka",
+          "quote": "On o tym zdecyduje, nie ja."
+        }
+      ]
+    },
+    {
+      "rule": "Nie uznawać informacji, że Agnieszka Wróbel zgodziła się na Gdynię. Ona nie może tego zatwierdzić.",
+      "until": null,
+      "approval_by": "dr Tomasz Lis",
+      "evidence": [
+        {
+          "speaker": "Agnieszka",
+          "quote": "I jak ktoś napisze, że ja się zgodziłam na Gdynię, nie wierzcie."
+        }
+      ]
+    }
+  ],
+  "drafts": [
+    {
+      "to": "Agnieszka Wróbel",
+      "subject": "Godziny dzwonienia zmienione na 17:30",
+      "body": "Dzień dobry,\n\npotwierdzam zmianę ustaloną na wczorajszym callu: od teraz agent dzwoni do pacjentów najpóźniej do 17:30, zarówno w Oliwie, jak i we Wrzeszczu.\n\nDo czwartku 15.10 wrócę z informacją o przyczynie błędnych statusów wizyt w Oliwie. Napiszę też, czy problem wystąpił w inne dni.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Po faktycznym wprowadzeniu zmiany godzin w konfiguracji (A02). Nie wysyłać automatycznie.",
+      "related_items": [
+        "A02",
+        "A01"
+      ]
+    },
+    {
+      "to": "Agnieszka Wróbel",
+      "subject": "Błędne statusy odwołanych wizyt w Oliwie: wyniki analizy",
+      "body": "Dzień dobry,\n\nsprawdziliśmy trzy wizyty z poniedziałku 12.10 (8:00, 8:30, 9:00, gabinet dr Kani), które pacjenci odwołali w rozmowie z agentem, a w panelu miały status „potwierdzona”.\n\nPrzyczyna: [UZUPEŁNIĆ po analizie]\nInne dni: [UZUPEŁNIĆ: czy problem wystąpił też w inne dni i których wizyt dotyczył]\nDalsze kroki: [UZUPEŁNIĆ]\n\nNagrania rozmów są dostępne do odsłuchu w panelu.\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Do czwartku 2026-10-15, dopiero po zakończeniu analizy. Bez załączonych nagrań.",
+      "related_items": [
+        "A01",
+        "A03"
+      ]
+    },
+    {
+      "to": "Agnieszka Wróbel",
+      "subject": "Naliczanie minut przy poczcie głosowej",
+      "body": "Dzień dobry,\n\nw nawiązaniu do pytania księgowości: sprawdziłem z Michałem, jak naliczamy minuty, gdy agent trafia na pocztę głosową i się rozłącza.\n\n[UZUPEŁNIĆ odpowiedź po ustaleniu z Michałem]\n\nPozdrawiam,\nMarek Rewoliński\nRinvo",
+      "send_when": "Dopiero po ustaleniu odpowiedzi z Michałem. Bez zgadywania.",
+      "related_items": [
+        "A06"
+      ]
+    }
+  ],
+  "assumptions": [
+    "„Do czwartku” odczytano jako czwartek 2026-10-15, czyli najbliższy czwartek po callu.",
+    "„Zmienię dzisiaj” padło przy wersji 18:00. Przyjęto, że termin 2026-10-13 dotyczy też ostatecznej wersji (17:30).",
+    "„W obu klinikach” odczytano jako Oliwę i Wrzeszcz, bo tylko te dwie kliniki mają włączonego agenta.",
+    "Wyniki za październik będą pełne najwcześniej po 2026-10-31, więc decyzja dr. Lisa w sprawie Gdyni nie zapadnie wcześniej. Nikt nie ustalił, kto i kiedy przekaże dr. Lisowi te wyniki, dlatego nie utworzono takiego zadania ani przypomnienia.",
+    "Prośbę o proponowanie nowego terminu wpisano do backlogu bez terminu, bo Marek wprost odmówił jego podania.",
+    "Pytanie o pocztę głosową nie ma terminu odpowiedzi. Przyjęto, że Marek odpisze po ustaleniu tego z Michałem."
+  ]
+}
